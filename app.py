@@ -72,7 +72,7 @@ def process_files():
         for sheet_name, df in dfs.items():
             df.to_excel(writer, sheet_name=sheet_name, index=False)
 
-    return send_file(output_file, as_attachment=True)
+    return send_file(output_file, as_attachment=True), jsonify({'message': 'Data processed!'})
 
 if __name__ == "__main__":
     app.debug = True
