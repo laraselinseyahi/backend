@@ -679,8 +679,6 @@ def visualization(filename):
    # uri = pathlib.Path('p_graph.html').absolute().as_uri()
    # webbrowser.open(uri)
     html_file_path = pathlib.Path('p_graph.html')
-    with open(html_file_path, 'w') as file:
-    file.write(html_content)
 
 # Get the absolute path of the HTML file
     absolute_path = html_file_path.absolute()
