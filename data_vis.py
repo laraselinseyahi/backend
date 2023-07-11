@@ -676,7 +676,7 @@ def visualization(filename):
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
 
-    return render_template('p_graph.html', as_attachment=True)
+    return send_file('p_graph.html', as_attachment=True)
 
    # uri = pathlib.Path('p_graph.html').absolute().as_uri()
    # webbrowser.open(uri)
