@@ -14,7 +14,7 @@ def index():
 def process_datavis():
     global_sheet = request.files['fileInput']
     data_vis.visualization(global_sheet)
-    return jsonify({'message': 'Data visualization processed successfully'})
+   # return jsonify({'message': 'Data visualization processed successfully'})
 
 @app.route('/process-files', methods=['POST'])
 def process_files():

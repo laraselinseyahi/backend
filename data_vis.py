@@ -6,6 +6,7 @@ from plotly.subplots import make_subplots
 import pathlib, webbrowser
 from itertools import chain
 import pathlib
+from flask import Flask, render_template, request, send_file, jsonify
 
 
 
@@ -675,9 +676,10 @@ def visualization(filename):
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
 
+    return send_file('p_graph.html', as_attachment=True)
 
-    uri = pathlib.Path('p_graph.html').absolute().as_uri()
-    webbrowser.open(uri)
+   # uri = pathlib.Path('p_graph.html').absolute().as_uri()
+   # webbrowser.open(uri)
    # html_file_path = pathlib.Path('p_graph.html')
 
 # Get the absolute path of the HTML file
