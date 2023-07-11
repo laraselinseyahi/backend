@@ -676,28 +676,28 @@ def visualization(filename):
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
 
 
-   # uri = pathlib.Path('p_graph.html').absolute().as_uri()
-   # webbrowser.open(uri)
-    html_file_path = pathlib.Path('p_graph.html')
+    uri = pathlib.Path('p_graph.html').absolute().as_uri()
+    webbrowser.open(uri)
+   # html_file_path = pathlib.Path('p_graph.html')
 
 # Get the absolute path of the HTML file
-    absolute_path = html_file_path.absolute()
+  #  absolute_path = html_file_path.absolute()
 
 # Generate the download link for the HTML file
-    download_link = f'<a href="{absolute_path}" download>Download HTML</a>'
+   # download_link = f'<a href="{absolute_path}" download>Download HTML</a>'
 
 # Generate the HTML response containing the download link
-    html_response = f"""
-    <html>
-    <body>
-    <h1>Download HTML</h1>
-    {download_link}
-    </body>
-    </html>
-    """
+ #   html_response = f"""
+ #   <html>
+ #   <body>
+ #   <h1>Download HTML</h1>
+ #   {download_link}
+ #   </body>
+ #   </html>
+ #   """
 
 # Print or use the HTML response as needed
-    print(html_response)
+#   print(html_response)
 
 
 
