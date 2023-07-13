@@ -842,15 +842,15 @@ def visualization_subset():
     x_axis = ["0 (Aph)", "0 (Post)", "6", "7", "8", "9 (Pre)", "9 (Post)", "FDP"]
     for i in range(len(col_names)):
         list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i], cell_growth_7[i], cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]]
-        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors[i]), row = 1, col = 1)
+        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i]), row = 1, col = 1)
     x_axis = ["0 (Aph)", "0 (Post)", "6"]
     for i in range(len(col_names)):
         list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i]]
-        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors[i], showlegend=False), row = 1, col = 2)
+        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i], showlegend=False), row = 1, col = 2)
     x_axis = [ "9 (Pre)", "9 (Post)", "FDP"]
     for i in range(len(col_names)):
         list_ = [cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]]
-        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors[i], showlegend=False), row = 2, col = 1)
+        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i], showlegend=False), row = 2, col = 1)
     fig_sub_process_3.update_layout(title={'text': "Process Performance", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
 
 
