@@ -460,11 +460,11 @@ def process_datavis():
 
     #MemDiff CD8+ FDP
     MemDiff = dfs["Mem-Diff"]
-    CD8_FDP_Tem = (MemDiff.loc[17, :].values.tolist())[3:]
-    CD8_FDP_Temra = (MemDiff.loc[18, :].values.tolist())[3:]
-    CD8_FDP_Tcm = (MemDiff.loc[19, :].values.tolist())[3:]
-    CD8_FDP_Tscm = (MemDiff.loc[20, :].values.tolist())[3:]
-    CD8_FDP_Tn = (MemDiff.loc[21, :].values.tolist())[3:]
+    CD8_FDP_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[17, :].values.tolist())[3:]))
+    CD8_FDP_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[18, :].values.tolist())[3:]))
+    CD8_FDP_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[19, :].values.tolist())[3:]))
+    CD8_FDP_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[20, :].values.tolist())[3:]))
+    CD8_FDP_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[21, :].values.tolist())[3:]))
 
     fig_5 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD8_FDP_Tem),
@@ -477,11 +477,11 @@ def process_datavis():
     #fig_5.show()
 
     #MemDiff CD4+ FDP
-    CD4_FDP_Tem = (MemDiff.loc[23, :].values.tolist())[3:]
-    CD4_FDP_Temra = (MemDiff.loc[24, :].values.tolist())[3:]
-    CD4_FDP_Tcm = (MemDiff.loc[25, :].values.tolist())[3:]
-    CD4_FDP_Tscm = (MemDiff.loc[26, :].values.tolist())[3:]
-    CD4_FDP_Tn = (MemDiff.loc[27, :].values.tolist())[3:]
+    CD4_FDP_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[23, :].values.tolist())[3:]))
+    CD4_FDP_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[24, :].values.tolist())[3:]))
+    CD4_FDP_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[25, :].values.tolist())[3:]))
+    CD4_FDP_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[26, :].values.tolist())[3:]))
+    CD4_FDP_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[27, :].values.tolist())[3:]))
 
     fig_6 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD4_FDP_Tem),
@@ -494,11 +494,11 @@ def process_datavis():
     #fig_6.show()
 
     #MemDiff CD4+ Post Enrichment
-    CD4_Post_Tem = (MemDiff.loc[9, :].values.tolist())[3:]
-    CD4_Post_Temra = (MemDiff.loc[10, :].values.tolist())[3:]
-    CD4_Post_Tcm = (MemDiff.loc[11, :].values.tolist())[3:]
-    CD4_Post_Tscm = (MemDiff.loc[12, :].values.tolist())[3:]
-    CD4_Post_Tn = (MemDiff.loc[13, :].values.tolist())[3:]
+    CD4_Post_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[9, :].values.tolist())[3:]))
+    CD4_Post_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[10, :].values.tolist())[3:]))
+    CD4_Post_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[11, :].values.tolist())[3:]))
+    CD4_Post_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[12, :].values.tolist())[3:]))
+    CD4_Post_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[13, :].values.tolist())[3:]))
 
     fig_7 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD4_Post_Tem),
@@ -511,11 +511,11 @@ def process_datavis():
     #fig_7.show()
 
     #MemDiff CD8+ Post Enrichment
-    CD8_Post_Tem = (MemDiff.loc[3, :].values.tolist())[3:]
-    CD8_Post_Temra = (MemDiff.loc[4, :].values.tolist())[3:]
-    CD8_Post_Tcm = (MemDiff.loc[5, :].values.tolist())[3:]
-    CD8_Post_Tscm = (MemDiff.loc[6, :].values.tolist())[3:]
-    CD8_Post_Tn = (MemDiff.loc[7, :].values.tolist())[3:]
+    CD8_Post_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[3, :].values.tolist())[3:]))
+    CD8_Post_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[4, :].values.tolist())[3:]))
+    CD8_Post_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[5, :].values.tolist())[3:]))
+    CD8_Post_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[6, :].values.tolist())[3:]))
+    CD8_Post_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x,(MemDiff.loc[7, :].values.tolist())[3:]))
 
     fig_8 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD8_Post_Tem),
@@ -1113,27 +1113,27 @@ def visualization_subset():
 
     for patient in col_names:
         column = MemDiff[patient]
-        CD8_FDP_Tem.append(column[17])
-        CD8_FDP_Temra.append(column[18])
-        CD8_FDP_Tcm.append(column[19])
-        CD8_FDP_Tscm.append(column[20])
-        CD8_FDP_Tn.append(column[21])
-        CD4_FDP_Tem.append(column[23])
-        CD4_FDP_Temra.append(column[24])
-        CD4_FDP_Tcm.append(column[25])
-        CD4_FDP_Tscm.append(column[26])
-        CD4_FDP_Tn.append(column[27])
-        CD4_Post_Tem.append(column[9])
-        CD4_Post_Temra.append(column[10])
-        CD4_Post_Tcm.append(column[11])
-        CD4_Post_Tscm.append(column[12])
-        CD4_Post_Tn.append(column[13])
+        CD8_FDP_Tem.append(column[17] * 100)
+        CD8_FDP_Temra.append(column[18] * 100)
+        CD8_FDP_Tcm.append(column[19] * 100)
+        CD8_FDP_Tscm.append(column[20] * 100)
+        CD8_FDP_Tn.append(column[21] * 100)
+        CD4_FDP_Tem.append(column[23]* 100)
+        CD4_FDP_Temra.append(column[24] * 100)
+        CD4_FDP_Tcm.append(column[25] * 100)
+        CD4_FDP_Tscm.append(column[26] * 100)
+        CD4_FDP_Tn.append(column[27] * 100)
+        CD4_Post_Tem.append(column[9] * 100)
+        CD4_Post_Temra.append(column[10] * 100)
+        CD4_Post_Tcm.append(column[11] * 100)
+        CD4_Post_Tscm.append(column[12] * 100)
+        CD4_Post_Tn.append(column[13] * 100)
             #MemDiff CD8+ Post Enrichment
-        CD8_Post_Tem.append(column[3])
-        CD8_Post_Temra.append(column[4])
-        CD8_Post_Tcm.append(column[5])
-        CD8_Post_Tscm.append(column[6])
-        CD8_Post_Tn.append(column[7])
+        CD8_Post_Tem.append(column[3] * 100)
+        CD8_Post_Temra.append(column[4] * 100)
+        CD8_Post_Tcm.append(column[5] * 100)
+        CD8_Post_Tscm.append(column[6] * 100)
+        CD8_Post_Tn.append(column[7] * 100)
 
 
     fig_5 = go.Figure(data=[
