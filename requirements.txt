@@ -23,4 +23,5 @@ tenacity==8.2.2
 tzdata==2023.3
 Werkzeug
 zipp
+colour
 
