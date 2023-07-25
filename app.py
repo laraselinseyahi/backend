@@ -226,45 +226,6 @@ def process_datavis():
         fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i], showlegend=False), row = 2, col = 1)
     fig_sub_process_3.update_layout(title={'text': "Process Performance", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     #Graph for %CD4+ and %CD8+ Post Enrichment Stacked Bar Plot
     TBNK = dfs["TBNK"] 
     CD4 = (TBNK.loc[13, :].values.tolist())[3:]
@@ -676,7 +637,46 @@ def process_datavis():
     fig_cyto.update_layout(barmode='group', title={'text': "Characterization: Potency(IFNg and Cytotox)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     #fig_cyto.show()
 
-
+    df_1 = dfs["Data Date Tracking"]
+    patient_names = df_1.columns[1:].tolist()
+    release_assays = []
+    char_assays = []
+    for name in patient_names:
+        new_1 = name + ' Release Assay'
+        release_assays.append(new_1)
+        new_2 = name + ' Characterization Assay'
+        char_assays.append(new_2)
+    titles = release_assays + char_assays
+    col_count = len(df_1.columns) - 1
+    y_1 = ['Mycoplasma', 'CAR Expression', 'Identity', 'Cell Count', 'Viability', 'Endotoxin', 'VCN', 'Appearance/Color', 'BacT', 'RCL', 'Sanger Sequence']
+    y_2 = ['TBNK (DO Pre)', 'VCN', 'TBNK (D0 Post)', 'Mem/Diff (D0)', 'TBNK (D9)', 'Mem/Diff (D9)', 'Exhaustion', 'Cytotox', 'Cytokine']
+    colors = ['blue', 'red', 'pink', 'purple']
+    fig_date = make_subplots(rows=2, cols=col_count, subplot_titles=(titles))
+    for i in range(len(patient_names)):
+        col = df_1[patient_names[i]]
+        start_method_1 = col[0:11]
+        complete_method_1 = col[20:31]
+        qa_review = col[40:51]
+        receive_res_1 = col[51:62]
+        start_method_2 = col[11:20]
+        complete_method_2 = col[31:40]
+        receive_res_2 = col[62:]
+        if i == 0:
+            fig_date.add_trace(go.Bar(y=y_1, x=start_method_1, name='TAT to Start Method', orientation='h', marker_color=colors[0]), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=complete_method_1, name='TAT to Complete Method', orientation='h', marker_color=colors[1]), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=qa_review, name='TAT For QA review', orientation='h', marker_color=colors[3]), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=receive_res_1, name='TAT to Receive Results', orientation='h', marker_color=colors[2]), row=1, col=(i+1))
+        else:
+            fig_date.add_trace(go.Bar(y=y_1, x=start_method_1, name='TAT to Start Method', orientation='h', marker_color=colors[0], showlegend=False), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=complete_method_1, name='TAT to Complete Method', orientation='h', marker_color=colors[1], showlegend=False), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=qa_review, name='TAT For QA review', orientation='h', marker_color=colors[3], showlegend=False), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=receive_res_1, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=1, col=(i+1))
+        fig_date.add_trace(go.Bar(y=y_2, x=start_method_2, name='TAT to Start Method', orientation='h', marker_color=colors[0], showlegend=False), row=2, col=(i+1))
+        fig_date.add_trace(go.Bar(y=y_2, x=complete_method_2, name='TAT to Complete Method', orientation='h', marker_color=colors[1], showlegend=False), row=2, col=(i+1))
+        fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
+    fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+    
+    
 
     with open('p_graph.html', 'w') as f:
         f.write(fig_sub_1.to_html(full_html=False, include_plotlyjs='cdn'))
@@ -689,6 +689,7 @@ def process_datavis():
         f.write(fig_9.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
 
     uri = pathlib.Path('p_graph.html').absolute().as_uri()
     webbrowser.open(uri)
@@ -746,6 +747,20 @@ def process_files():
 
     df_TBNK = dfs["Cell Growth plot"] 
     df_TBNK[name] = cell_count 
+
+   # df_2 = pd.read_excel(xls_patient, "Date Tracking", header=[0,1]) 
+  #  df_2.columns = ['.'.join(col).strip() for col in df_2.columns.values]
+  #  print(df_2.columns)
+
+    df_1 = pd.read_excel(xls_patient, "Date Tracking", header=[0]) 
+    # df.columns = ['.'.join(col).strip() for col in df.columns.values]
+    start = df_1["TAT to Start Method"].tolist()
+    complete = df_1["TAT to Complete Method"].tolist()
+    qa = (df_1["TAT For QA review"].tolist())[0:11]
+    results = df_1["TAT to Receive Results"].tolist()
+    list = start + complete + qa + results
+    df_2 = pd.read_excel(excel_file, "Data Date Tracking", header=[0]) 
+    df_2[name] = list
     
     output_file = "modified_global.xlsx"
     with pd.ExcelWriter(output_file) as writer:
@@ -1344,6 +1359,49 @@ def visualization_subset():
     # Change the bar mode
     fig_cyto.update_layout(barmode='group', title={'text': "Characterization: Potency(IFNg and Cytotox)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
   #  fig_cyto.show()
+   
+    df_1 = dfs["Data Date Tracking"]
+    patient_names = col_names
+    release_assays = []
+    char_assays = []
+    for name in patient_names:
+        new_1 = name + ' Release Assay'
+        release_assays.append(new_1)
+        new_2 = name + ' Characterization Assay'
+        char_assays.append(new_2)
+    titles = release_assays + char_assays
+    col_count = len(patient_names) 
+    y_1 = ['Mycoplasma', 'CAR Expression', 'Identity', 'Cell Count', 'Viability', 'Endotoxin', 'VCN', 'Appearance/Color', 'BacT', 'RCL', 'Sanger Sequence']
+    y_2 = ['TBNK (DO Pre)', 'VCN', 'TBNK (D0 Post)', 'Mem/Diff (D0)', 'TBNK (D9)', 'Mem/Diff (D9)', 'Exhaustion', 'Cytotox', 'Cytokine']
+    colors = ['blue', 'red', 'pink', 'purple']
+    fig_date = make_subplots(rows=2, cols=col_count, subplot_titles=(titles))
+    for i in range(len(patient_names)):
+        col = df_1[patient_names[i]]
+        start_method_1 = col[0:11]
+        complete_method_1 = col[20:31]
+        qa_review = col[40:51]
+        receive_res_1 = col[51:62]
+        start_method_2 = col[11:20]
+        complete_method_2 = col[31:40]
+        receive_res_2 = col[62:]
+        if i == 0:
+            fig_date.add_trace(go.Bar(y=y_1, x=start_method_1, name='TAT to Start Method', orientation='h', marker_color=colors[0]), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=complete_method_1, name='TAT to Complete Method', orientation='h', marker_color=colors[1]), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=qa_review, name='TAT For QA review', orientation='h', marker_color=colors[3]), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=receive_res_1, name='TAT to Receive Results', orientation='h', marker_color=colors[2]), row=1, col=(i+1))
+        else:
+            fig_date.add_trace(go.Bar(y=y_1, x=start_method_1, name='TAT to Start Method', orientation='h', marker_color=colors[0], showlegend=False), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=complete_method_1, name='TAT to Complete Method', orientation='h', marker_color=colors[1], showlegend=False), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=qa_review, name='TAT For QA review', orientation='h', marker_color=colors[3], showlegend=False), row=1, col=(i+1))
+            fig_date.add_trace(go.Bar(y=y_1, x=receive_res_1, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=1, col=(i+1))
+        fig_date.add_trace(go.Bar(y=y_2, x=start_method_2, name='TAT to Start Method', orientation='h', marker_color=colors[0], showlegend=False), row=2, col=(i+1))
+        fig_date.add_trace(go.Bar(y=y_2, x=complete_method_2, name='TAT to Complete Method', orientation='h', marker_color=colors[1], showlegend=False), row=2, col=(i+1))
+        fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
+    fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+    
+    
+
+
 
 
 
