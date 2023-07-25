@@ -1414,6 +1414,7 @@ def visualization_subset():
         f.write(fig_9.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
 
   # return send_file('p_graph.html', as_attachment=True)
 
