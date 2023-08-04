@@ -752,15 +752,15 @@ def process_files():
   #  df_2.columns = ['.'.join(col).strip() for col in df_2.columns.values]
   #  print(df_2.columns)
 
-    df_1 = pd.read_excel(xls_patient, "Date Tracking", header=[0]) 
+    #df_1 = pd.read_excel(xls_patient, "Date Tracking", header=[0]) 
     # df.columns = ['.'.join(col).strip() for col in df.columns.values]
-    start = df_1["TAT to Start Method"].tolist()
-    complete = df_1["TAT to Complete Method"].tolist()
-    qa = (df_1["TAT For QA review"].tolist())[0:11]
-    results = df_1["TAT to Receive Results"].tolist()
-    list = start + complete + qa + results
-    df_2 = pd.read_excel(excel_file, "Data Date Tracking", header=[0]) 
-    df_2[name] = list
+    #start = df_1["TAT to Start Method"].tolist()
+   # complete = df_1["TAT to Complete Method"].tolist()
+  #  qa = (df_1["TAT For QA review"].tolist())[0:11]
+  #  results = df_1["TAT to Receive Results"].tolist()
+  #  list = start + complete + qa + results
+  #  df_2 = pd.read_excel(excel_file, "Data Date Tracking", header=[0]) 
+   # df_2[name] = list
     
     output_file = "modified_global.xlsx"
     with pd.ExcelWriter(output_file) as writer:
