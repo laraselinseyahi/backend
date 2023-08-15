@@ -142,17 +142,17 @@ def visualization(filename):
     process = dfs["Run trend summary"]
     viability_aph = (process.loc[6, :].values.tolist())[3:]
     viability_aph = list(map(lambda x: x * 100, viability_aph))
-    fold_expansion = (process.loc[51, :].values.tolist())[3:]
+    fold_expansion = (process.loc[51, :].values.tolist())[3:] # pre harvest fold expansion
     fig_sub_process_1 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Growth Over Process", "Cell Viability Over Process", "Apheresis %Viable Cells", "Fold Expansion Over Process"))
     fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=viability_aph, marker_color=colors_bub, showlegend=False), row=2, col=1)
     fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=fold_expansion,  marker_color=colors_bub, showlegend=False), row=2, col=2)
     fig_sub_process_1.update_layout(title={'text': "IP Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
 
-    cell_growth_0_r = (process.loc[24, :].values.tolist())[3:]
-    cell_growth_6_r = (process.loc[29, :].values.tolist())[3:]
-    cell_growth_7_r = (process.loc[34, :].values.tolist())[3:]
-    cell_growth_8_r = (process.loc[39, :].values.tolist())[3:]
-    cell_growth_9_r = (process.loc[45, :].values.tolist())[3:]
+    cell_growth_0_r = (process.loc[24, :].values.tolist())[3:] # actual # of cells seeded
+    cell_growth_6_r = (process.loc[29, :].values.tolist())[3:] # day 6 total viable cells
+    cell_growth_7_r = (process.loc[34, :].values.tolist())[3:] # day 7 total viable cells
+    cell_growth_8_r = (process.loc[39, :].values.tolist())[3:] # day 8 total viable cells 
+    cell_growth_9_r = (process.loc[45, :].values.tolist())[3:] # pre harvest total viable cells
 
     x_axis = ["0", "6", "7", "8", "9"]
     for i in range(len(col_names)):
@@ -162,19 +162,19 @@ def visualization(filename):
 
 
     cell_via_0_aph = viability_aph
-    cell_via_0_post = (process.loc[15, :].values.tolist())[3:]
+    cell_via_0_post = (process.loc[15, :].values.tolist())[3:] # viability%
     cell_via_0_post = list(map(lambda x: x * 100, cell_via_0_post))
-    cell_growth_6 = (process.loc[27, :].values.tolist())[3:]
+    cell_growth_6 = (process.loc[27, :].values.tolist())[3:] # day 6 viability 
     cell_growth_6 = list(map(lambda x: x * 100, cell_growth_6))
-    cell_growth_7 = (process.loc[32, :].values.tolist())[3:]
+    cell_growth_7 = (process.loc[32, :].values.tolist())[3:] # day 7 viability 
     cell_growth_7 = list(map(lambda x: x * 100, cell_growth_7))
-    cell_growth_8 = (process.loc[37, :].values.tolist())[3:]
+    cell_growth_8 = (process.loc[37, :].values.tolist())[3:] # day 8 viability 
     cell_growth_8 = list(map(lambda x: x * 100, cell_growth_8))
-    cell_growth_9_pre = (process.loc[43, :].values.tolist())[3:]
+    cell_growth_9_pre = (process.loc[43, :].values.tolist())[3:] # pre harvest viability
     cell_growth_9_pre = list(map(lambda x: x * 100, cell_growth_9_pre))
-    cell_growth_9_post = (process.loc[48, :].values.tolist())[3:]
+    cell_growth_9_post = (process.loc[48, :].values.tolist())[3:] # post harvest viability 
     cell_growth_9_post = list(map(lambda x: x * 100, cell_growth_9_post))
-    cell_growth_fdp = (process.loc[70, :].values.tolist())[3:]
+    cell_growth_fdp = (process.loc[70, :].values.tolist())[3:] #
     cell_growth_fdp = list(map(lambda x: x * 100, cell_growth_fdp))
 
     x_axis = ["0 (Aph)", "0 (Post)", "6", "7", "8", "9 (Pre)", "9 (Post)", "FDP"]
