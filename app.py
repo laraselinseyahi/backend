@@ -36,26 +36,28 @@ def process_datavis():
     #GRAPH FOR %CAR+ FDP
     col_names = list(data_frame.columns.values.tolist())
     col_names = col_names[4:]
-
+    # print(data_frame)
     #row 10 is %CAR of final DP = CAR Transduction 
-    row_list = data_frame.loc[data_frame['Unnamed: 1'] == 'CAR Transduction']
+    # print(data_frame['Measurement'])
+    row_list = data_frame[data_frame['Unnamed: 1'] == 'CAR Transduction'].values[0].tolist()
     row_list = row_list[4:]
 
     #purity
-    purity = data_frame.loc[data_frame['Unnamed: 1'] == 'CD3 Expression']
+    purity = data_frame.loc[data_frame['Unnamed: 1'] == 'CD3 Expression'].values[0].tolist()
     purity = purity[4:]
 
     #vcn
-    vcn = data_frame.loc[data_frame['Unnamed: 1'] == 'VCN']
+    vcn = data_frame.loc[data_frame['Unnamed: 1'] == 'VCN'].values[0].tolist()
     vcn = vcn[4:]
 
     #viability % viable cells
-    via = (data_frame.loc[data_frame['Unnamed: 1'] == 'Viable Cell Count'])[4:]
+    via = (data_frame.loc[data_frame['Unnamed: 1'] == 'Viable Cell Count'].values[0].tolist())[4:]
 
     #actual dose 
-    dose = (data_frame.loc[data_frame['Unnamed: 1'] == 'Dose'])[4:]
+    dose = (data_frame.loc[data_frame['Unnamed: 1'] == 'Dose'].values[0].tolist())[4:]
 
     multiplied_list = list(map(lambda x: x * 100, row_list))
+   # print(multiplied_list)
     y_mean = np.mean(multiplied_list)
     std = np.std(multiplied_list)
     two_plussd = y_mean + 2*std
@@ -98,7 +100,7 @@ def process_datavis():
     #day 8 car will now pull from the in process data page
     process = dfs['In Process Data Summary']
 
-    row_list_2 = process.loc[process['Batch #'] == 'Harvest -1Day CAR%']
+    row_list_2 = process.loc[process['Batch #'] == 'Harvest -1Day CAR%'].values[0].tolist()[1:]
 
     multiplied_list_2 = list(map(lambda x: x * 100, row_list_2))
 
@@ -167,12 +169,16 @@ def process_datavis():
     fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=fold_expansion,  marker_color=colors_bub, showlegend=False), row=2, col=2)
     fig_sub_process_1.update_layout(title={'text': "IP Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
 
-    cell_growth_0_r = process.loc[process['Batch #'] == 'Actual Cell Number for Culture']
-    cell_growth_6_r = process.loc[process['Batch #'] == 'Day 6 Total viable cells']
-    cell_growth_7_r = process.loc[process['Batch #'] == 'Day 7 Total Viable cells'] #if NA skip
-    cell_growth_8_r = process.loc[process['Batch #'] == 'Harvest -1Day Total Viable Cells'] # cell growth harvest -1
-    cell_growth_9_r = process.loc[process['Batch #'] == 'Pre Harvest Total Viable Cells'] # cell growth harvest 
-
+    cell_growth_0_r = process.loc[process['Batch #'] == 'Actual Cell Number for Culture'].values[0].tolist()[1:]
+    print(cell_growth_0_r)
+    cell_growth_6_r = process.loc[process['Batch #'] == 'Day 6 Total viable cells'].values[0].tolist()[1:]
+    print(cell_growth_6_r)
+    cell_growth_7_r = process.loc[process['Batch #'] == 'Day 7 Total Viable cells'].values[0].tolist()[1:] #if NA skip
+    print(cell_growth_7_r)
+    cell_growth_8_r = process.loc[process['Batch #'] == 'Harvest -1Day Total Viable Cells'].values[0].tolist()[1:] # cell growth harvest -1
+    cell_growth_9_r = process.loc[process['Batch #'] == 'Pre Harvest Total Viable Cells'].values[0].tolist()[1:] # cell growth harvest 
+    print(cell_growth_8_r)
+    print(cell_growth_9_r)
     x_axis = ["0", "6", "7", "H - 1", "H"]
     for i in range(len(col_names)):
         list_ = [cell_growth_0_r[i], cell_growth_6_r[i], cell_growth_7_r[i], cell_growth_8_r[i], cell_growth_9_r[i]]
@@ -181,20 +187,26 @@ def process_datavis():
 
 
     cell_via_0_aph = viability_aph
-    cell_via_0_post = (process.loc[process['Batch #'] == 'Post Enrichment Average Viability (%)']) # viability % 
+    cell_via_0_post = (process.loc[process['Batch #'] == 'Post Enrichment Average Viability (%)'].values[0].tolist())[1:] # viability % 
     cell_via_0_post = list(map(lambda x: x * 100, cell_via_0_post))
-    cell_growth_6 = (process.loc[process['Batch #'] == 'Day 6 Viability (%)']) # Day 6 viability
+    cell_growth_6 = (process.loc[process['Batch #'] == 'Day 6 Viability (%)'].values[0].tolist())[1:] # Day 6 viability
     cell_growth_6 = list(map(lambda x: x * 100, cell_growth_6))
-    cell_growth_7 = (process.loc[process['Batch #'] == 'Day 7 Viability (%)']) # Day 7 viability 
+    cell_growth_7 = (process.loc[process['Batch #'] == 'Day 7 Viability (%)'].values[0].tolist())[1:] # Day 7 viability 
     cell_growth_7 = list(map(lambda x: x * 100, cell_growth_7))
-    cell_growth_8 = (process.loc[process['Batch #'] == 'Harvest -1Day Viability (%)']) # Day 8 viability 
+    cell_growth_8 = (process.loc[process['Batch #'] == 'Harvest -1Day Viability (%)'].values[0].tolist())[1:] # Day 8 viability 
     cell_growth_8 = list(map(lambda x: x * 100, cell_growth_8))
-    cell_growth_9_pre = (process.loc[process['Batch #'] == 'Pre Harvest Viability (%)']) # Day 9 Pre-harvest viability
+    cell_growth_9_pre = (process.loc[process['Batch #'] == 'Pre Harvest Viability (%)'].values[0].tolist())[1:] # Day 9 Pre-harvest viability
     cell_growth_9_pre = list(map(lambda x: x * 100, cell_growth_9_pre))
-    cell_growth_9_post = (process.loc[process['Batch #'] == 'Post Harvest Average Viability (%)'])  # Day 9 Post-harvest viability
+    cell_growth_9_post = (process.loc[process['Batch #'] == 'Post Harvest Average Viability (%)'].values[0].tolist())[1:]  # Day 9 Post-harvest viability
     cell_growth_9_post = list(map(lambda x: x * 100, cell_growth_9_post))
-    cell_growth_fdp = (data_frame.loc[data_frame['Unnamed: 1'] == 'Viability'])[4:] # % Viability 
+    cell_growth_fdp = (data_frame.loc[data_frame['Unnamed: 1'] == 'Viability'].values[0].tolist())[4:] # % Viability 
     cell_growth_fdp = list(map(lambda x: x * 100, cell_growth_fdp))
+    print(cell_via_0_post)
+    print(cell_growth_6)
+    print(cell_growth_7)
+    print(cell_growth_8)
+    print(cell_growth_9_pre)
+    print(cell_growth_9_post)
 
     x_axis = ["0 (Aph)", "0 (Post)", "6", "7", "8", "9 (Pre)", "9 (Post)", "FDP"]
     for i in range(len(col_names)):
@@ -234,11 +246,10 @@ def process_datavis():
 
     #Graph for %CD4+ and %CD8+ Post Enrichment Stacked Bar Plot
     TBNK = dfs["TBNK"] 
-    #burda kaldi
-    CD4 = (TBNK.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells']) 
-    CD8 = (TBNK.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD8+ T cells']) 
-    CD4_ = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD4))
-    CD8_ = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD8))
+    CD4 = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells'].values[0].tolist())[1:]
+    CD8 = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD8+ T cells'].values[0].tolist())[1:]
+    CD4_ = list(map(lambda x: x * 100, CD4))
+    CD8_ = list(map(lambda x: x * 100, CD8))
 
     fig_3 = go.Figure(data=[
         go.Bar(name='CD4+', x=col_names, y=CD4_),
@@ -249,10 +260,10 @@ def process_datavis():
     #fig_3.show()
 
     #Graph for %CD4+ and %CD8+ FDP Stacked Bar Plot
-    CD4_FDP = (TBNK.loc[process['Batch #'] == 'Final Product - CD4+ T cells'])  
-    CD8_FDP = (TBNK.loc[process['Batch #'] == 'Final Product - CD8+ T cells']) 
-    CD4_FDP_ = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD4_FDP))
-    CD8_FDP_  = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD8_FDP))
+    CD4_FDP = (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD4+ T cells'].values[0].tolist())[1:] 
+    CD8_FDP = (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD8+ T cells'].values[0].tolist())[1:] 
+    CD4_FDP_ = list(map(lambda x: x * 100, CD4_FDP))
+    CD8_FDP_  = list(map(lambda x: x * 100, CD8_FDP))
 
 
     fig_4 = go.Figure(data=[
@@ -282,27 +293,29 @@ def process_datavis():
 
 
     #Graph for %CD4+ and %CD8+ FDP Stacked Bar Plot
-    Bcells_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x,  (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - B cells']))) #0
-    CD4_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - CD4+ T cells']))) #2
-    CD4CD8_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - CD4+ CD8+ T cells']))) #3
-    CD56CD16_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - CD56+ CD16+ T cells']))) #4 
-    CD8_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - CD8+ T cells']))) #5
-    Eosinophil_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - Eosinophils']))) #6
-    Monocyte_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - Monocytes']))) #7
-    Neutrophil_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - Neutrophils']))) #8
-    NKT_Pre = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Pre-Enrichment - NKT cells']))) #9
-    Bcells_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - B cells']))) #22
-    CD4_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - CD4+ T cells']))) #24
-    CD4CD8_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - CD4+ CD8+ T cells']))) #25
-    CD56CD16_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - CD56+ CD16+ T cells']))) # 26
-    CD8_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - CD8+ T cells']))) # 27
-    Eosinophil_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - Eosinophils']))) # 28
-    Monocyte_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - Monocytes']))) #29
-    Neutrophil_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - Neutrophils']))) #30
-    NKT_fdp = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Final Product - NKT cells']))) #31
+    Bcells_Pre = list(map(lambda x: x * 100,  (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - B cells']).values[0][1:])) #0
+    print(TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - B cells'])
+    CD4_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - CD4+ T cells']).values[0][1:])) #2
+    print(CD4_Pre)
+    CD4CD8_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - CD4+ CD8+ T cells']).values[0][1:])) #3
+    CD56CD16_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - CD56+ CD16+ T cells']).values[0][1:])) #4 
+    CD8_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - CD8+ T cells']).values[0][1:])) #5
+    Eosinophil_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - Eosinophils']).values[0][1:])) #6
+    Monocyte_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - Monocytes']).values[0][1:])) #7
+    Neutrophil_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - Neutrophils']).values[0][1:])) #8
+    NKT_Pre = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Pre-Enrichment - NKT cells']).values[0][1:])) #9
+    Bcells_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - B cells']).values[0][1:])) #22
+    CD4_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD4+ T cells']).values[0][1:])) #24
+    CD4CD8_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD4+ CD8+ T cells']).values[0][1:])) #25
+    CD56CD16_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD56+ CD16+ T cells']).values[0][1:])) # 26
+    CD8_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD8+ T cells']).values[0][1:])) # 27
+    Eosinophil_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - Eosinophils']).values[0][1:])) # 28
+    Monocyte_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - Monocytes']).values[0][1:])) #29
+    Neutrophil_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - Neutrophils']).values[0][1:])) #30
+    NKT_fdp = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Final Product - NKT cells']).values[0][1:])) #31
 
-    CD4_Post = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells']))) #13
-    CD8_Post = list(map(lambda x: x * 100 if not np.isnan(x) else x, (TBNK.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD8+ T cells']))) #16
+    CD4_Post = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells']).values[0][1:])) #13
+    CD8_Post = list(map(lambda x: x * 100, (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD8+ T cells']).values[0][1:])) #16
 
     B_cells = []
     for i in range(len(Bcells_Pre)):
@@ -395,11 +408,11 @@ def process_datavis():
     #MemDiff CD8+ FDP
     # BURDA KALDI
     MemDiff = dfs["Mem-Diff"]
-    CD8_FDP_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tem']))) #17
-    CD8_FDP_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Temra']))) #18
-    CD8_FDP_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tcm']))) #19
-    CD8_FDP_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tscm']))) #20
-    CD8_FDP_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tn']))) #21
+    CD8_FDP_Tem = list(map(lambda x: x * 100, ((MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tem'].values[0].tolist())[1:]))) #17
+    CD8_FDP_Temra = list(map(lambda x: x * 100, ((MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Temra'].values[0].tolist())[1:]))) #18
+    CD8_FDP_Tcm = list(map(lambda x: x * 100, ((MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tcm'].values[0].tolist())[1:]))) #19
+    CD8_FDP_Tscm = list(map(lambda x: x * 100, ((MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tscm'].values[0].tolist())[1:]))) #20
+    CD8_FDP_Tn = list(map(lambda x: x * 100, ((MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tn'].values[0].tolist())[1:]))) #21
 
     fig_5 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD8_FDP_Tem),
@@ -412,11 +425,11 @@ def process_datavis():
     #fig_5.show()
 
     #MemDiff CD4+ FDP
-    CD4_FDP_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tem'])))
-    CD4_FDP_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Temra'])))
-    CD4_FDP_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tcm'])))
-    CD4_FDP_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tscm'])))
-    CD4_FDP_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tn'])))
+    CD4_FDP_Tem = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tem'].values[0].tolist()[1:])))
+    CD4_FDP_Temra = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Temra'].values[0].tolist()[1:])))
+    CD4_FDP_Tcm = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tcm'].values[0].tolist()[1:])))
+    CD4_FDP_Tscm = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tscm'].values[0].tolist()[1:])))
+    CD4_FDP_Tn = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tn'].values[0].tolist()[1:])))
 
     fig_6 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD4_FDP_Tem),
@@ -429,11 +442,11 @@ def process_datavis():
     #fig_6.show()
 
     #MemDiff CD4+ Post Enrichment
-    CD4_Post_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tem'])))
-    CD4_Post_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Temra'])))
-    CD4_Post_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tcm'])))
-    CD4_Post_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tscm'])))
-    CD4_Post_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tn'])))
+    CD4_Post_Tem = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tem'].values[0].tolist()[1:])))
+    CD4_Post_Temra = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Temra'].values[0].tolist()[1:])))
+    CD4_Post_Tcm = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tcm'].values[0].tolist()[1:])))
+    CD4_Post_Tscm = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tscm'].values[0].tolist()[1:])))
+    CD4_Post_Tn = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tn'].values[0].tolist()[1:])))
 
     fig_7 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD4_Post_Tem),
@@ -446,11 +459,11 @@ def process_datavis():
     #fig_7.show()
 
     #MemDiff CD8+ Post Enrichment
-    CD8_Post_Tem = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tem'])))
-    CD8_Post_Temra = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Temra'])))
-    CD8_Post_Tcm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tcm'])))
-    CD8_Post_Tscm = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tscm'])))
-    CD8_Post_Tn = list(map(lambda x: x * 100 if not np.isnan(x) else x, (MemDiff.loc[process['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tn'])))
+    CD8_Post_Tem = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tem'].values[0].tolist()[1:])))
+    CD8_Post_Temra = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Temra'].values[0].tolist()[1:])))
+    CD8_Post_Tcm = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tcm'].values[0].tolist()[1:])))
+    CD8_Post_Tscm = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tscm'].values[0].tolist()[1:])))
+    CD8_Post_Tn = list(map(lambda x: x * 100, (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tn'].values[0].tolist()[1:])))
 
     fig_8 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD8_Post_Tem),
@@ -578,15 +591,15 @@ def process_datavis():
 
 
     cytokine = dfs["Cytokine"]
-    CD19P_5_1 = (cytokine.loc[process['Batch #'] == 'IFNg 5:1 (CD19+) (pg/mL) E:T Ratio']) 
-    CD19P_10_1 = (cytokine.loc[process['Batch #'] == 'IFNg 10:1 (CD19+) (pg/mL) E:T Ratio'])
-    CD19M_5_1 = (cytokine.loc[process['Batch #'] == 'IFNg 5:1 (CD19-) (pg/mL) E:T Ratio'])
-    CD19M_10_1 = (cytokine.loc[process['Batch #'] == 'IFNg 10:1 (CD19-) (pg/mL) E:T Ratio'])
+    CD19P_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:] 
+    CD19P_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
+    CD19M_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19-) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
+    CD19M_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19-) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
 
     cytotox = dfs["Cytotox"]
-    one_to_one = list(map(lambda x: x * 100 if not np.isnan(x) else x, (cytotox.loc[process['Batch #'] == '1:1 (CD19+) E:T'])))
-    five_to_one = list(map(lambda x: x * 100 if not np.isnan(x) else x, (cytotox.loc[process['Batch #'] == '5:1 (CD19+) E:T'])))
-    ten_to_one = list(map(lambda x: x * 100 if not np.isnan(x) else x, (cytotox.loc[process['Batch #'] == '10:1 (CD19+) E:T'])))
+    one_to_one = list(map(lambda x: x * 100, (cytotox.loc[cytotox['Batch #'] == '1:1 (CD19+) E:T'].values[0].tolist()[1:])))
+    five_to_one = list(map(lambda x: x * 100, (cytotox.loc[cytotox['Batch #'] == '5:1 (CD19+) E:T'].values[0].tolist()[1:])))
+    ten_to_one = list(map(lambda x: x * 100, (cytotox.loc[cytotox['Batch #'] == '10:1 (CD19+) E:T'].values[0].tolist()[1:])))
 
     cytotoxicity_data = [one_to_one, five_to_one, ten_to_one]
     cytokine_data = [CD19P_5_1, CD19P_10_1, CD19M_5_1, CD19M_10_1]
@@ -611,9 +624,9 @@ def process_datavis():
     release_assays = []
     char_assays = []
     for name in patient_names:
-        new_1 = name + ' Release Assay'
+        new_1 = name + ' Release'
         release_assays.append(new_1)
-        new_2 = name + ' Characterization Assay'
+        new_2 = name + ' Char'
         char_assays.append(new_2)
     titles = release_assays + char_assays
     col_count = len(df_1.columns) - 1
