@@ -703,7 +703,7 @@ def process_files():
     MemDiff_Day9Final = (df.iloc[0:14, 7]).to_list()
     MemDiff_col = general_info + MemDiff_Day0Post + MemDiff_Day9Final 
 
-    exhaustion_day9 = general_info + (df.iloc[0:27, 9]).to_list()
+    exhaustion_day9 = general_info + (df.iloc[0:10, 9]).to_list()
 
     cytotox = general_info + (df.iloc[0:6, 11]).to_list() 
 
