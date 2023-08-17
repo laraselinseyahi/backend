@@ -659,10 +659,10 @@ def process_datavis():
     fig_cyto = make_subplots(rows=1, cols=2, subplot_titles=("IFNg Secretion (E:T Ratio)", "Cytotoxicity(E:T Ratio)"))
 
     for i in range(len(cytokine_data)):
-        fig_cyto.add_trace(go.Bar(name=cytokine_names[i], x=col_names[1:], y=cytokine_data[i]), row=1, col=1)
+        fig_cyto.add_trace(go.Bar(name=cytokine_names[i], x=col_names, y=cytokine_data[i]), row=1, col=1)
 
     for i in range(len(cytotoxicity_data)):
-        fig_cyto.add_trace(go.Bar(name=cytotoxicity_names[i], x=col_names[1:], y=cytotoxicity_data[i]), row=1, col=2)
+        fig_cyto.add_trace(go.Bar(name=cytotoxicity_names[i], x=col_names, y=cytotoxicity_data[i]), row=1, col=2)
 
     # Change the bar mode
     fig_cyto.update_layout(barmode='group', title={'text': "Characterization: Potency(IFNg and Cytotox)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
