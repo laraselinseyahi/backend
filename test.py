@@ -550,9 +550,9 @@ def process_datavis():
 
     fig_memdiff = make_subplots(rows=1, cols=2, subplot_titles=("%CD4+ Cells (Post-Enrichment & FDP)", "%CD8+ Cells (Post-Enrichment & FDP)"))
 
-    x_axis = list(chain.from_iterable(map(lambda x: [x, x], col_names[2:])))
+    x_axis = list(chain.from_iterable(map(lambda x: [x, x], col_names)))
     my_list = ['Post', 'FDP']
-    result_list = my_list * len(col_names[2:])
+    result_list = my_list * len(col_names)
 
     Tem_CD4 = []
     for i in range(len(CD4_Post_Tem)):
