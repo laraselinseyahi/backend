@@ -713,19 +713,19 @@ def process_datavis():
     # row_means = df.mean(axis=1)
     # Select only the numeric columns
     df_removed = df.iloc[:, 4:]
-    print(df_removed)
-    numeric_columns = df_removed.select_dtypes(include=['number', 'int', 'float'])
+   # print(df_removed)
+    # numeric_columns = df_removed.select_dtypes(include=['number', 'int', 'float'])
 
     # Calculate the mean of each row for numeric columns
-    row_means = numeric_columns.mean(axis=1)
-    print(row_means)
+    #row_means = numeric_columns.mean(axis=1)
+    #print(row_means)
     # Add the row means as a new column to the DataFrame
     # df['RowMean'] = row_means
     # Select only the numeric columns
-    numeric_columns = df.select_dtypes(include=['number'])
+    #numeric_columns = df.select_dtypes(include=['number'])
 
     # Calculate the range of each row for numeric columns
-    row_ranges = np.ptp(numeric_columns.values, axis=1)
+    #row_ranges = np.ptp(numeric_columns.values, axis=1)
 
     # Add the row ranges as a new column to the DataFrame
     # df['RowRange'] = row_ranges
