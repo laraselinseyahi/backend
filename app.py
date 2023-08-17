@@ -1613,11 +1613,12 @@ def visualization_subset():
     release_assays = []
     char_assays = []
     for name in patient_names:
-        new_1 = name + ' Release Assay'
+        new_1 = name + ' Release'
         release_assays.append(new_1)
-        new_2 = name + ' Characterization Assay'
+        new_2 = name + ' Char'
         char_assays.append(new_2)
     titles = release_assays + char_assays
+    print(titles)
     col_count = len(patient_names) 
     y_1 = ['Mycoplasma', 'CAR Expression', 'Identity', 'Cell Count', 'Viability', 'Endotoxin', 'VCN', 'Appearance/Color', 'BacT', 'RCL', 'Sanger Sequence']
     y_2 = ['TBNK (DO Pre)', 'VCN', 'TBNK (D0 Post)', 'Mem/Diff (D0)', 'TBNK (D9)', 'Mem/Diff (D9)', 'Exhaustion', 'Cytotox', 'Cytokine']

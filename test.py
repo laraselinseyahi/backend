@@ -945,9 +945,9 @@ def process_files():
 
 
 def visualization_subset():
-    input = request.files['fileInputsubset']
-    patient_names = request.form['patientnames']
-    xls = pd.ExcelFile(input)
+   # input = request.files['fileInputsubset']
+    patient_names = '2303-84221'
+    xls = pd.ExcelFile('/Users/lseyahi/desktop/b6.xlsx')
     col_names = patient_names.split(',')
     # Read the Excel file into a dictionary of DataFrames
     dfs = {sheet_name: xls.parse(sheet_name) for sheet_name in xls.sheet_names}
@@ -1680,4 +1680,5 @@ def visualization_subset():
 
 if __name__ == "__main__":
     # process_files()
-    process_datavis()
+    # process_datavis()
+    visualization_subset()
