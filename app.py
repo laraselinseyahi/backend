@@ -155,10 +155,10 @@ def process_datavis():
     #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_plussd_dose] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=2)
     #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_minussd_dose] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=2)
 
-    fig_sub_1.append_trace(go.Bar(x=col_names, y=pt_dose, mode="markers", marker_color=colors_bub, showlegend=False), row=2, col=3)
-    fig_sub_1.append_trace(go.Bar(x=col_names, y=[y_mean_dosept] * len(col_names), mode='lines', name='Mean', marker_color=colors[0], showlegend=False), row=2, col=3)
-    fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_plussd_dosept] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=3)
-    fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_minussd_dosept] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=3)
+    fig_sub_1.append_trace(go.Bar(x=col_names, y=pt_dose, marker_color=colors_bub, showlegend=False), row=2, col=3)
+    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[y_mean_dosept] * len(col_names), mode='lines', name='Mean', marker_color=colors[0], showlegend=False), row=2, col=3)
+    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_plussd_dosept] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=3)
+    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_minussd_dosept] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=3)
 
     #for i in range(len(col_names)):
     #    list_ = [multiplied_list_2[i], multiplied_list[i]]
@@ -169,10 +169,11 @@ def process_datavis():
     fig_sub_1.update_yaxes(title_text="VCN", range=[0, 5], row=1, col=3)
     fig_sub_1.update_yaxes(title_text="Viable Cells (%)", range=[70, 100], row=2, col=1)
     fig_sub_1.update_yaxes(title_text="Actual Dose", range=[0, 1.5 * 10**8] , row=2, col=2)
+    fig_sub_1.update_yaxes(title_text="Target Dose(%)", row=2, col=3)
 
 
 
-    fig_sub_1.update_traces(marker_size=10)
+    # fig_sub_1.update_traces(marker_size=10)
     fig_sub_1.update_layout(title={'text': "Release Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     #fig_sub_1.show()
 

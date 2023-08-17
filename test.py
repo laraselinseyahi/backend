@@ -89,6 +89,13 @@ def process_datavis():
     two_plussd_dose = y_mean_dose + 2*std_dose
     two_minussd_dose = y_mean_dose - 2*std_dose 
 
+    pt_dose = (data_frame.loc[data_frame['Unnamed: 1'] == '%Target Dose'].values[0].tolist())[4:]
+   
+    y_mean_dosept = np.nanmean(pt_dose)
+    std_dosept = np.nanstd(pt_dose)
+    two_plussd_dosept = y_mean_dose + 2*std_dose
+    two_minussd_dosept = y_mean_dose - 2*std_dose 
+
 
     #Graph for %CAR+ D8 and D9
     #row 5 is D8 CAR
@@ -143,15 +150,20 @@ def process_datavis():
     #    list_ = [multiplied_list_2[i], multiplied_list[i]]
     #    fig_sub_1.append_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]), row=2, col=3)
 
+    fig_sub_1.append_trace(go.Bar(x=col_names, y=pt_dose, marker_color=colors_bub, showlegend=False), row=2, col=3)
+    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[y_mean_dosept] * len(col_names), name='Mean', marker_color=colors[0], showlegend=False), row=2, col=3)
+    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_plussd_dosept] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=3)
+    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_minussd_dosept] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=3)
+
     fig_sub_1.update_yaxes(title_text="%CAR+ Cells", range=[0, 100], row=1, col=1)
     fig_sub_1.update_yaxes(title_text="%CD3+ Cells", range=[75, 100] , row=1, col=2)
     fig_sub_1.update_yaxes(title_text="VCN", range=[0, 5], row=1, col=3)
     fig_sub_1.update_yaxes(title_text="Viable Cells (%)", range=[70, 100], row=2, col=1)
     fig_sub_1.update_yaxes(title_text="Actual Dose", range=[0, 1.5 * 10**8] , row=2, col=2)
+    fig_sub_1.update_yaxes(title_text="Target Dose(%)", row=2, col=3)
 
 
-
-    fig_sub_1.update_traces(marker_size=10)
+    # fig_sub_1.update_traces(marker_size=10)
     fig_sub_1.update_layout(title={'text': "Release Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     #fig_sub_1.show()
 
