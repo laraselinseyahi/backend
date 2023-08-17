@@ -56,6 +56,9 @@ def process_datavis():
     #actual dose 
     dose = (data_frame.loc[data_frame['Unnamed: 1'] == 'Dose'].values[0].tolist())[4:]
 
+    pt_dose = (data_frame.loc[data_frame['Unnamed: 1'] == '%Target Dose'].values[0].tolist())[4:]
+    
+
     multiplied_list = row_list
     print(multiplied_list)
     y_mean = np.nanmean(multiplied_list)
@@ -96,6 +99,11 @@ def process_datavis():
     two_plussd_dose = y_mean_dose + 2*std_dose
     two_minussd_dose = y_mean_dose - 2*std_dose 
 
+    y_mean_dosept = np.nanmean(pt_dose)
+    std_dosept = np.nanstd(pt_dose)
+    two_plussd_dosept = y_mean_dose + 2*std_dose
+    two_minussd_dosept = y_mean_dose - 2*std_dose 
+
 
     #Graph for %CAR+ D8 and D9
     #row 5 is D8 CAR
@@ -116,11 +124,12 @@ def process_datavis():
 
 
     #mode = markers removes the connecting lines 
-    fig_sub_1 = make_subplots(rows=2, cols=3, subplot_titles=("Identity and Potency (%CAR+ Cells)", "Purity (%CD3+ Cells)", "Safety (VCN)", "Strength (%Viable Cells)", "Strength (Dose)"))
+    fig_sub_1 = make_subplots(rows=2, cols=3, subplot_titles=("Identity and Potency (%CAR+ Cells)", "Purity (%CD3+ Cells)", "Safety (VCN)", "Strength (%Viable Cells)", "Strength (Dose)", "%Target Dose"))
     colors = ['blue', 'red', 'green', 'orange', 'purple']
     colors_bub = ['black', 'black']
     colors_add = ['red'] * (len(col_names) - 2)
     colors_bub += colors_add
+    colors_bub = ['red'] * (len(col_names))
     fig_sub_1.append_trace(go.Scatter(x=col_names, y=multiplied_list, mode="markers", marker_color=colors_bub, showlegend=False), row=1, col=1)
     fig_sub_1.append_trace(go.Scatter(x=col_names, y=[y_mean] * len(col_names), mode='lines', name='Mean', marker_color=colors[0]), row=1, col=1)
     fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_plussd] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1]), row=1, col=1)
@@ -145,6 +154,11 @@ def process_datavis():
     #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[y_mean_dose] * len(col_names), mode='lines', name='Mean', marker_color=colors[0], showlegend=False), row=2, col=2)
     #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_plussd_dose] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=2)
     #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_minussd_dose] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=2)
+
+    fig_sub_1.append_trace(go.Bar(x=col_names, y=pt_dose, mode="markers", marker_color=colors_bub, showlegend=False), row=2, col=3)
+    fig_sub_1.append_trace(go.Bar(x=col_names, y=[y_mean_dosept] * len(col_names), mode='lines', name='Mean', marker_color=colors[0], showlegend=False), row=2, col=3)
+    fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_plussd_dosept] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=3)
+    fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_minussd_dosept] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=3)
 
     #for i in range(len(col_names)):
     #    list_ = [multiplied_list_2[i], multiplied_list[i]]
