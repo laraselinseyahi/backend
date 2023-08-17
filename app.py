@@ -722,7 +722,7 @@ def process_datavis():
     # Add the row means as a new column to the DataFrame
     df['RowMean'] = row_means
     # Select only the numeric columns
-    numeric_columns = df.select_dtypes(include=['number'])
+    # numeric_columns = df.select_dtypes(include=['number'])
 
     # Calculate the range of each row for numeric columns
     row_ranges = np.ptp(numeric_columns.values, axis=1)
