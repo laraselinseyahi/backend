@@ -720,7 +720,7 @@ def process_datavis():
     row_means = numeric_columns.mean(axis=1)
     print(row_means)
     # Add the row means as a new column to the DataFrame
-    df['RowMean'] = row_means
+    # df['RowMean'] = row_means
     # Select only the numeric columns
     numeric_columns = df.select_dtypes(include=['number'])
 
@@ -728,10 +728,10 @@ def process_datavis():
     row_ranges = np.ptp(numeric_columns.values, axis=1)
 
     # Add the row ranges as a new column to the DataFrame
-    df['RowRange'] = row_ranges
+    # df['RowRange'] = row_ranges
 
-    l_new = ["Mean", "Range"]
-    l.extend(l_new)
+    #l_new = ["Mean", "Range"]
+    #l.extend(l_new)
     fig = go.Figure()
     fig.add_trace(
     go.Table(
@@ -758,7 +758,7 @@ def process_datavis():
         f.write(fig_9.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
-        f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
+       # f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
 
     uri = pathlib.Path('p_graph.html').absolute().as_uri()

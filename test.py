@@ -17,7 +17,7 @@ import math
 
 
 def process_datavis():
-    xls = pd.ExcelFile('/Users/lseyahi/desktop/global_sheet.xlsx')
+    xls = pd.ExcelFile('/Users/lseyahi/desktop/b6.xlsx')
     # data_vis.visualization(global_sheet)
    # return jsonify({'message': 'Data visualization processed successfully'})
 
@@ -708,6 +708,7 @@ def process_datavis():
 
     # Calculate the mean of each row for numeric columns
     row_means = numeric_columns.mean(axis=1)
+    print(numeric_columns)
     print(row_means)
     # Add the row means as a new column to the DataFrame
     df['RowMean'] = row_means
