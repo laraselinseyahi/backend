@@ -691,13 +691,14 @@ def process_files():
     #combines the first 2 rows into column titles
     df.columns = ['.'.join(col).strip() for col in df.columns.values]
     
-    TBNK_Day0_Pre = df.iloc[0:12, 1]
-    TBNK_Day0_Post = df.iloc[0:12, 2]
-    TBNK_Day9_Final = df.iloc[0:12, 3]
+    TBNK_Day0_Pre = df.iloc[0:11, 1]
+    TBNK_Day0_Post = df.iloc[0:11, 2]
+    TBNK_Day9_Final = df.iloc[0:11, 3]
     TBNK_Day0_Pre = TBNK_Day0_Pre.to_list()
     TBNK_Day0_Post = TBNK_Day0_Post.to_list()
     TBNK_Day9_Final = TBNK_Day9_Final.to_list()
-    TBNK_col = general_info + TBNK_Day0_Pre + TBNK_Day0_Post + TBNK_Day9_Final 
+    TBNK_ratios = df.iloc[11, 1:4]
+    TBNK_col = general_info + TBNK_Day0_Pre + TBNK_Day0_Post + TBNK_Day9_Final + TBNK_ratios
 
     MemDiff_Day0Post = (df.iloc[0:14, 5]).to_list()
     MemDiff_Day9Final = (df.iloc[0:14, 7]).to_list()
