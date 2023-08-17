@@ -697,6 +697,44 @@ def process_datavis():
         fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
     fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
+    l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
+    l.extend(col_names)
+    df = data_frame
+    # row_means = df.mean(axis=1)
+    # Select only the numeric columns
+    df_removed = df.iloc[:, 4:]
+    print(df_removed)
+    numeric_columns = df_removed.select_dtypes(include=['number', 'int', 'float'])
+
+    # Calculate the mean of each row for numeric columns
+    row_means = numeric_columns.mean(axis=1)
+    print(row_means)
+    # Add the row means as a new column to the DataFrame
+    df['RowMean'] = row_means
+    # Select only the numeric columns
+    numeric_columns = df.select_dtypes(include=['number'])
+
+    # Calculate the range of each row for numeric columns
+    row_ranges = np.ptp(numeric_columns.values, axis=1)
+
+    # Add the row ranges as a new column to the DataFrame
+    df['RowRange'] = row_ranges
+
+    l_new = ["Mean", "Range"]
+    l.extend(l_new)
+    fig = go.Figure()
+    fig.add_trace(
+    go.Table(
+        header=dict(
+            values=l,
+            font=dict(size=10),
+            align="left"
+        ),
+        cells=dict(
+            values=[df[k].tolist()[4:] for k in df.columns],
+            align = "left")
+    )
+)
     
 
     with open('p_graph.html', 'w') as f:
@@ -711,6 +749,7 @@ def process_datavis():
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
 
     uri = pathlib.Path('p_graph.html').absolute().as_uri()
     webbrowser.open(uri)
