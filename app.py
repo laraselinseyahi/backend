@@ -1039,7 +1039,10 @@ def visualization_subset():
     fig_sub_process_2.add_trace(go.Bar(name='', x=col_names, y=fold_expansion, showlegend=False), row=1, col=1)
     x_axis = ["0", "6", "7", "8", "9"]
     for i in range(len(col_names)):
-        list_ = [cell_growth_0_r[i], cell_growth_6_r[i], cell_growth_7_r[i], cell_growth_8_r[i], cell_growth_9_r[i]]
+        if pd.isna(cell_growth_7_r[i]):
+            list_ = [cell_growth_0_r[i], cell_growth_6_r[i], cell_growth_8_r[i], cell_growth_9_r[i]]
+        else :
+            list_ = [cell_growth_0_r[i], cell_growth_6_r[i], cell_growth_7_r[i], cell_growth_8_r[i], cell_growth_9_r[i]]
         fig_sub_process_2.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]), row = 1, col = 2)
 
     fig_sub_process_2.update_layout(title={'text': "Process Performance", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
@@ -1049,7 +1052,10 @@ def visualization_subset():
     fig_sub_process_3 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Viability over Process", "Cell Viability (Aph. - d6)", "Cell Viability (Pre- and Post-Harvest, FDP)"))
     x_axis = ["0 (Aph)", "0 (Post)", "6", "7", "8", "9 (Pre)", "9 (Post)", "FDP"]
     for i in range(len(col_names)):
-        list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i], cell_growth_7[i], cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]]
+        if pd.isna(cell_growth_7_r[i]):
+            list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i], cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]]
+        else:
+            list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i], cell_growth_7[i], cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]]
         fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i]), row = 1, col = 1)
     x_axis = ["0 (Aph)", "0 (Post)", "6"]
     for i in range(len(col_names)):
@@ -1130,30 +1136,30 @@ def visualization_subset():
         CD8.append(column[CD8_i])
         CD4_FDP.append(column[CD4_fdp_i])
         CD8_FDP.append(column[CD8_fdp_i])
-        Bcells_Pre.append(column[bcellspre_i] * 100)
-        CD4_Pre.append(column[cd4pre_i] * 100)
-        CD4CD8_Pre.append(column[cd4cd8pre_i] * 100)
-        CD56CD16_Pre.append(column[cd56cd16pre_i] * 100)
-        CD8_Pre.append(column[cd8pre_i] * 100)
-        Eosinophil_Pre.append(column[eosino_pre_i] * 100)
-        Monocyte_Pre.append(column[mono_pre_i] * 100)
-        Neutrophil_Pre.append(column[neutro_pre_i] * 100)
-        NKT_Pre.append(column[nkt_pre_i] * 100)
-        Bcells_fdp.append(column[b_fdp_i] * 100)
-        CD4_fdp.append(column[cd4_fdp_i] * 100)
-        CD4CD8_fdp.append(column[cd4cd8_fdp_i] * 100)
-        CD56CD16_fdp.append(column[cd56cd16_fdp_i] * 100)
-        CD8_fdp.append(column[cd8_fdp_i] * 100)
-        Eosinophil_fdp.append(column[eosino_fdp_i] * 100)
-        Monocyte_fdp.append(column[mono_fdp_i] * 100)
-        Neutrophil_fdp.append(column[neutro_fdp_i] * 100)
-        NKT_fdp.append(column[nkt_fdp_i] * 100)
-        CD4_Post.append(column[cd4_post_i] * 100)
-        CD8_Post.append(column[cd8_post_i] * 100)
+        Bcells_Pre.append(column[bcellspre_i])
+        CD4_Pre.append(column[cd4pre_i])
+        CD4CD8_Pre.append(column[cd4cd8pre_i])
+        CD56CD16_Pre.append(column[cd56cd16pre_i])
+        CD8_Pre.append(column[cd8pre_i])
+        Eosinophil_Pre.append(column[eosino_pre_i])
+        Monocyte_Pre.append(column[mono_pre_i])
+        Neutrophil_Pre.append(column[neutro_pre_i])
+        NKT_Pre.append(column[nkt_pre_i])
+        Bcells_fdp.append(column[b_fdp_i])
+        CD4_fdp.append(column[cd4_fdp_i])
+        CD4CD8_fdp.append(column[cd4cd8_fdp_i])
+        CD56CD16_fdp.append(column[cd56cd16_fdp_i])
+        CD8_fdp.append(column[cd8_fdp_i])
+        Eosinophil_fdp.append(column[eosino_fdp_i])
+        Monocyte_fdp.append(column[mono_fdp_i])
+        Neutrophil_fdp.append(column[neutro_fdp_i])
+        NKT_fdp.append(column[nkt_fdp_i])
+        CD4_Post.append(column[cd4_post_i])
+        CD8_Post.append(column[cd8_post_i])
 
 
-    CD4_ = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD4))
-    CD8_ = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD8))
+    CD4_ = CD4
+    CD8_ = CD8
 
     fig_3 = go.Figure(data=[
         go.Bar(name='CD4+', x=col_names, y=CD4_),
@@ -1164,8 +1170,8 @@ def visualization_subset():
   #  fig_3.show()
 
     #Graph for %CD4+ and %CD8+ FDP Stacked Bar Plot
-    CD4_FDP_ = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD4_FDP))
-    CD8_FDP_  = list(map(lambda x: x * 100 if not np.isnan(x) else x, CD8_FDP))
+    CD4_FDP_ = CD4_FDP
+    CD8_FDP_  = CD8_FDP
 
 
     fig_4 = go.Figure(data=[
@@ -1367,27 +1373,27 @@ def visualization_subset():
 
     for patient in col_names:
         column = MemDiff[patient]
-        CD8_FDP_Tem.append(column[CD8_fdp_tem_i] * 100)
-        CD8_FDP_Temra.append(column[CD8_fdp_temra_i] * 100)
-        CD8_FDP_Tcm.append(column[CD8_fdp_tcm_i] * 100)
-        CD8_FDP_Tscm.append(column[CD8_fdp_tscm_i] * 100)
-        CD8_FDP_Tn.append(column[CD8_fdp_tn_i] * 100)
-        CD4_FDP_Tem.append(column[CD4_fdp_tem_i]* 100)
-        CD4_FDP_Temra.append(column[CD4_fdp_temra_i] * 100)
-        CD4_FDP_Tcm.append(column[CD4_fdp_tcm_i] * 100)
-        CD4_FDP_Tscm.append(column[CD4_fdp_tscm_i] * 100)
-        CD4_FDP_Tn.append(column[CD4_fdp_tn_i] * 100)
+        CD8_FDP_Tem.append(column[CD8_fdp_tem_i])
+        CD8_FDP_Temra.append(column[CD8_fdp_temra_i])
+        CD8_FDP_Tcm.append(column[CD8_fdp_tcm_i])
+        CD8_FDP_Tscm.append(column[CD8_fdp_tscm_i])
+        CD8_FDP_Tn.append(column[CD8_fdp_tn_i])
+        CD4_FDP_Tem.append(column[CD4_fdp_tem_i])
+        CD4_FDP_Temra.append(column[CD4_fdp_temra_i])
+        CD4_FDP_Tcm.append(column[CD4_fdp_tcm_i])
+        CD4_FDP_Tscm.append(column[CD4_fdp_tscm_i])
+        CD4_FDP_Tn.append(column[CD4_fdp_tn_i])
 
-        CD4_Post_Tem.append(column[CD4_post_tem_i] * 100)
-        CD4_Post_Temra.append(column[CD4_post_temra_i] * 100)
-        CD4_Post_Tcm.append(column[CD4_post_tcm_i] * 100)
-        CD4_Post_Tscm.append(column[CD4_post_tscm_i] * 100)
-        CD4_Post_Tn.append(column[CD4_post_tn_i] * 100)
-        CD8_Post_Tem.append(column[CD8_post_tem_i] * 100)
-        CD8_Post_Temra.append(column[CD8_post_temra_i] * 100)
-        CD8_Post_Tcm.append(column[CD8_post_tcm_i] * 100)
-        CD8_Post_Tscm.append(column[CD8_post_tscm_i] * 100)
-        CD8_Post_Tn.append(column[CD8_post_tn_i] * 100)
+        CD4_Post_Tem.append(column[CD4_post_tem_i])
+        CD4_Post_Temra.append(column[CD4_post_temra_i])
+        CD4_Post_Tcm.append(column[CD4_post_tcm_i])
+        CD4_Post_Tscm.append(column[CD4_post_tscm_i])
+        CD4_Post_Tn.append(column[CD4_post_tn_i])
+        CD8_Post_Tem.append(column[CD8_post_tem_i])
+        CD8_Post_Temra.append(column[CD8_post_temra_i])
+        CD8_Post_Tcm.append(column[CD8_post_tcm_i])
+        CD8_Post_Tscm.append(column[CD8_post_tscm_i])
+        CD8_Post_Tn.append(column[CD8_post_tn_i])
 
 
     fig_5 = go.Figure(data=[
@@ -1586,9 +1592,9 @@ def visualization_subset():
 
     for patient in col_names:
         column =  cytotox[patient]
-        one_to_one.append(column[p11] * 100)
-        five_to_one.append(column[p51] * 100)
-        ten_to_one.append(column[p101] * 100)
+        one_to_one.append(column[p11])
+        five_to_one.append(column[p51])
+        ten_to_one.append(column[p101])
 
     cytotoxicity_data = [one_to_one, five_to_one, ten_to_one]
     cytokine_data = [CD19P_5_1, CD19P_10_1, CD19M_5_1, CD19M_10_1]
