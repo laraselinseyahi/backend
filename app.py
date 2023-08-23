@@ -426,9 +426,9 @@ def process_datavis():
     tbnk_swarm2.add_trace(go.Box(y=NKT_Post, name="Post", showlegend=False), row=2, col=2)
     tbnk_swarm2.add_trace(go.Box(y=NKT_fdp, name="FDP", showlegend=False), row=2, col=2)
 
-    tbnk_swarm2.add_trace(go.Box(y=T_Pre, name="Pre", showlegend=False), row=3, col=2)
-    tbnk_swarm2.add_trace(go.Box(y=T_Post, name="Post", showlegend=False), row=3, col=2)
-    tbnk_swarm2.add_trace(go.Box(y=T_fdp, name="FDP", showlegend=False), row=3, col=2)
+    tbnk_swarm2.add_trace(go.Box(y=T_Pre, name="Pre", showlegend=False), row=3, col=1)
+    tbnk_swarm2.add_trace(go.Box(y=T_Post, name="Post", showlegend=False), row=3, col=1)
+    tbnk_swarm2.add_trace(go.Box(y=T_fdp, name="FDP", showlegend=False), row=3, col=1)
 
 
 
@@ -436,7 +436,7 @@ def process_datavis():
     tbnk_swarm2.update_yaxes(range=[-5, 100] , row=1, col=2)
     tbnk_swarm2.update_yaxes(range=[-5, 100] , row=2, col=1)
     tbnk_swarm2.update_yaxes(range=[-5, 100] , row=2, col=2)
-    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=3, col=2)
+    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=3, col=1)
 
     tbnk_swarm2.update_traces(boxpoints='all', jitter=0.5)
     tbnk_swarm2.show()
