@@ -357,6 +357,89 @@ def process_datavis():
     CD4_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells']).values[0][1:] # 13
     CD8_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD8+ T cells']).values[0][1:] # 16
 
+    Bcells_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - B cells']).values[0][1:] # 0
+    CD4_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells']).values[0][1:] # 2
+    CD4CD8_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ CD8+ T cells']).values[0][1:] # 3
+    CD56CD16_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD56+ CD16+ T cells']).values[0][1:] # 4 
+    CD8_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD8+ T cells']).values[0][1:] # 5
+    Eosinophil_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - Eosinophils']).values[0][1:] # 6
+    Monocyte_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - Monocytes']).values[0][1:] # 7
+    Neutrophil_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - Neutrophils']).values[0][1:] # 8
+    NKT_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - NKT cells']).values[0][1:] # 9
+    T_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - T cells']).values[0][1:] # 9
+
+
+
+    tbnk_swarm1 = make_subplots(rows=1, cols=3, subplot_titles=("Pre", "Post", "FDP" ))
+
+    tbnk_swarm1.add_trace(go.Box(y=Bcells_Pre, name="B cells", showlegend=False), row=1, col=1)
+    tbnk_swarm1.add_trace(go.Box(y=CD56CD16_Pre, name="CD56CD16", showlegend=False), row=1, col=1)
+    tbnk_swarm1.add_trace(go.Box(y=Eosinophil_Pre, name="Eosinophil", showlegend=False), row=1, col=1)
+    tbnk_swarm1.add_trace(go.Box(y=Monocyte_Pre, name="Monocyte", showlegend=False), row=1, col=1)
+    tbnk_swarm1.add_trace(go.Box(y=Neutrophil_Pre, name="Neutrophil", showlegend=False), row=1, col=1)
+    tbnk_swarm1.add_trace(go.Box(y=NKT_Pre, name="NKT", showlegend=False), row=1, col=1)
+    tbnk_swarm1.add_trace(go.Box(y=T_Pre, name="T cells", showlegend=False), row=1, col=1)
+
+    tbnk_swarm1.add_trace(go.Box(y=Bcells_Post, name="B cells", showlegend=False), row=1, col=2)
+    tbnk_swarm1.add_trace(go.Box(y=CD56CD16_Post, name="CD56CD16", showlegend=False), row=1, col=2)
+    tbnk_swarm1.add_trace(go.Box(y=Eosinophil_Post, name="Eosinophil", showlegend=False), row=1, col=2)
+    tbnk_swarm1.add_trace(go.Box(y=Monocyte_Post, name="Monocyte", showlegend=False), row=1, col=2)
+    tbnk_swarm1.add_trace(go.Box(y=Neutrophil_Post, name="Neutrophil", showlegend=False), row=1, col=2)
+    tbnk_swarm1.add_trace(go.Box(y=NKT_Post, name="NKT", showlegend=False), row=1, col=2)
+    tbnk_swarm1.add_trace(go.Box(y=T_Post, name="T cells", showlegend=False), row=1, col=2)
+
+    tbnk_swarm1.add_trace(go.Box(y=Bcells_fdp, name="B cells", showlegend=False), row=1, col=3)
+    tbnk_swarm1.add_trace(go.Box(y=CD56CD16_fdp, name="CD56CD16", showlegend=False), row=1, col=3)
+    tbnk_swarm1.add_trace(go.Box(y=Eosinophil_fdp, name="Eosinophil", showlegend=False), row=1, col=3)
+    tbnk_swarm1.add_trace(go.Box(y=Monocyte_fdp, name="Monocyte", showlegend=False), row=1, col=3)
+    tbnk_swarm1.add_trace(go.Box(y=Neutrophil_fdp, name="Neutrophil", showlegend=False), row=1, col=3)
+    tbnk_swarm1.add_trace(go.Box(y=NKT_fdp, name="NKT", showlegend=False), row=1, col=3)
+    tbnk_swarm1.add_trace(go.Box(y=T_fdp, name="T cells", showlegend=False), row=1, col=3)
+
+
+
+    tbnk_swarm1.update_yaxes(range=[-5, 100] , row=1, col=1)
+    tbnk_swarm1.update_yaxes(range=[-5, 100] , row=1, col=2)
+    tbnk_swarm1.update_yaxes(range=[-5, 100] , row=1, col=3)
+
+    tbnk_swarm1.update_traces(boxpoints='all', jitter=0.5)
+    tbnk_swarm1.show()
+
+
+    tbnk_swarm2 = make_subplots(rows=3, cols=2, subplot_titles=("B Cells", "CD56CD16", "Monocyte", "NKT", "T cells"))
+
+    tbnk_swarm2.add_trace(go.Box(y=Bcells_Pre, name="Pre", showlegend=False), row=1, col=1)
+    tbnk_swarm2.add_trace(go.Box(y=Bcells_Post, name="Post", showlegend=False), row=1, col=1)
+    tbnk_swarm2.add_trace(go.Box(y=Bcells_fdp, name="FDP", showlegend=False), row=1, col=1)
+
+    tbnk_swarm2.add_trace(go.Box(y=CD56CD16_Pre, name="Pre", showlegend=False), row=1, col=2)
+    tbnk_swarm2.add_trace(go.Box(y=CD56CD16_Post, name="Post", showlegend=False), row=1, col=2)
+    tbnk_swarm2.add_trace(go.Box(y=CD56CD16_fdp, name="FDP", showlegend=False), row=1, col=2)
+
+    tbnk_swarm2.add_trace(go.Box(y=Monocyte_Pre, name="Pre", showlegend=False), row=2, col=1)
+    tbnk_swarm2.add_trace(go.Box(y=Monocyte_Post, name="Post", showlegend=False), row=2, col=1)
+    tbnk_swarm2.add_trace(go.Box(y=Monocyte_fdp, name="FDP", showlegend=False), row=2, col=1)
+
+    tbnk_swarm2.add_trace(go.Box(y=NKT_Pre, name="Pre", showlegend=False), row=2, col=2)
+    tbnk_swarm2.add_trace(go.Box(y=NKT_Post, name="Post", showlegend=False), row=2, col=2)
+    tbnk_swarm2.add_trace(go.Box(y=NKT_fdp, name="FDP", showlegend=False), row=2, col=2)
+
+    tbnk_swarm2.add_trace(go.Box(y=T_Pre, name="Pre", showlegend=False), row=3, col=2)
+    tbnk_swarm2.add_trace(go.Box(y=T_Post, name="Post", showlegend=False), row=3, col=2)
+    tbnk_swarm2.add_trace(go.Box(y=T_fdp, name="FDP", showlegend=False), row=3, col=2)
+
+
+
+    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=1, col=1)
+    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=1, col=2)
+    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=2, col=1)
+    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=2, col=2)
+    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=3, col=2)
+
+    tbnk_swarm2.update_traces(boxpoints='all', jitter=0.5)
+    tbnk_swarm2.show()
+
+
 
     B_cells = []
     for i in range(len(Bcells_Pre)):
@@ -556,7 +639,93 @@ def process_datavis():
     #fig_9.show()
 
 
+    fig_memdiff_swarm1 = make_subplots(rows=2, cols=2, subplot_titles=("%CD4+ Post", "%CD4+ FDP", "%CD8+ Post", "%CD8+ FDP" ))
 
+
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_Post_Tn, name="Tn", showlegend=False), row=1, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_Post_Tscm, name="Tscm", showlegend=False), row=1, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_Post_Tcm, name="Tcm", showlegend=False), row=1, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_Post_Tem, name="Tem", showlegend=False), row=1, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_Post_Temra, name="Temra", showlegend=False), row=1, col=1)
+
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_FDP_Tn, name="Tn", showlegend=False), row=1, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_FDP_Tscm, name="Tscm", showlegend=False), row=1, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_FDP_Tcm, name="Tcm", showlegend=False), row=1, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_FDP_Tem, name="Tem", showlegend=False), row=1, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD4_FDP_Temra, name="Temra", showlegend=False), row=1, col=2)
+
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_Post_Tn, name="Tn", showlegend=False), row=2, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_Post_Tscm, name="Tscm", showlegend=False), row=2, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_Post_Tcm, name="Tcm", showlegend=False), row=2, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_Post_Tem, name="Tem", showlegend=False), row=2, col=1)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_Post_Temra, name="Temra", showlegend=False), row=2, col=1)
+
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_FDP_Tn, name="Tn", showlegend=False), row=2, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_FDP_Tscm, name="Tscm", showlegend=False), row=2, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_FDP_Tcm, name="Tcm", showlegend=False), row=2, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_FDP_Tem, name="Tem", showlegend=False), row=2, col=2)
+    fig_memdiff_swarm1.add_trace(go.Box(y=CD8_FDP_Temra, name="Temra", showlegend=False), row=2, col=2)
+
+    fig_memdiff_swarm1.update_yaxes(range=[-5, 100] , row=1, col=1)
+    fig_memdiff_swarm1.update_yaxes(range=[-5, 100] , row=1, col=2)
+    fig_memdiff_swarm1.update_yaxes(range=[-5, 100] , row=2, col=1)
+    fig_memdiff_swarm1.update_yaxes(range=[-5, 100] , row=2, col=2)
+
+    fig_memdiff_swarm1.update_traces(boxpoints='all', jitter=0.5)
+    fig_memdiff_swarm1.show()
+
+
+    fig_memdiff_swarm2 = make_subplots(rows=3, cols=2, subplot_titles=("%CD4+ Tn", "%CD4+ Tscm", "%CD4+ Tcm", "%CD4+ Tem", "%CD4+ Temra"))
+    fig_memdiff_swarm3 = make_subplots(rows=3, cols=2, subplot_titles=("%CD8+ Tn", "%CD8+ Tscm", "%CD8+ Tcm", "%CD8+ Tem", "%CD8+ Temra"))
+
+
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_Post_Tn, name="Post", showlegend=False), row=1, col=1)
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_FDP_Tn, name="FDP", showlegend=False), row=1, col=1)
+    
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_Post_Tn, name="Post", showlegend=False), row=1, col=1)
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_FDP_Tn, name="FDP", showlegend=False), row=1, col=1)
+
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_Post_Tscm, name="Post", showlegend=False), row=1, col=2)
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_FDP_Tscm, name="FDP", showlegend=False), row=1, col=2)
+    
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_Post_Tscm, name="Post", showlegend=False), row=1, col=2)
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_FDP_Tscm, name="FDP", showlegend=False), row=1, col=2)
+
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_Post_Tcm, name="Post", showlegend=False), row=2, col=1)
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_FDP_Tcm, name="FDP", showlegend=False), row=2, col=1)
+    
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_Post_Tcm, name="Post", showlegend=False), row=2, col=1)
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_FDP_Tcm, name="FDP", showlegend=False), row=2, col=1)
+
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_Post_Tem, name="Post", showlegend=False), row=2, col=2)
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_FDP_Tem, name="FDP", showlegend=False), row=2, col=2)
+    
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_Post_Tem, name="Post", showlegend=False), row=2, col=2)
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_FDP_Tem, name="FDP", showlegend=False), row=2, col=2)
+
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_Post_Temra, name="Post", showlegend=False), row=3, col=1)
+    fig_memdiff_swarm2.add_trace(go.Box(y=CD4_FDP_Temra, name="FDP", showlegend=False), row=3, col=1)
+    
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_Post_Temra, name="Post", showlegend=False), row=3, col=1)
+    fig_memdiff_swarm3.add_trace(go.Box(y=CD8_FDP_Temra, name="FDP", showlegend=False), row=3, col=1)
+
+
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=1, col=1)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=1, col=2)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=2, col=1)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=2, col=2)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=3, col=1)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=1, col=1)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=1, col=2)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=2, col=1)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=2, col=2)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=3, col=1)
+
+    fig_memdiff_swarm2.update_traces(boxpoints='all', jitter=0.5)
+    fig_memdiff_swarm2.show()
+
+    fig_memdiff_swarm3.update_traces(boxpoints='all', jitter=0.5)
+    fig_memdiff_swarm3.show()
 
     fig_memdiff = make_subplots(rows=1, cols=2, subplot_titles=("%CD4+ Cells (Post-Enrichment & FDP)", "%CD8+ Cells (Post-Enrichment & FDP)"))
 
@@ -754,9 +923,14 @@ def process_datavis():
         f.write(fig_2.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk_2.to_html(full_html=False, include_plotlyjs='cdn'))
-        f.write(fig_sub_2.to_html(full_html=False, include_plotlyjs='cdn'))
-        f.write(fig_9.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(tbnk_swarm1.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(tbnk_swarm2.to_html(full_html=False, include_plotlyjs='cdn'))
+       # f.write(fig_sub_2.to_html(full_html=False, include_plotlyjs='cdn'))
+       # f.write(fig_9.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_memdiff_swarm1.to_html(full_html=False, include_plotlyjs='cdn')) 
+        f.write(fig_memdiff_swarm2.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_memdiff_swarm3.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
        # f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
