@@ -910,7 +910,12 @@ def process_datavis():
     df = data_frame
     df["Mean"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].mean(axis=1)
 
-    l_new = ["Mean"]
+    list_min = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1)
+    list_max = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].max(axis=1)
+    df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
+
+
+    l_new = ["Mean", "Range"]
     l.extend(l_new)
     # row_means = df.mean(axis=1)
     # Select only the numeric columns
