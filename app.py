@@ -36,6 +36,17 @@ def process_datavis():
     #GRAPH FOR %CAR+ FDP
     col_names = list(data_frame.columns.values.tolist())
     col_names = col_names[4:]
+
+    names_1 = data_frame[data_frame['Batch #'] == 'Study (e.g. KYV-IH, KYV-001, KYV-003)'].values[0].tolist()[4:]
+    names_2 = data_frame[data_frame['Batch #'] == 'Patient No. w/in Study'].values[0].tolist()[4:]
+
+    names = []
+    for i in range(len(names_1)):
+        name_info = str(names_1[i]) + '-' + str(names_2[i])
+        names.append(name_info)
+
+    col_names = names
+    
     # print(data_frame)
     #row 10 is %CAR of final DP = CAR Transduction 
     # print(data_frame['Measurement'])
