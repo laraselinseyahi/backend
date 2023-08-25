@@ -46,7 +46,7 @@ def process_datavis():
         names.append(name_info)
 
     col_names = names
-    
+
     # print(data_frame)
     #row 10 is %CAR of final DP = CAR Transduction 
     # print(data_frame['Measurement'])
@@ -443,10 +443,10 @@ def process_datavis():
 
 
 
-    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=1, col=1)
-    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=1, col=2)
-    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=2, col=1)
-    tbnk_swarm2.update_yaxes(range=[-5, 100] , row=2, col=2)
+    tbnk_swarm2.update_yaxes(range=[-5, 40] , row=1, col=1)
+    tbnk_swarm2.update_yaxes(range=[-5, 40] , row=1, col=2)
+    tbnk_swarm2.update_yaxes(range=[-5, 40] , row=2, col=1)
+    tbnk_swarm2.update_yaxes(range=[-5, 40] , row=2, col=2)
     tbnk_swarm2.update_yaxes(range=[-5, 100] , row=3, col=1)
 
     tbnk_swarm2.update_traces(boxpoints='all', jitter=0.5)
@@ -723,16 +723,16 @@ def process_datavis():
     fig_memdiff_swarm3.add_trace(go.Box(y=CD8_FDP_Temra, name="FDP", showlegend=False), row=3, col=1)
 
 
-    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=1, col=1)
-    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=1, col=2)
-    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=2, col=1)
-    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=2, col=2)
-    fig_memdiff_swarm2.update_yaxes(range=[-5, 100] , row=3, col=1)
-    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=1, col=1)
-    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=1, col=2)
-    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=2, col=1)
-    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=2, col=2)
-    fig_memdiff_swarm3.update_yaxes(range=[-5, 100] , row=3, col=1)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 40] , row=1, col=1)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 40] , row=1, col=2)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 40] , row=2, col=1)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 40] , row=2, col=2)
+    fig_memdiff_swarm2.update_yaxes(range=[-5, 40] , row=3, col=1)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 40] , row=1, col=1)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 40] , row=1, col=2)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 40] , row=2, col=1)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 40] , row=2, col=2)
+    fig_memdiff_swarm3.update_yaxes(range=[-5, 40] , row=3, col=1)
 
     fig_memdiff_swarm2.update_traces(boxpoints='all', jitter=0.5)
     fig_memdiff_swarm2.show()
@@ -894,7 +894,7 @@ def process_datavis():
     df = data_frame
     # row_means = df.mean(axis=1)
     # Select only the numeric columns
-    df_removed = df.iloc[:, 4:]
+    # df_removed = df.iloc[:, 4:]
    # print(df_removed)
     # numeric_columns = df_removed.select_dtypes(include=['number', 'int', 'float'])
 
@@ -911,9 +911,10 @@ def process_datavis():
 
     # Add the row ranges as a new column to the DataFrame
     # df['RowRange'] = row_ranges
+    df["mean"] = df.iloc[:, 4:].mean(axis=1)
 
-    #l_new = ["Mean", "Range"]
-    #l.extend(l_new)
+    l_new = ["mean"]
+    l.extend(l_new)
     fig = go.Figure()
     fig.add_trace(
     go.Table(

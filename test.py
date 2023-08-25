@@ -908,6 +908,10 @@ def process_datavis():
     l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
     l.extend(col_names)
     df = data_frame
+    df["Mean"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].mean(axis=1)
+
+    l_new = ["Mean"]
+    l.extend(l_new)
     # row_means = df.mean(axis=1)
     # Select only the numeric columns
     df_removed = df.iloc[:, 4:]
