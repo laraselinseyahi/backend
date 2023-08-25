@@ -911,9 +911,9 @@ def process_datavis():
 
     # Add the row ranges as a new column to the DataFrame
     # df['RowRange'] = row_ranges
-    df["mean"] = df.iloc[:, 4:].mean(axis=1)
+    df["Mean"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].mean(axis=1)
 
-    l_new = ["mean"]
+    l_new = ["Mean"]
     l.extend(l_new)
     fig = go.Figure()
     fig.add_trace(
