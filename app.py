@@ -911,13 +911,13 @@ def process_datavis():
 
     # Add the row ranges as a new column to the DataFrame
     # df['RowRange'] = row_ranges
-    df["Mean"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].mean(axis=1)
+    df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
 
     list_min = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1)
     list_max = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].max(axis=1)
     df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
 
-    l_new = ["Mean", "Range"]
+    l_new = ["Median", "Range"]
 
     l.extend(l_new)
     fig = go.Figure()
@@ -925,14 +925,67 @@ def process_datavis():
     go.Table(
         header=dict(
             values=l,
-            font=dict(size=10),
+            font=dict(size=12),
+            line_color='darkslategray',
+            fill_color='lightskyblue',
             align="left"
         ),
         cells=dict(
             values=[df[k].tolist()[4:] for k in df.columns],
+            font=dict(size=10),
+            line_color='darkslategray',
+            fill_color='lightcyan',
             align = "left")
     )
     )
+
+    tbnk_vals = ({
+    'Cell Type':["CD4+ Post Temra","CD4+ FDP Temra", "CD4+ Post Tem", "CD4+ FDP Tem", "CD4+ Post Tcm", "CD4+ FDP Tcm", "CD4+ Post Tscm", "CD4+ FDP Tscm", "CD4+ Post Tn", "CD4+ FDP Tn", "CD8+ Post Temra", "CD8+ FDP Temra",
+            "CD8+ Post Tem", "CD8+ FDP Tem",
+            "CD8+ Post Tcm", "CD8+ FDP Tcm",
+            "CD8+ Post Tscm", "CD8+ FDP Tscm",
+            "CD8+ Post Tn", "CD8+ FDP Tn"]})
+    
+    for i in range(len(col_names)):
+        tbnk_vals[col_names[i]] = [CD4_Post_Temra[i], CD4_FDP_Temra[i], CD4_Post_Tem[i], CD4_FDP_Tem[i], CD4_Post_Tcm[i], CD4_FDP_Tcm[i], CD4_Post_Tscm[i], CD4_FDP_Tscm[i], CD4_Post_Tn[i], CD4_FDP_Tn[i], CD8_Post_Temra[i], CD8_FDP_Temra[i], CD8_Post_Tem[i], CD8_FDP_Tem[i], CD8_Post_Tcm[i], CD8_FDP_Tcm[i], CD8_Post_Tscm[i], CD8_FDP_Tscm[i], CD8_Post_Tn[i], CD8_FDP_Tn[i]]
+        print(tbnk_vals[col_names[i]])
+    df = pd.DataFrame(tbnk_vals)
+    print(df)
+    tbnk_table_titles = ["Cell Types"]
+    tbnk_table_titles.extend(col_names)
+    last = ["Median", "Range"]
+    tbnk_table_titles.extend(last)
+
+    df["Median"] = df.iloc[:, 1:].median(axis=1)
+    df["Median"] =  df["Median"].round(2)
+
+    list_min = (df.iloc[:, 1:].min(axis=1)).round(2)
+    list_max = (df.iloc[:, 1:].max(axis=1)).round(2)
+    df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
+
+    df["colors"] = ['aliceblue', 'aliceblue', 'antiquewhite', 'antiquewhite', 'aqua', 'aqua', 'aquamarine', 'aquamarine', 'azure', 'azure', 'blueviolet', 'blueviolet', 'cornflowerblue', 'cornflowerblue', 'cyan', 'cyan', 'floralwhite', 'floralwhite', 'fuchsia', 'fuchsia']
+    
+    for name in col_names:
+        df[name] = df[name].round(2)
+
+    fig_tbnk_table = go.Figure()
+    fig_tbnk_table.add_trace(
+    go.Table(
+        header=dict(
+            values=tbnk_table_titles,
+            font=dict(size=14),
+            align="left"
+        ),
+        cells=dict(
+            values=[df[k].tolist() for k in df.columns[0:-1]],
+            line_color=[df.colors], fill_color=[df.colors],
+            align = "left")
+    )
+    )
+    
+
+
+    
     
 
     with open('p_graph.html', 'w') as f:
@@ -953,6 +1006,10 @@ def process_datavis():
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
        # f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_tbnk_table.to_html(full_html=False, include_plotlyjs='cdn'))
+        
+        
+
 
     uri = pathlib.Path('p_graph.html').absolute().as_uri()
     webbrowser.open(uri)
