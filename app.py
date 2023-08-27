@@ -938,6 +938,12 @@ def process_datavis():
             align = "left")
     )
     )
+    fig.update_layout(
+    autosize=True,       # Automatically adjust the table size to fit the content
+   #width=1000,           # Set the width of the table (adjust as needed)
+    height=1500,          # Set the height of the table (adjust as needed)
+    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+)
 
     tbnk_vals = ({
     'Cell Type':["CD4+ Post Temra","CD4+ FDP Temra", "CD4+ Post Tem", "CD4+ FDP Tem", "CD4+ Post Tcm", "CD4+ FDP Tcm", "CD4+ Post Tscm", "CD4+ FDP Tscm", "CD4+ Post Tn", "CD4+ FDP Tn", "CD8+ Post Temra", "CD8+ FDP Temra",
@@ -985,7 +991,7 @@ def process_datavis():
     fig_tbnk_table.update_layout(
     autosize=True,       # Automatically adjust the table size to fit the content
    #width=1000,           # Set the width of the table (adjust as needed)
-    height=3000,          # Set the height of the table (adjust as needed)
+    height=1500,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
 )
     
@@ -1050,7 +1056,7 @@ def process_datavis():
     fig_table3.update_layout(
     autosize=True,       # Automatically adjust the table size to fit the content
    #width=1000,           # Set the width of the table (adjust as needed)
-    height=3000,          # Set the height of the table (adjust as needed)
+    height=1500,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
 )
     
