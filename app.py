@@ -12,6 +12,7 @@ import pathlib
 import webbrowser, os
 import random
 import colour
+import carrying_data as cd
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -24,8 +25,6 @@ def index():
 @app.route('/process-datavis', methods=['POST'])
 def process_datavis():
     global_sheet = request.files['fileInput']
-    # data_vis.visualization(global_sheet)
-   # return jsonify({'message': 'Data visualization processed successfully'})
     xls = pd.ExcelFile(global_sheet)
 
     # Read the Excel file into a dictionary of DataFrames
@@ -47,9 +46,7 @@ def process_datavis():
 
     col_names = names
 
-    # print(data_frame)
-    #row 10 is %CAR of final DP = CAR Transduction 
-    # print(data_frame['Measurement'])
+    #%CAR
     row_list = data_frame[data_frame['Unnamed: 1'] == 'CAR Transduction'].values[0].tolist()
     row_list = row_list[4:]
 
@@ -69,13 +66,10 @@ def process_datavis():
 
     pt_dose = (data_frame.loc[data_frame['Unnamed: 1'] == '%Target Dose'].values[0].tolist())[4:]
     
-
+    #std and mean calc
     multiplied_list = row_list
-    print(multiplied_list)
     y_mean = np.nanmean(multiplied_list)
-    print(y_mean)
     std = np.nanstd(multiplied_list)
-    print(std)
     two_plussd = y_mean + 2*std
     two_minussd = y_mean - 2*std
 
@@ -84,7 +78,6 @@ def process_datavis():
     fig.add_trace(go.Scatter(x=col_names, y=[two_plussd] * len(col_names), mode='lines', name='+2SD'))
     fig.add_trace(go.Scatter(x=col_names, y=[two_minussd] * len(col_names), mode='lines', name='-2SD'))
     fig.update_traces(marker_size=10)
-    #fig.show()
 
     purity_ = purity
     y_mean_purity = np.nanmean(purity_)
@@ -105,20 +98,18 @@ def process_datavis():
     two_plussd_via = y_mean_via + 2*std_via
     two_minussd_via = y_mean_via - 2*std_via
 
-    y_mean_dose = np.nanmean(dose)
-    std_dose = np.nanstd(dose)
-    two_plussd_dose = y_mean_dose + 2*std_dose
-    two_minussd_dose = y_mean_dose - 2*std_dose 
+    # y_mean_dose = np.nanmean(dose)
+    # std_dose = np.nanstd(dose)
+    # two_plussd_dose = y_mean_dose + 2*std_dose
+    # two_minussd_dose = y_mean_dose - 2*std_dose 
 
-    y_mean_dosept = np.nanmean(pt_dose)
-    std_dosept = np.nanstd(pt_dose)
-    two_plussd_dosept = y_mean_dose + 2*std_dose
-    two_minussd_dosept = y_mean_dose - 2*std_dose 
+    # y_mean_dosept = np.nanmean(pt_dose)
+    # std_dosept = np.nanstd(pt_dose)
+    # two_plussd_dosept = y_mean_dose + 2*std_dose
+    #two_minussd_dosept = y_mean_dose - 2*std_dose 
 
 
-    #Graph for %CAR+ D8 and D9
-    #row 5 is D8 CAR
-    #day 8 car will now pull from the in process data page
+    #Graph for %CAR+ D8 and D9 - Page 4 
     process = dfs['In Process Data Summary']
 
     row_list_2 = process.loc[process['Batch #'] == 'Harvest -1Day CAR%'].values[0].tolist()[1:]
@@ -131,10 +122,10 @@ def process_datavis():
         list_ = [multiplied_list_2[i], multiplied_list[i]]
         fig_2.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]))
     fig_2.update_layout(title={'text': "%CAR+ Cells (Day 8 and Day 9)",'font': {'size': 24,'color': 'blue'}, 'x': 0.5 })  # Set the title's x position to the center
-    #fig_2.show()
 
+    # mode = markers removes the connecting lines 
 
-    #mode = markers removes the connecting lines 
+    # Release Graphs - Page 1 
     fig_sub_1 = make_subplots(rows=2, cols=3, subplot_titles=("Identity and Potency (%CAR+ Cells)", "Purity (%CD3+ Cells)", "Safety (VCN)", "Strength (%Viable Cells)", "Strength (Dose)", "%Target Dose"))
     colors = ['blue', 'red', 'green', 'orange', 'purple']
     colors_bub = ['black', 'black']
@@ -162,18 +153,8 @@ def process_datavis():
     fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_minussd_via] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=1)
 
     fig_sub_1.append_trace(go.Scatter(x=col_names, y=dose, mode="markers", marker_color=colors_bub, showlegend=False), row=2, col=2)
-    #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[y_mean_dose] * len(col_names), mode='lines', name='Mean', marker_color=colors[0], showlegend=False), row=2, col=2)
-    #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_plussd_dose] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=2)
-    #fig_sub_1.append_trace(go.Scatter(x=col_names, y=[two_minussd_dose] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=2)
 
     fig_sub_1.append_trace(go.Bar(x=col_names, y=pt_dose, marker_color=colors_bub, showlegend=False), row=2, col=3)
-    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[y_mean_dosept] * len(col_names), mode='lines', name='Mean', marker_color=colors[0], showlegend=False), row=2, col=3)
-    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_plussd_dosept] * len(col_names), mode='lines', name='+2SD', marker_color=colors[1], showlegend=False), row=2, col=3)
-    # fig_sub_1.append_trace(go.Bar(x=col_names, y=[two_minussd_dosept] * len(col_names), mode='lines', name='-2SD', marker_color=colors[2], showlegend=False), row=2, col=3)
-
-    #for i in range(len(col_names)):
-    #    list_ = [multiplied_list_2[i], multiplied_list[i]]
-    #    fig_sub_1.append_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]), row=2, col=3)
 
     fig_sub_1.update_yaxes(title_text="%CAR+ Cells", range=[0, 100], row=1, col=1)
     fig_sub_1.update_yaxes(title_text="%CD3+ Cells", range=[75, 100] , row=1, col=2)
@@ -182,16 +163,16 @@ def process_datavis():
     fig_sub_1.update_yaxes(title_text="Actual Dose", range=[0, 1.5 * 10**8] , row=2, col=2)
     fig_sub_1.update_yaxes(title_text="Target Dose(%)", row=2, col=3)
 
-
-
     # fig_sub_1.update_traces(marker_size=10)
     fig_sub_1.update_layout(title={'text': "Release Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_sub_1.show()
+
 
 
     viability_aph = (process.loc[process['Batch #'] == 'Diluted Apheresis Viability (%)']).values[0].tolist()[1:]
     viability_aph = viability_aph
     fold_expansion = (process.loc[process['Batch #'] == 'Pre Harvest Fold Expansion']).values[0].tolist()[1:]
+    
+    #Draft Graph - not on current dashboard
     fig_sub_process_1 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Growth Over Process", "Cell Viability Over Process", "Apheresis %Viable Cells", "Fold Expansion Over Process"))
     fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=viability_aph, marker_color=colors_bub, showlegend=False), row=2, col=1)
     fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=fold_expansion,  marker_color=colors_bub, showlegend=False), row=2, col=2)
@@ -246,10 +227,7 @@ def process_datavis():
 
         fig_sub_process_1.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]), row = 1, col = 2)
 
-    #fig_sub_process_1.show()
-
-
-
+    # Process Performance Graphs - Page 2
     fig_sub_process_2 = make_subplots(rows=1, cols=2, subplot_titles=("Fold Expansion Over Process", "Cell Growth Over Process"))
     fig_sub_process_2.add_trace(go.Bar(name='', x=col_names, y=fold_expansion, showlegend=False), row=1, col=1)
     x_axis = ["0", "6", "7", "8", "9"]
@@ -269,10 +247,9 @@ def process_datavis():
     fig_sub_process_2.update_layout(title={'text': "Process Performance", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
 
 
-    #process performance y rnge 50-100
 
 
-
+    #In Process Cell Viability% Graphs - Page 3
     fig_sub_process_3 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Viability over Process", "Cell Viability (Aph. - d6)", "Cell Viability (Pre- and Post-Harvest, FDP)"))
     x_axis = ["0 (Aph)", "0 (Post)", "6", "7", "8", "9 (Pre)", "9 (Post)", "FDP"]
     colors2 = ["yellow", "orange", "red", "green", "blue", "goldenrod", "magenta", "blue", "purple", "pink", "grey", ]
@@ -308,9 +285,9 @@ def process_datavis():
         go.Bar(name='CD4+', x=col_names, y=CD4_),
         go.Bar(name='CD8+', x=col_names, y=CD8_)
     ])
-    # change bar mode
+    #barmode is important
     fig_3.update_layout(barmode='stack', title={'text': "%CD4+ and %CD8+ Cells (Post Enrichment)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_3.show()
+
 
     #Graph for %CD4+ and %CD8+ FDP Stacked Bar Plot
     CD4_FDP = (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD4+ T cells'].values[0].tolist())[1:] 
@@ -324,7 +301,6 @@ def process_datavis():
         go.Bar(name='CD8+', x=col_names, y=CD8_FDP_)
     ])
     fig_4.update_layout(barmode='stack', title={'text': "%CD4+ and %CD8+ Cells (FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_4.show()
 
 
     fig_sub_2 = make_subplots(rows=1, cols=2, subplot_titles=("%CD4+ and %CD8+ Cells (Post Enrichment)", "%CD4+ and %CD8+ Cells (FDP)"))
@@ -336,13 +312,6 @@ def process_datavis():
     fig_sub_2.add_trace(go.Bar(name='', x=col_names, y=CD8_FDP_, marker_color=colors[1], showlegend=False), row=1, col=2)
 
     fig_sub_2.update_layout(barmode='stack', title={'text': "%CD4+ and %CD8+ Cells", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_sub_2.show()
-
-
-
-
-
-
 
 
     #Graph for %CD4+ and %CD8+ FDP Stacked Bar Plot
@@ -381,8 +350,7 @@ def process_datavis():
     NKT_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - NKT cells']).values[0][1:] # 9
     T_Post = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - T cells']).values[0][1:] # 9
 
-
-
+    #TBNK swarm plot 1 - Page 7
     tbnk_swarm1 = make_subplots(rows=1, cols=3, subplot_titles=("Pre", "Post", "FDP" ))
 
     tbnk_swarm1.add_trace(go.Box(y=Bcells_Pre, name="B cells", showlegend=False), row=1, col=1)
@@ -418,7 +386,7 @@ def process_datavis():
     tbnk_swarm1.update_traces(boxpoints='all', jitter=0.5)
     tbnk_swarm1.show()
 
-
+    # TBNK Individual Swarm Plots - Page 8 
     tbnk_swarm2 = make_subplots(rows=3, cols=2, subplot_titles=("B Cells", "CD56CD16", "Monocyte", "NKT", "T cells"))
 
     tbnk_swarm2.add_trace(go.Box(y=Bcells_Pre, name="Pre", showlegend=False), row=1, col=1)
@@ -440,8 +408,6 @@ def process_datavis():
     tbnk_swarm2.add_trace(go.Box(y=T_Pre, name="Pre", showlegend=False), row=3, col=1)
     tbnk_swarm2.add_trace(go.Box(y=T_Post, name="Post", showlegend=False), row=3, col=1)
     tbnk_swarm2.add_trace(go.Box(y=T_fdp, name="FDP", showlegend=False), row=3, col=1)
-
-
 
     tbnk_swarm2.update_yaxes(range=[-5, 40] , row=1, col=1)
     tbnk_swarm2.update_yaxes(range=[-5, 40] , row=1, col=2)
@@ -500,6 +466,8 @@ def process_datavis():
         NKT.append(NKT_fdp[i])
 
     data = [B_cells, CD4, CD4CD8, CD56CD16, CD8, Eosinophil, Monocyte, Neutrophil, NKT]
+    
+    #TBNK Bar Graphs - Page 5 
     fig_tbnk = go.Figure()
 
     x_axis = list(chain.from_iterable(map(lambda x: [x, x], col_names)))
@@ -512,7 +480,7 @@ def process_datavis():
         fig_tbnk.add_bar(x=x,y=data[i],name=names[i])
 
     fig_tbnk.update_layout(barmode="relative", title={'text': "Leukocyte Purity (Apheresis and FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_tbnk.show()
+
 
     CD4_ = []
     for i in range(len(CD4_Pre)):
@@ -527,6 +495,8 @@ def process_datavis():
         CD8_.append(CD8_fdp[i])
 
     data = [CD4_, CD8_]
+
+    #TBNK Bar Graphs - Page 6 
     fig_tbnk_2 = go.Figure()
 
     x_axis = list(chain.from_iterable(map(lambda x: [x, x, x], col_names)))
@@ -539,12 +509,10 @@ def process_datavis():
         fig_tbnk_2.add_bar(x=x,y=data[i],name=names[i])
 
     fig_tbnk_2.update_layout(barmode="relative", title={'text': "%CD4+ and %CD8+ Cells (Aph., Post Enrichment, FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_tbnk_2.show()
 
 
-    #MemDiff CD8+ FDP
-    # BURDA KALDI
     MemDiff = dfs["Mem-Diff"]
+
     CD8_FDP_Tem = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tem'].values[0][1:]) # 17
     CD8_FDP_Temra = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Temra'].values[0][1:]) # 18
     CD8_FDP_Tcm = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tcm'].values[0][1:]) # 19
@@ -552,6 +520,7 @@ def process_datavis():
     CD8_FDP_Tn = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tn'].values[0][1:]) # 21
 
 
+    #fig5, fig6, fig8, fig9 are unused in the current dashboard 
     fig_5 = go.Figure(data=[
         go.Bar(name='Tem', x=col_names, y=CD8_FDP_Tem),
         go.Bar(name='Temra', x=col_names, y=CD8_FDP_Temra),
@@ -560,9 +529,7 @@ def process_datavis():
         go.Bar(name='Tn', x=col_names, y=CD8_FDP_Tn)
     ])
     fig_5.update_layout(barmode='stack', title={'text': "Memory Differentiation %CD8+ Cells (FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_5.show()
 
-    #MemDiff CD4+ FDP
     CD4_FDP_Tem = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tem'].values[0][1:])
     CD4_FDP_Temra = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Temra'].values[0][1:])
     CD4_FDP_Tcm = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD4+\Tcm'].values[0][1:])
@@ -578,9 +545,7 @@ def process_datavis():
         go.Bar(name='Tn', x=col_names, y=CD4_FDP_Tn)
     ])
     fig_6.update_layout(barmode='stack', title={'text': "Memory Differentiation %CD4+ Cells (FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_6.show()
 
-    #MemDiff CD4+ Post Enrichment
     CD4_Post_Tem = (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tem'].values[0][1:])
     CD4_Post_Temra = (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Temra'].values[0][1:])
     CD4_Post_Tcm = (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD4+\Tcm'].values[0][1:])
@@ -596,7 +561,7 @@ def process_datavis():
         go.Bar(name='Tn', x=col_names, y=CD4_Post_Tn)
     ])
     fig_7.update_layout(barmode='stack', title={'text': "Memory Differentiation %CD4+ Cells (Post Enrichment)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_7.show()
+
 
     #MemDiff CD8+ Post Enrichment
     CD8_Post_Tem = (MemDiff.loc[MemDiff['Batch #'] == 'Day 0 Post-Enrichment - CD3+\CD8+\Tem'].values[0][1:])
@@ -614,7 +579,7 @@ def process_datavis():
         go.Bar(name='Tn', x=col_names, y=CD8_Post_Tn)
     ])
     fig_8.update_layout(barmode='stack', title={'text': "Memory Differentiation %CD8+ Cells (Post Enrichment)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_8.show()
+
 
     fig_9 = make_subplots(rows=2, cols=2, subplot_titles=("Memory Differentiation %CD8+ Cells (FDP)", "Memory Differentiation %CD4+ Cells (FDP)", "Memory Differentiation %CD8+ Cells (Post Enrichment)", "Memory Differentiation %CD4+ Cells (Post Enrichment)"))
     colors = ['blue', 'red', 'green', 'orange', 'purple']
@@ -652,8 +617,8 @@ def process_datavis():
     #fig_9.show()
 
 
+    #memdiff swarm plots - Page 10
     fig_memdiff_swarm1 = make_subplots(rows=2, cols=2, subplot_titles=("%CD4+ Post", "%CD4+ FDP", "%CD8+ Post", "%CD8+ FDP" ))
-
 
     fig_memdiff_swarm1.add_trace(go.Box(y=CD4_Post_Tn, name="Tn", showlegend=False), row=1, col=1)
     fig_memdiff_swarm1.add_trace(go.Box(y=CD4_Post_Tscm, name="Tscm", showlegend=False), row=1, col=1)
@@ -687,7 +652,7 @@ def process_datavis():
     fig_memdiff_swarm1.update_traces(boxpoints='all', jitter=0.5)
     fig_memdiff_swarm1.show()
 
-
+    #memdiff swarm plots - Page 11, 12
     fig_memdiff_swarm2 = make_subplots(rows=3, cols=2, subplot_titles=("%CD4+ Tn", "%CD4+ Tscm", "%CD4+ Tcm", "%CD4+ Tem", "%CD4+ Temra"))
     fig_memdiff_swarm3 = make_subplots(rows=3, cols=2, subplot_titles=("%CD8+ Tn", "%CD8+ Tscm", "%CD8+ Tcm", "%CD8+ Tem", "%CD8+ Temra"))
 
@@ -740,6 +705,8 @@ def process_datavis():
     fig_memdiff_swarm3.update_traces(boxpoints='all', jitter=0.5)
     fig_memdiff_swarm3.show()
 
+
+    #MemDiff bar graphs - Page 9     
     fig_memdiff = make_subplots(rows=1, cols=2, subplot_titles=("%CD4+ Cells (Post-Enrichment & FDP)", "%CD8+ Cells (Post-Enrichment & FDP)"))
 
     x_axis = list(chain.from_iterable(map(lambda x: [x, x], col_names)))
@@ -799,26 +766,16 @@ def process_datavis():
     x = [x_axis,result_list]
     names = ['Tem', 'Temra', 'Tcm', 'Tscm', 'Tn']
 
-# don't pass
     data_CD4 = [Tem_CD4, Temra_CD4, Tcm_CD4, Tscm_CD4, Tn_CD4]
-    print(data_CD4)
     data_CD8 = [Tem_CD8, Temra_CD8, Tcm_CD8, Tscm_CD8, Tn_CD8]
-    print(data_CD8)
 
     colors = ['pink', 'purple', 'blue', 'violet', 'orange']
     for i in range(len(data_CD4)):
         fig_memdiff.add_trace(go.Bar(name=names[i], x=x, y=data_CD4[i], marker_color=colors[i]), row=1, col=1)
         fig_memdiff.add_trace(go.Bar(name='', x=x, y=data_CD8[i], marker_color=colors[i], showlegend=False), row=1, col=2)
-    # fig_memdiff.add_bar(x=x,y=data_CD4[i],name=names[i], color=colors[2]), row=1, col=1)
-    # fig_memdiff.add_bar(x=x,y=data_CD8[i],name="", showlegend=False, colors[i], row=1, col=2)
 
     fig_memdiff.update_layout(barmode="relative", title={'text': "Memory Differentiation (Post-Enrichment & FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    #, xaxis_tickangle=-45
-    
-    #fig_memdiff.show()
-
-
 
     cytokine = dfs["Cytokine"]
     CD19P_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:] 
@@ -847,6 +804,7 @@ def process_datavis():
         fig_cyto.add_trace(go.Bar(name=cytotoxicity_names[i], x=col_names, y=cytotoxicity_data[i]), row=1, col=2)
 
     # Change the bar mode
+    #Cytotox and Cytokine - Page 14 
     fig_cyto.update_layout(barmode='group', title={'text': "Characterization: Potency(IFNg and Cytotox)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     #fig_cyto.show()
 
@@ -892,25 +850,7 @@ def process_datavis():
     l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
     l.extend(col_names)
     df = data_frame
-    # row_means = df.mean(axis=1)
-    # Select only the numeric columns
-    # df_removed = df.iloc[:, 4:]
-   # print(df_removed)
-    # numeric_columns = df_removed.select_dtypes(include=['number', 'int', 'float'])
 
-    # Calculate the mean of each row for numeric columns
-    #row_means = numeric_columns.mean(axis=1)
-    #print(row_means)
-    # Add the row means as a new column to the DataFrame
-    # df['RowMean'] = row_means
-    # Select only the numeric columns
-    #numeric_columns = df.select_dtypes(include=['number'])
-
-    # Calculate the range of each row for numeric columns
-    #row_ranges = np.ptp(numeric_columns.values, axis=1)
-
-    # Add the row ranges as a new column to the DataFrame
-    # df['RowRange'] = row_ranges
     df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
 
     list_min = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1)
@@ -1083,15 +1023,12 @@ def process_datavis():
         f.write(fig_tbnk_table.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_table3.to_html(full_html=False, include_plotlyjs='cdn'))
         
-        
-
-
     uri = pathlib.Path('p_graph.html').absolute().as_uri()
     webbrowser.open(uri)
     return send_file('p_graph.html', as_attachment=True)
 
 
-# MemDIff 2nd row 
+
 @app.route('/process-files', methods=['POST'])
 def process_files():
     file1 = request.files['globalfile']
@@ -1099,162 +1036,9 @@ def process_files():
     name = request.form['username']
     xls_patient = pd.ExcelFile(file2)
     df_infosheet = pd.read_excel(xls_patient, "General Information") 
-    general_info = df_infosheet['Value:'].tolist()[1:]
-    df = pd.read_excel(xls_patient, "Characterization Data", header=[0,1]) 
-    #combines the first 2 rows into column titles
-    df.columns = ['.'.join(col).strip() for col in df.columns.values]
-    
-    TBNK_Day0_Pre = df.iloc[0:11, 1]
-    TBNK_Day0_Post = df.iloc[0:11, 2]
-    TBNK_Day9_Final = df.iloc[0:11, 3]
-    TBNK_Day0_Pre = TBNK_Day0_Pre.to_list()
-    TBNK_Day0_Post = TBNK_Day0_Post.to_list()
-    TBNK_Day9_Final = TBNK_Day9_Final.to_list()
-    TBNK_ratios = df.iloc[11, 1:4].to_list()
-    TBNK_col = general_info + TBNK_Day0_Pre + TBNK_Day0_Post + TBNK_Day9_Final + TBNK_ratios
-
-    MemDiff_Day0Post = (df.iloc[0:14, 5]).to_list()
-    MemDiff_Day9Final = (df.iloc[0:14, 7]).to_list()
-    MemDiff_col = general_info + MemDiff_Day0Post + MemDiff_Day9Final 
-
-    exhaustion_day9 = general_info + (df.iloc[0:9, 9]).to_list()
-
-    cytotox = general_info + (df.iloc[0:6, 11]).to_list() 
-
-    cytokine = general_info + (df.iloc[0:4, 13]).to_list()
- 
-
-
-    # cell_count = general_info + (df.iloc[0:1, 14]).to_list() + (df.iloc[0:1, 15]).to_list() + (df.iloc[0:1, 16]).to_list() + (df.iloc[0:1, 17]).to_list() + (df.iloc[0:1, 18]).to_list() 
-
     excel_file = pd.ExcelFile(file1)
     dfs = {sheet_name: excel_file.parse(sheet_name) for sheet_name in excel_file.sheet_names}
-
-
-    df_TBNK = dfs["TBNK"]
-    df_TBNK[name] = TBNK_col 
-
-    df_TBNK = dfs["Mem-Diff"]
-    df_TBNK[name] = MemDiff_col 
-
-    df_TBNK = dfs["Exhaustion"]
-    df_TBNK[name] = exhaustion_day9 
-
-    df_TBNK = dfs["Cytotox"]
-    df_TBNK[name] = cytotox
-
-    df_TBNK = dfs["Cytokine"]
-    df_TBNK[name] = cytokine
-
-    # df_TBNK = dfs["Cell Growth plot"] 
-    # df_TBNK[name] = cell_count 
-
-    # data date tracking carry 
-    df_1 = pd.read_excel(xls_patient, "Date Tracking") 
-    date_data_df = dfs['Data Date Tracking']
-
-    start = df_1["TAT to Start Method"].tolist()
-    complete = df_1["TAT to Complete Method"].tolist()
-    qa = (df_1["TAT For QA review"].tolist())[0:11]
-    results = df_1["TAT to Receive Results"].tolist()
-    list = start + complete + qa + results
-    date_data_df[name] = list
-
-    #release data
-    df_1 = pd.read_excel(xls_patient, "QC Release Data") 
-    release = df_1['Result'].tolist()
-    release_data = general_info + [None] + release
-    date_data_df = dfs['QC Release Results Summary']
-    date_data_df[name] = release_data
-
-    #in_process data
-    input = []
-    process = pd.read_excel(xls_patient, "In Process Data") 
-    ip = process['In Process Features'].tolist()
-    sub_id = ip.index('Subject ID')
-    don_id = ip.index('Donation ID')
-    cell_num = ip.index('# of cells collected during apheresis')
-    d0_title = ip.index('D0 Incoming Apheresis')
-    aph_vol = ip.index('Thawed Apheresis Volume (mL)')
-    aph_inc_vol = ip.index('Diluted Incoming Apheresis Volume (mL)')
-    aph_vcc = ip.index('Diluted Apheresis VCC')
-    aph_via = ip.index('Diluted Apheresis Viability (%)')
-    aph_tvc = ip.index('Total Viable Cells Thawed Apheresis')
-    aph_rec = ip.index('% Recovery of Cells Post Thaw Leukopak')
-    aph_remv = ip.index('Remaining Apheresis Volume')
-
-    column = process['Values'].tolist()
-    input = general_info + [column[sub_id], column[don_id], column[cell_num], column[d0_title], column[aph_vol], column[aph_inc_vol], column[aph_vcc], column[aph_via], column[aph_tvc], column[aph_rec], column[aph_remv]]
-    d0_post_title = ip.index('D0 Post Enrichment of T cells')
-    post_vol = ip.index('Post Enrichment Total Volume')
-    aph_inc_vol = ip.index('Diluted Incoming Apheresis Volume (mL)')
-    post_vcc = ip.index('Post Enrichment Average VCC (actual)')
-    post_via = ip.index('Post Enrichment Average Viability (%)')
-    post_tvc = ip.index('Post Enrichment Total Viable Cells (actual)')
-    post_csv = ip.index('Cell Seeding Volume (mL)')
-    actnum_cell = ip.index('Actual Cell Number for Culture')
-    post_reccells = ip.index('% Recovery of Cells Post Enrichment')
-    post_cell_prodigy = ip.index('% Post Enriched Cells Used to Seed Prodigy')
-
-    input2 = [column[d0_post_title], column[post_vcc], column[post_via], column[post_vol], column[post_tvc], column[post_reccells], column[post_cell_prodigy], column[post_csv], column[actnum_cell]]
-    d1_lvv = ip.index('D1 LVV Transduction')
-    lvv_vol = ip.index('LVV Volume Calculated (mL)')
-    d6_title = ip.index('D6 CCV')
-    d6_vcc = ip.index('Day 6 VCC')
-    d6_via = ip.index('Day 6 Viability (%)')
-    d6_tv = ip.index('Day 6 Total Volume (mL)')
-    d6_tvc = ip.index('Day 6 Total Viable Cells')
-    d6_fold = ip.index('Day 6 Fold Expansion')
-    d7_title = ip.index('D7 CCV')
-    d7_vcc = ip.index('Day 7 VCC')
-    d7_via = ip.index('Day 7 Viability (%)')
-    d7_tv = ip.index('Day 7 Total Volume (mL)')
-    d7_tvc = ip.index('Day 7 Total Viable Cells')
-    d7_fold = ip.index('Day 7 Fold Expansion')
-    dm1h_title = ip.index('Harvest -1D CCV and CAR')
-    dm1h_vcc = ip.index('Harvest -1Day VCC')
-    dm1h_via = ip.index('Harvest -1Day Viability (%)')
-    dm1h_tv = ip.index('Harvest -1Day Total Volume (mL)')
-    dm1h_tvc = ip.index('Harvest -1Day Total Viable Cells')
-    dm1h_fold = ip.index('Harvest -1Day Fold Expansion')
-    dm1h_car = ip.index('Harvest -1Day CAR (%)')
-    preharv_title = ip.index('Pre Harvest')
-    preharv_vcc = ip.index('Pre Harvest VCC')
-    preharv_via = ip.index('Pre Harvest Viability (%)')
-    preharv_tv = ip.index('Pre Harvest Total Volume (mL)')
-    preharv_tvc = ip.index('Pre Harvest Total Viable Cells')
-    preharv_fold = ip.index('Pre Harvest Fold Expansion')
-
-    input3 = [column[d1_lvv], column[lvv_vol], column[d6_title], column[d6_vcc], column[d6_via], column[d6_tv], column[d6_tvc], column[d6_fold], column[d7_title], column[d7_vcc], column[d7_via], column[d7_tv], column[d7_tvc], column[d7_fold]]
-    input4 = [column[dm1h_title], column[dm1h_vcc], column[dm1h_via], column[dm1h_tv], column[dm1h_tvc], column[dm1h_fold], column[dm1h_car], column[preharv_title], column[preharv_vcc], column[preharv_via], column[preharv_tv], column[preharv_tvc], column[preharv_fold]]
-
-    postharv_title = ip.index('Post Harvest, Formulation')
-    postharv_vcc = ip.index('Post Harvest Average VCC (actual)')
-    postharv_via = ip.index('Post Harveset Average Viability (%)')
-    postharv_chv = ip.index('Cell Harvest Volume (mL)')
-    postharv_tvc = ip.index('Total Viable Cells Harvested (actual)')
-    postharv_cardose = ip.index('Total Viable CAR+ per Dose')
-    postharv_vccdose = ip.index('VCC Required for Dose')
-    postharv_doserecorded = ip.index('Total Viable Cells per Dose (recorded)')
-    postharv_fpv = ip.index('Final Product Volume (mL)')
-    postharv_fold = ip.index('Post Harvest Fold Expansion')
-    postharv_reccells = ip.index('% Recovery of Cells Harvested')
-    cyro_bag1 = ip.index('Final Product Bag 1 Volume (mL)')
-    cyro_bag2 = ip.index('Final Product Bag 2 Volume (mL)')
-    cyro_vials = ip.index('Number of 1 mL Vials Retain Filled')
-    cyro_bags = ip.index('Number of Dose Bags Transferred to CRF')
-    cyro_vials_crf = ip.index('Number of 1 Vials Transferred to CRF')
-
-    input5 = [column[postharv_title], column[postharv_vcc], column[postharv_via], column[postharv_chv], column[postharv_tvc], column[postharv_fold], column[postharv_reccells], column[postharv_cardose], column[postharv_doserecorded], column[postharv_vccdose], column[postharv_fpv], column[cyro_bag1], column[cyro_bag2], None, column[cyro_vials], column[cyro_bags], column[cyro_vials_crf]]
-    input.extend(input2)
-    input.extend(input3)
-    input.extend(input4)
-    input.extend(input5)
-
-
-    df_ip = dfs["In Process Data Summary"]
-    df_ip[name] = input 
-
+    cd.carry_data(df_infosheet, xls_patient, dfs, name)
     output_file = "modified_global.xlsx"
     with pd.ExcelWriter(output_file) as writer:
         for sheet_name, df in dfs.items():
