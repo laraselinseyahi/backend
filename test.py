@@ -917,40 +917,23 @@ def process_datavis():
         fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
     fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
+    l = ["Attribute", "Measurement", "Acceptance Criteria"]
     l.extend(col_names)
     df = data_frame
-    df["Mean"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].mean(axis=1)
+    df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
+   # df["Median"] = df["Median"].apply(lambda col: [round(val, 2) if not np.isnan(val) else val for val in col])
+   # df["Median"] = df["Median"].apply(lambda val: round(val, 2) if not np.isnan(val) else val)
 
-    list_min = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1)
-    list_max = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].max(axis=1)
+    list_min = (df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1))
+    list_max = (df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].max(axis=1))
     df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
 
-
-    l_new = ["Mean", "Range"]
+    df_new = df.iloc[[6, 7, 8, 10, 11, 12, 13, 14, 17], :]
+    df = df_new 
+    df = df.drop(columns=['Unnamed: 2'])
+    l_new = ["Median", "Range"]
     l.extend(l_new)
-    # row_means = df.mean(axis=1)
-    # Select only the numeric columns
-    df_removed = df.iloc[:, 4:]
-   # print(df_removed)
-   # numeric_columns = df_removed.select_dtypes(include=['number', 'int', 'float'])
-
-    # Calculate the mean of each row for numeric columns
-   # row_means = numeric_columns.mean(axis=1)
-  #  print(row_means)
-    # Add the row means as a new column to the DataFrame
-    # df['RowMean'] = row_means
-    # Select only the numeric columns
-    #numeric_columns = df.select_dtypes(include=['number'])
-
-    # Calculate the range of each row for numeric columns
-   # row_ranges = np.ptp(numeric_columns.values, axis=1)
-
-    # Add the row ranges as a new column to the DataFrame
-    # df['RowRange'] = row_ranges
-
-    #l_new = ["Mean", "Range"]
-    #l.extend(l_new)
+    print(df)
     fig = go.Figure()
     fig.add_trace(
     go.Table(
@@ -960,11 +943,11 @@ def process_datavis():
             align="left"
         ),
         cells=dict(
-            values=[df[k].tolist()[4:] for k in df.columns],
+            values=[df[k].tolist() for k in df.columns],
             align = "left")
     )
     )
-
+    fig.show()
     df_2 = TBNK
     print(df_2)
     print(df)
@@ -1014,6 +997,78 @@ def process_datavis():
     )
     
     fig.show()
+
+    CD4CD8Ratio_Pre = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio Pre-Enrichment']).values[0][1:] # 13
+    CD4CD8Ratio_Post = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio Post-Enrichment']).values[0][1:] # 16
+    CD4CD8Ratio_fdp = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio DP']).values[0][1:] # 16
+
+    table_vals = ({
+    'Cell Type':["CD4+ T Cells Aph","CD4+ T Cells Post", "CD4+ T Cells FP", 
+                 "CD4+CD8+ T Cells Aph","CD4+CD8+ T Cells Post", "CD4+CD8+ T Cells FP",
+                 "CD8+ T Cells Aph","CD8+ T Cells Post", "CD8+ T Cells FP",
+                 "NKT Cells Aph","NKT Cells Post", "NKT Cells FP",
+                 "B Cells Aph","B Cells Post", "B Cells FP",
+                 "Eosinophils Aph","Eosinophils Post", "Eosinophils FP",
+                 "Monocytes Aph","Monocytes Post", "Monocytes FP",
+                 "Neutrophils Aph","Neutrophils Post", "Neutrophils FP",
+                 "CD56+CD16+ cells Aph","CD56+CD16+ cells Post", "CD56+CD16+ cells FP",
+                 "CD4/CD8 Ratio Aph","CD4/CD8 Ratio Post", "CD4/CD8 Ratio FP", 
+                 ]})
+    
+    for i in range(len(col_names)):
+        table_vals[col_names[i]] = [CD4_Pre[i], CD4_Post[i], CD4_fdp[i], CD4CD8_Pre[i], CD4CD8_Post[i], CD4CD8_fdp[i], CD8_Pre[i], CD8_Post[i], CD8_fdp[i], NKT_Pre[i], NKT_Post[i], NKT_fdp[i], Bcells_Pre[i], Bcells_Post[i], Bcells_fdp[i], Eosinophil_Pre[i], Eosinophil_Post[i], Eosinophil_fdp[i], Monocyte_Pre[i], Monocyte_Post[i], Monocyte_fdp[i], Neutrophil_Pre[i], Neutrophil_Post[i], Neutrophil_fdp[i], CD56CD16_Pre[i], CD56CD16_Post[i], CD56CD16_fdp[i], CD4CD8Ratio_Pre[i], CD4CD8Ratio_Post[i], CD4CD8Ratio_fdp[i]]
+        print(tbnk_vals[col_names[i]])
+
+    df = pd.DataFrame(table_vals)
+    print(df)
+    table_titles = ["Cell Types"]
+    table_titles.extend(col_names)
+    last = ["Median", "Range"]
+    table_titles.extend(last)
+
+    df["Median"] = df.iloc[:, 1:].median(axis=1)
+    df["Median"] =  df["Median"].round(2)
+
+    list_min = (df.iloc[:, 1:].min(axis=1)).round(2)
+    list_max = (df.iloc[:, 1:].max(axis=1)).round(2)
+    df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
+
+    df["colors"] = ['aliceblue', 'aliceblue', 'aliceblue', 'antiquewhite', 'antiquewhite', 'antiquewhite', 'aqua', 'aqua',  'aqua', 'aquamarine', 'aquamarine', 'aquamarine', 'azure', 'azure', 'azure', 'pink', 'pink', 'pink',  'cornflowerblue', 'cornflowerblue', 'cornflowerblue', 'cyan', 'cyan', 'cyan', 'floralwhite', 'floralwhite', 'floralwhite', 'fuchsia', 'lightpink', 'lightpink']
+    
+    for name in col_names:
+        df[name] = df[name].round(2)
+
+    fig = go.Figure()
+    fig.add_trace(
+    go.Table(
+        header=dict(
+            values=table_titles,
+            font=dict(size=14),
+            align="left"
+        ),
+        cells=dict(
+            values=[df[k].tolist() for k in df.columns[0:-1]],
+            line_color=[df.colors], fill_color=[df.colors],
+            align = "left")
+    )
+    )
+
+    fig.update_layout(
+    autosize=True,       # Automatically adjust the table size to fit the content
+   #width=1000,           # Set the width of the table (adjust as needed)
+    height=3000,          # Set the height of the table (adjust as needed)
+    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+)
+
+    
+    fig.show()
+
+    
+
+
+
+
+
     
 
 

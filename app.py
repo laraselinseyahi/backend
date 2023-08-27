@@ -963,7 +963,7 @@ def process_datavis():
     list_max = (df.iloc[:, 1:].max(axis=1)).round(2)
     df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
 
-    df["colors"] = ['aliceblue', 'aliceblue', 'antiquewhite', 'antiquewhite', 'aqua', 'aqua', 'aquamarine', 'aquamarine', 'azure', 'azure', 'blueviolet', 'blueviolet', 'cornflowerblue', 'cornflowerblue', 'cyan', 'cyan', 'floralwhite', 'floralwhite', 'fuchsia', 'fuchsia']
+    df["colors"] = ['aliceblue', 'aliceblue', 'antiquewhite', 'antiquewhite', 'aqua', 'aqua', 'aquamarine', 'aquamarine', 'azure', 'azure', 'aliceblue', 'aliceblue', 'antiquewhite', 'antiquewhite', 'aqua', 'aqua', 'aquamarine', 'aquamarine', 'azure', 'azure']
     
     for name in col_names:
         df[name] = df[name].round(2)
@@ -982,9 +982,77 @@ def process_datavis():
             align = "left")
     )
     )
+    fig_tbnk_table.update_layout(
+    autosize=True,       # Automatically adjust the table size to fit the content
+   #width=1000,           # Set the width of the table (adjust as needed)
+    height=3000,          # Set the height of the table (adjust as needed)
+    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+)
     
 
 
+    CD4CD8Ratio_Pre = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio Pre-Enrichment']).values[0][1:] # 13
+    CD4CD8Ratio_Post = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio Post-Enrichment']).values[0][1:] # 16
+    CD4CD8Ratio_fdp = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio DP']).values[0][1:] # 16
+
+    table_vals = ({
+    'Cell Type':["CD4+ T Cells Aph","CD4+ T Cells Post", "CD4+ T Cells FP", 
+                 "CD4+CD8+ T Cells Aph","CD4+CD8+ T Cells Post", "CD4+CD8+ T Cells FP",
+                 "CD8+ T Cells Aph","CD8+ T Cells Post", "CD8+ T Cells FP",
+                 "NKT Cells Aph","NKT Cells Post", "NKT Cells FP",
+                 "B Cells Aph","B Cells Post", "B Cells FP",
+                 "Eosinophils Aph","Eosinophils Post", "Eosinophils FP",
+                 "Monocytes Aph","Monocytes Post", "Monocytes FP",
+                 "Neutrophils Aph","Neutrophils Post", "Neutrophils FP",
+                 "CD56+CD16+ cells Aph","CD56+CD16+ cells Post", "CD56+CD16+ cells FP",
+                 "CD4/CD8 Ratio Aph","CD4/CD8 Ratio Post", "CD4/CD8 Ratio FP", 
+                 ]})
+    
+    for i in range(len(col_names)):
+        table_vals[col_names[i]] = [CD4_Pre[i], CD4_Post[i], CD4_fdp[i], CD4CD8_Pre[i], CD4CD8_Post[i], CD4CD8_fdp[i], CD8_Pre[i], CD8_Post[i], CD8_fdp[i], NKT_Pre[i], NKT_Post[i], NKT_fdp[i], Bcells_Pre[i], Bcells_Post[i], Bcells_fdp[i], Eosinophil_Pre[i], Eosinophil_Post[i], Eosinophil_fdp[i], Monocyte_Pre[i], Monocyte_Post[i], Monocyte_fdp[i], Neutrophil_Pre[i], Neutrophil_Post[i], Neutrophil_fdp[i], CD56CD16_Pre[i], CD56CD16_Post[i], CD56CD16_fdp[i], CD4CD8Ratio_Pre[i], CD4CD8Ratio_Post[i], CD4CD8Ratio_fdp[i]]
+        print(tbnk_vals[col_names[i]])
+
+    df = pd.DataFrame(table_vals)
+    print(df)
+    table_titles = ["Cell Types"]
+    table_titles.extend(col_names)
+    last = ["Median", "Range"]
+    table_titles.extend(last)
+
+    df["Median"] = df.iloc[:, 1:].median(axis=1)
+    df["Median"] =  df["Median"].round(2)
+
+    list_min = (df.iloc[:, 1:].min(axis=1)).round(2)
+    list_max = (df.iloc[:, 1:].max(axis=1)).round(2)
+    df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
+
+    df["colors"] = ['aliceblue', 'aliceblue', 'aliceblue', 'antiquewhite', 'antiquewhite', 'antiquewhite', 'aqua', 'aqua',  'aqua', 'aquamarine', 'aquamarine', 'aquamarine', 'azure', 'azure', 'azure', 'lightpink', 'lightpink', 'lightpink',  'cornflowerblue', 'cornflowerblue', 'cornflowerblue', 'cyan', 'cyan', 'cyan', 'floralwhite', 'floralwhite', 'floralwhite', 'pink', 'pink', 'pink']
+    
+    for name in col_names:
+        df[name] = df[name].round(2)
+
+    fig_table3 = go.Figure()
+    fig_table3.add_trace(
+    go.Table(
+        header=dict(
+            values=table_titles,
+            font=dict(size=14),
+            align="left"
+        ),
+        cells=dict(
+            values=[df[k].tolist() for k in df.columns[0:-1]],
+            line_color=[df.colors], fill_color=[df.colors],
+            align = "left")
+    )
+    )
+
+
+    fig_table3.update_layout(
+    autosize=True,       # Automatically adjust the table size to fit the content
+   #width=1000,           # Set the width of the table (adjust as needed)
+    height=3000,          # Set the height of the table (adjust as needed)
+    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+)
     
     
 
@@ -1007,6 +1075,7 @@ def process_datavis():
        # f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk_table.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_table3.to_html(full_html=False, include_plotlyjs='cdn'))
         
         
 
