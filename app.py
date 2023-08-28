@@ -340,6 +340,7 @@ def process_datavis():
     fig_memdiff.update_layout(barmode="relative", title={'text': "Memory Differentiation (Post-Enrichment & FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
     """ 
+    colors = ['blue', 'red', 'green', 'orange', 'purple']
 
     memdiff_graphs = mdiff.memdiff(dfs, col_names)
     fig_memdiff = memdiff_graphs[0]

@@ -10,6 +10,7 @@ import pathlib
 import webbrowser, os
 import tbnk_graphs as tbnk
 import global_graphs_1 as gg
+import memdiff_graphs as mdiff
 
 import math
 
@@ -545,6 +546,8 @@ def process_datavis():
 
     #MemDiff CD8+ FDP
     # BURDA KALDI
+
+    """
     MemDiff = dfs["Mem-Diff"]
     CD8_FDP_Tem = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tem'].values[0][1:]) # 17
     CD8_FDP_Temra = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Temra'].values[0][1:]) # 18
@@ -861,7 +864,14 @@ def process_datavis():
     
     #fig_memdiff.show()
 
+    """
+    colors = ['blue', 'red', 'green', 'orange', 'purple']
 
+    memdiff_graphs = mdiff.memdiff(dfs, col_names)
+    fig_memdiff = memdiff_graphs[0]
+    fig_memdiff_swarm1 = memdiff_graphs[1]
+    fig_memdiff_swarm2 = memdiff_graphs[2]
+    fig_memdiff_swarm3 = memdiff_graphs[3]
 
     cytokine = dfs["Cytokine"]
     CD19P_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:] 
