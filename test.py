@@ -8,6 +8,7 @@ import pathlib, webbrowser
 from itertools import chain
 import pathlib
 import webbrowser, os
+import global_graphs as gg
 
 import math
 
@@ -1116,7 +1117,8 @@ def process_datavis():
 
     
 
-
+    fig_sub_1 = gg.release_graphs(dfs, col_names)
+    fig_2 = gg.day8_day9_graph(dfs, col_names)
     
 
     with open('p_graph.html', 'w') as f:
