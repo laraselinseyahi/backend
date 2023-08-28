@@ -871,8 +871,6 @@ def process_datavis():
     l.extend(col_names)
     df = data_frame
 
-    for name in col_names:
-        df[name] = df[name].round(2)
 
     df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
 
@@ -904,7 +902,7 @@ def process_datavis():
     )
     fig.update_layout(
     autosize=True,       # Automatically adjust the table size to fit the content
-   #width=1000,           # Set the width of the table (adjust as needed)
+    width=1000,           # Set the width of the table (adjust as needed)
     height=900,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
 )
