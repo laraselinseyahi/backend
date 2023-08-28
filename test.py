@@ -878,6 +878,27 @@ def process_datavis():
     fig_cyto.update_layout(barmode='group', title={'text': "Characterization: Potency(IFNg and Cytotox)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     #fig_cyto.show()
 
+        #memdiff swarm plots - Page 10
+    fig_cytokine_swarm1 = make_subplots(rows=1, cols=2, subplot_titles=("Cytokine", "Cytotoxicity" ))
+
+    fig_cytokine_swarm1.add_trace(go.Box(y=CD19P_5_1, name="CD19+ 5:1", showlegend=False), row=1, col=1)
+    fig_cytokine_swarm1.add_trace(go.Box(y=CD19P_10_1, name="CD19+ 10:1", showlegend=False), row=1, col=1)
+    fig_cytokine_swarm1.add_trace(go.Box(y=CD19M_5_1, name="CD19- 5:1", showlegend=False), row=1, col=1)
+    fig_cytokine_swarm1.add_trace(go.Box(y=CD19M_10_1, name="CD19- 10:1", showlegend=False), row=1, col=1)
+
+
+    fig_cytokine_swarm1.add_trace(go.Box(y=one_to_one, name="1:1", showlegend=False), row=1, col=2)
+    fig_cytokine_swarm1.add_trace(go.Box(y=five_to_one, name="5:1", showlegend=False), row=1, col=2)
+    fig_cytokine_swarm1.add_trace(go.Box(y=ten_to_one, name="10:1", showlegend=False), row=1, col=2)
+
+
+    fig_cytokine_swarm1.update_yaxes(range=[0, 100] , row=1, col=1)
+    fig_cytokine_swarm1.update_yaxes(range=[0, 100] , row=1, col=2)
+
+
+    fig_cytokine_swarm1.update_traces(boxpoints='all', jitter=0.5)
+    fig_cytokine_swarm1.show()
+
     df_1 = dfs["Data Date Tracking"]
     patient_names = df_1.columns[1:].tolist()
     release_assays = []
