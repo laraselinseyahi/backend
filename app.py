@@ -75,7 +75,6 @@ def process_datavis():
     fig_sub_process_2 = ip.ip_graphs_1(dfs, col_names)
     fig_sub_process_3 = ip.ip_graphs_2(dfs, col_names)
 
-    """
     #Graph for %CD4+ and %CD8+ Post Enrichment Stacked Bar Plot
     TBNK = dfs["TBNK"] 
     CD4 = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells'].values[0].tolist())[1:]
@@ -311,13 +310,13 @@ def process_datavis():
         fig_tbnk_2.add_bar(x=x,y=data[i],name=names[i])
 
     fig_tbnk_2.update_layout(barmode="relative", title={'text': "%CD4+ and %CD8+ Cells (Aph., Post Enrichment, FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    """
 
-    tbnk_graphs_all = tbnk.tbnk_graphs_4(dfs, col_names)
-    fig_tbnk = tbnk_graphs_all[0]
-    fig_tbnk_2 = tbnk_graphs_all[1]
-    tbnk_swarm1 = tbnk_graphs_all[2]
-    tbnk_swarm2 = tbnk_graphs_all[3]
+
+   # tbnk_graphs_all = tbnk.tbnk_graphs_4(dfs, col_names)
+   # fig_tbnk = tbnk_graphs_all[0]
+   # fig_tbnk_2 = tbnk_graphs_all[1]
+   # tbnk_swarm1 = tbnk_graphs_all[2]
+   # tbnk_swarm2 = tbnk_graphs_all[3]
 
 
 
