@@ -122,7 +122,7 @@ def process_datavis():
     fig_2.update_layout(title={'text': "%CAR+ Cells (Day 8 and Day 9)",'font': {'size': 24,'color': 'blue'}, 'x': 0.5 })  # Set the title's x position to the center
     #fig_2.show()
 
-
+    print(data_frame)
     #mode = markers removes the connecting lines 
     fig_sub_1 = make_subplots(rows=2, cols=3, subplot_titles=("Identity and Potency (%CAR+ Cells)", "Purity (%CD3+ Cells)", "Safety (VCN)", "Strength (%Viable Cells)", "Strength (Dose)"))
     colors = ['blue', 'red', 'green', 'orange', 'purple']

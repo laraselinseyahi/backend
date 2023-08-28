@@ -872,7 +872,9 @@ def process_datavis():
     l.extend(col_names)
     df = data_frame
 
-    for name in col_names:
+    names_v2 = list(data_frame.columns.values.tolist())
+    names_v2 = names_v2[4:]
+    for name in names_v2:
         df[name] = df[name].round(2)
 
 
