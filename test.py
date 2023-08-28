@@ -987,8 +987,8 @@ def process_datavis():
     )
     fig.update_layout(
     autosize=True,       # Automatically adjust the table size to fit the content
-   # width=1000,           # Set the width of the table (adjust as needed)
-    height=900,          # Set the height of the table (adjust as needed)
+    width=1500,           # Set the width of the table (adjust as needed)
+    height=1000,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
     )
     fig.show()

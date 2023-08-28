@@ -813,7 +813,7 @@ def process_datavis():
     fig_cyto.update_layout(barmode='group', title={'text': "Characterization: Potency(IFNg and Cytotox)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     #fig_cyto.show()
 
-    """"
+    
     fig_cytokine_swarm1 = make_subplots(rows=1, cols=2, subplot_titles=("Cytokine", "Cytotoxicity" ))
 
     fig_cytokine_swarm1.add_trace(go.Box(y=CD19P_5_1, name="CD19+ 5:1", showlegend=False), row=1, col=1)
@@ -833,7 +833,7 @@ def process_datavis():
 
     fig_cytokine_swarm1.update_traces(boxpoints='all', jitter=0.5)
     fig_cytokine_swarm1.show()
-    """
+    
     df_1 = dfs["Data Date Tracking"]
     patient_names = df_1.columns[1:].tolist()
     release_assays = []
@@ -913,8 +913,8 @@ def process_datavis():
     )
     fig.update_layout(
     autosize=True,       # Automatically adjust the table size to fit the content
-   # width=1000,           # Set the width of the table (adjust as needed)
-    height=900,          # Set the height of the table (adjust as needed)
+    width=1500,           # Set the width of the table (adjust as needed)
+    height=1000,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
 )
 
@@ -1051,7 +1051,7 @@ def process_datavis():
         f.write(fig_memdiff_swarm2.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff_swarm3.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
-        # f.write(fig_cytokine_swarm1.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_cytokine_swarm1.to_html(full_html=False, include_plotlyjs='cdn'))
        # f.write(fig_date.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk_table.to_html(full_html=False, include_plotlyjs='cdn'))
