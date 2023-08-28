@@ -79,3 +79,11 @@ def ip_graphs_2(dfs, col_names):
     fig_sub_process_3.update_yaxes(range=[85, 100] , row=2, col=1)
 
     return fig_sub_process_3
+
+
+# Draft Graph - not on current dashboard
+# fig_sub_process_1 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Growth Over Process", "Cell Viability Over Process", "Apheresis %Viable Cells", "Fold Expansion Over Process"))
+# fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=viability_aph, marker_color=colors_bub, showlegend=False), row=2, col=1)
+# fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=fold_expansion,  marker_color=colors_bub, showlegend=False), row=2, col=2)
+# fig_sub_process_1.update_layout(title={'text': "IP Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+
