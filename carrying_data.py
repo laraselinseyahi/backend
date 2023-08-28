@@ -1,4 +1,3 @@
-    
 import pandas as pd
 
 def carry_data(df_infosheet, xls_patient, dfs, name):  

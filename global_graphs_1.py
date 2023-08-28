@@ -36,12 +36,6 @@ def release_graphs(dfs, col_names):
     two_plussd = y_mean + 2*std
     two_minussd = y_mean - 2*std
 
-   # fig = px.scatter(y=multiplied_list, x=col_names, range_y = [0,100], labels={'y':'%CAR+ Cells'}, title="Identity and Potency (%CAR+ Cells)")
-   # fig.add_trace(go.Scatter(x=col_names, y=[y_mean] * len(col_names), mode='lines', name='Mean'))
-   # fig.add_trace(go.Scatter(x=col_names, y=[two_plussd] * len(col_names), mode='lines', name='+2SD'))
-   # fig.add_trace(go.Scatter(x=col_names, y=[two_minussd] * len(col_names), mode='lines', name='-2SD'))
-   # fig.update_traces(marker_size=10)
-
     purity_ = purity
     y_mean_purity = np.nanmean(purity_)
     std_p = np.nanstd(purity_)
