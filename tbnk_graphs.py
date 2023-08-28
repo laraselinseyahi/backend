@@ -7,6 +7,47 @@ from itertools import chain
 
 
 def tbnk_graphs_4(dfs, col_names):
+
+    TBNK = dfs["TBNK"] 
+    CD4 = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells'].values[0].tolist())[1:]
+    CD8 = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD8+ T cells'].values[0].tolist())[1:]
+    CD4_ = CD4
+    CD8_ = CD8
+
+    fig_3 = go.Figure(data=[
+        go.Bar(name='CD4+', x=col_names, y=CD4_),
+        go.Bar(name='CD8+', x=col_names, y=CD8_)
+    ])
+    #barmode is important
+    fig_3.update_layout(barmode='stack', title={'text': "%CD4+ and %CD8+ Cells (Post Enrichment)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+
+
+    #Graph for %CD4+ and %CD8+ FDP Stacked Bar Plot
+    CD4_FDP = (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD4+ T cells'].values[0].tolist())[1:] 
+    CD8_FDP = (TBNK.loc[TBNK['Batch #'] == 'Final Product - CD8+ T cells'].values[0].tolist())[1:] 
+    CD4_FDP_ = CD4_FDP
+    CD8_FDP_  = CD8_FDP
+
+
+    fig_4 = go.Figure(data=[
+        go.Bar(name='CD4+', x=col_names, y=CD4_FDP_),
+        go.Bar(name='CD8+', x=col_names, y=CD8_FDP_)
+    ])
+    fig_4.update_layout(barmode='stack', title={'text': "%CD4+ and %CD8+ Cells (FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+
+
+    fig_sub_2 = make_subplots(rows=1, cols=2, subplot_titles=("%CD4+ and %CD8+ Cells (Post Enrichment)", "%CD4+ and %CD8+ Cells (FDP)"))
+    colors = ['blue', 'red', 'green', 'orange', 'purple']
+
+    fig_sub_2.add_trace(go.Bar(name='CD4+', x=col_names, y=CD4_, marker_color=colors[0]), row=1, col=1)
+    fig_sub_2.add_trace(go.Bar(name='CD8+', x=col_names, y=CD8_, marker_color=colors[1]), row=1, col=1)
+    fig_sub_2.add_trace(go.Bar(name='', x=col_names, y=CD4_FDP_, marker_color=colors[0], showlegend=False), row=1, col=2)
+    fig_sub_2.add_trace(go.Bar(name='', x=col_names, y=CD8_FDP_, marker_color=colors[1], showlegend=False), row=1, col=2)
+
+    fig_sub_2.update_layout(barmode='stack', title={'text': "%CD4+ and %CD8+ Cells", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+
+    
+    #burdan
     
     TBNK = dfs["TBNK"]
  
