@@ -11,7 +11,10 @@ import webbrowser, os
 
 import math
 
-
+def round_numerical_values(value, digits):
+    if isinstance(value, (int, float)):
+        return round(value, digits)
+    return value
 
 def process_datavis():
     xls = pd.ExcelFile('/Users/laraseyahi/desktop/Patients 1-5 Global.xlsx')
@@ -938,37 +941,58 @@ def process_datavis():
         fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
     fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    l = ["Attribute", "Measurement", "Acceptance Criteria"]
+    l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
     l.extend(col_names)
     df = data_frame
-    df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
-   # df["Median"] = df["Median"].apply(lambda col: [round(val, 2) if not np.isnan(val) else val for val in col])
-   # df["Median"] = df["Median"].apply(lambda val: round(val, 2) if not np.isnan(val) else val)
 
-    list_min = (df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1))
-    list_max = (df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].max(axis=1))
+    names_v2 = list(data_frame.columns.values.tolist())
+    print(names_v2)
+    names_v2 = names_v2[4:]
+    print(names_v2)
+    for name in names_v2:
+        print(df[name])
+        # df[name].iloc[6,7,8,9,10,11,12,13,14,17] = df[name].iloc[6,7,8,9,10,11,12,13,14,17].round(2)
+        df[name] = df[name].apply(round_numerical_values, digits=2)
+
+
+    # df = np.round(df, decimals = 2)
+
+    df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
+
+    list_min = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1)
+    list_max = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].max(axis=1)
     df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
 
-    df_new = df.iloc[[6, 7, 8, 10, 11, 12, 13, 14, 17], :]
-    df = df_new 
-    df = df.drop(columns=['Unnamed: 2'])
     l_new = ["Median", "Range"]
+
+
     l.extend(l_new)
-    print(df)
     fig = go.Figure()
     fig.add_trace(
     go.Table(
         header=dict(
             values=l,
-            font=dict(size=10),
+            font=dict(size=12),
+            line_color='darkslategray',
+            fill_color='lightskyblue',
             align="left"
         ),
         cells=dict(
-            values=[df[k].tolist() for k in df.columns],
+            values=[df[k].tolist()[4:] for k in df.columns],
+            font=dict(size=10),
+            line_color='darkslategray',
+            fill_color='lightcyan',
             align = "left")
     )
     )
+    fig.update_layout(
+    autosize=True,       # Automatically adjust the table size to fit the content
+   # width=1000,           # Set the width of the table (adjust as needed)
+    height=900,          # Set the height of the table (adjust as needed)
+    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+    )
     fig.show()
+
     df_2 = TBNK
     print(df_2)
     print(df)

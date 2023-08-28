@@ -18,6 +18,11 @@ import carrying_data as cd
 app = Flask(__name__, static_url_path='/static')
 CORS(app)
 
+def round_numerical_values(value, digits):
+    if isinstance(value, (int, float)):
+        return round(value, digits)
+    return value
+
 @app.route('/')
 def index():
     return jsonify({'message': 'Hello from the backend!'})
@@ -875,7 +880,7 @@ def process_datavis():
     names_v2 = list(data_frame.columns.values.tolist())
     names_v2 = names_v2[4:]
     for name in names_v2:
-        df[name] = df[name].round(2)
+        df[name] = df[name].apply(round_numerical_values, digits=2)
 
 
     df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
