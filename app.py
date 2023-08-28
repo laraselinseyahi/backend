@@ -827,7 +827,7 @@ def process_datavis():
     fig_cytokine_swarm1.add_trace(go.Box(y=ten_to_one, name="10:1", showlegend=False), row=1, col=2)
 
 
-    fig_cytokine_swarm1.update_yaxes(range=[0, 100] , row=1, col=1)
+    fig_cytokine_swarm1.update_yaxes(range=[0, 20000] , row=1, col=1)
     fig_cytokine_swarm1.update_yaxes(range=[0, 100] , row=1, col=2)
 
 
@@ -915,7 +915,7 @@ def process_datavis():
     autosize=True,       # Automatically adjust the table size to fit the content
     width=1500,           # Set the width of the table (adjust as needed)
     height=1000,          # Set the height of the table (adjust as needed)
-    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+    margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
 )
 
     tbnk_vals = ({
