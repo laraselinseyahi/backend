@@ -1,4 +1,10 @@
 import pandas as pd
+import pandas as pd
+import plotly.express as px
+import numpy as np
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+from itertools import chain
 
 def carry_data(df_infosheet, xls_patient, dfs, name):  
     general_info = df_infosheet['Value:'].tolist()[1:]

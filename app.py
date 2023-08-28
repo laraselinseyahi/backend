@@ -106,66 +106,12 @@ def process_datavis():
     fig_memdiff_swarm2 = memdiff_graphs[2]
     fig_memdiff_swarm3 = memdiff_graphs[3]
 
-    """
-    cytokine = dfs["Cytokine"]
-    CD19P_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:] 
-    CD19P_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
-    CD19M_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19-) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
-    CD19M_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19-) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
-
-    cytotox = dfs["Cytotox"]
-    one_to_one = (cytotox.loc[cytotox['Batch #'] == '1:1 (CD19+) E:T'].values[0][1:])
-    five_to_one = (cytotox.loc[cytotox['Batch #'] == '5:1 (CD19+) E:T'].values[0][1:])
-    ten_to_one = (cytotox.loc[cytotox['Batch #'] == '10:1 (CD19+) E:T'].values[0][1:])
-
-
-    cytotoxicity_data = [one_to_one, five_to_one, ten_to_one]
-    cytokine_data = [CD19P_5_1, CD19P_10_1, CD19M_5_1, CD19M_10_1]
-
-    cytotoxicity_names = ["1:1 (CD19+)", "5:1 (CD19+)", "10:1 (CD19+)"]
-    cytokine_names = ["5:1 (CD19+)", "10:1 (CD19+)", "5:1 (CD19-)", "10:1 (CD19-)"]
-
-    fig_cyto = make_subplots(rows=1, cols=2, subplot_titles=("IFNg Secretion (E:T Ratio)", "Cytotoxicity(E:T Ratio)"))
-
-    for i in range(len(cytokine_data)):
-        fig_cyto.add_trace(go.Bar(name=cytokine_names[i], x=col_names, y=cytokine_data[i]), row=1, col=1)
-
-    for i in range(len(cytotoxicity_data)):
-        fig_cyto.add_trace(go.Bar(name=cytotoxicity_names[i], x=col_names, y=cytotoxicity_data[i]), row=1, col=2)
-
-    # Change the bar mode
-    #Cytotox and Cytokine - Page 14 
-    fig_cyto.update_layout(barmode='group', title={'text': "Characterization: Potency(IFNg and Cytotox)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    #fig_cyto.show()
-
-    
-    fig_cytokine_swarm1 = make_subplots(rows=1, cols=2, subplot_titles=("Cytokine", "Cytotoxicity" ))
-
-    fig_cytokine_swarm1.add_trace(go.Box(y=CD19P_5_1, name="CD19+ 5:1", showlegend=False), row=1, col=1)
-    fig_cytokine_swarm1.add_trace(go.Box(y=CD19P_10_1, name="CD19+ 10:1", showlegend=False), row=1, col=1)
-    fig_cytokine_swarm1.add_trace(go.Box(y=CD19M_5_1, name="CD19- 5:1", showlegend=False), row=1, col=1)
-    fig_cytokine_swarm1.add_trace(go.Box(y=CD19M_10_1, name="CD19- 10:1", showlegend=False), row=1, col=1)
-
-
-    fig_cytokine_swarm1.add_trace(go.Box(y=one_to_one, name="1:1", showlegend=False), row=1, col=2)
-    fig_cytokine_swarm1.add_trace(go.Box(y=five_to_one, name="5:1", showlegend=False), row=1, col=2)
-    fig_cytokine_swarm1.add_trace(go.Box(y=ten_to_one, name="10:1", showlegend=False), row=1, col=2)
-
-
-    fig_cytokine_swarm1.update_yaxes(range=[0, 20000] , row=1, col=1)
-    fig_cytokine_swarm1.update_yaxes(range=[0, 100] , row=1, col=2)
-
-
-    fig_cytokine_swarm1.update_traces(boxpoints='all', jitter=0.5)
-    fig_cytokine_swarm1.show()
-    
-    """
 
     fig_cyto = cc.cytotox_cytokine(dfs, col_names)[0]
     fig_cytokine_swarm1 = cc.cytotox_cytokine(dfs, col_names)[1]
 
 
-
+    """
     df_1 = dfs["Data Date Tracking"]
     patient_names = df_1.columns[1:].tolist()
     release_assays = []
@@ -204,7 +150,8 @@ def process_datavis():
         fig_date.add_trace(go.Bar(y=y_2, x=complete_method_2, name='TAT to Complete Method', orientation='h', marker_color=colors[1], showlegend=False), row=2, col=(i+1))
         fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
     fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    
+    """
+
     l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
     l.extend(col_names)
     df = data_frame
