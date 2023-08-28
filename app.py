@@ -18,16 +18,14 @@ import global_graphs_2 as ip
 import tbnk_graphs as tbnk
 import memdiff_graphs as mdiff
 import cytotox_cytokine_graphs as cc
+import tables as t
 
 
 
 app = Flask(__name__, static_url_path='/static')
 CORS(app)
 
-def round_numerical_values(value, digits):
-    if isinstance(value, (int, float)):
-        return round(value, digits)
-    return value
+
 
 @app.route('/')
 def index():
@@ -74,6 +72,7 @@ def process_datavis():
     tbnk_swarm1 = tbnk_graphs_all[2]
     tbnk_swarm2 = tbnk_graphs_all[3]
 
+  
     MemDiff = dfs["Mem-Diff"]
 
     CD8_FDP_Tem = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tem'].values[0][1:]) # 17
@@ -110,48 +109,7 @@ def process_datavis():
     fig_cyto = cc.cytotox_cytokine(dfs, col_names)[0]
     fig_cytokine_swarm1 = cc.cytotox_cytokine(dfs, col_names)[1]
 
-
     """
-    df_1 = dfs["Data Date Tracking"]
-    patient_names = df_1.columns[1:].tolist()
-    release_assays = []
-    char_assays = []
-    for name in patient_names:
-        new_1 = name + ' Release'
-        release_assays.append(new_1)
-        new_2 = name + ' Char'
-        char_assays.append(new_2)
-    titles = release_assays + char_assays
-    col_count = len(df_1.columns) - 1
-    y_1 = ['Mycoplasma', 'CAR Expression', 'Identity', 'Cell Count', 'Viability', 'Endotoxin', 'VCN', 'Appearance/Color', 'BacT', 'RCL', 'Sanger Sequence']
-    y_2 = ['TBNK (DO Pre)', 'VCN', 'TBNK (D0 Post)', 'Mem/Diff (D0)', 'TBNK (D9)', 'Mem/Diff (D9)', 'Exhaustion', 'Cytotox', 'Cytokine']
-    colors = ['blue', 'red', 'pink', 'purple']
-    fig_date = make_subplots(rows=2, cols=col_count, subplot_titles=(titles))
-    for i in range(len(patient_names)):
-        col = df_1[patient_names[i]]
-        start_method_1 = col[0:11]
-        complete_method_1 = col[20:31]
-        qa_review = col[40:51]
-        receive_res_1 = col[51:62]
-        start_method_2 = col[11:20]
-        complete_method_2 = col[31:40]
-        receive_res_2 = col[62:]
-        if i == 0:
-            fig_date.add_trace(go.Bar(y=y_1, x=start_method_1, name='TAT to Start Method', orientation='h', marker_color=colors[0]), row=1, col=(i+1))
-            fig_date.add_trace(go.Bar(y=y_1, x=complete_method_1, name='TAT to Complete Method', orientation='h', marker_color=colors[1]), row=1, col=(i+1))
-            fig_date.add_trace(go.Bar(y=y_1, x=qa_review, name='TAT For QA review', orientation='h', marker_color=colors[3]), row=1, col=(i+1))
-            fig_date.add_trace(go.Bar(y=y_1, x=receive_res_1, name='TAT to Receive Results', orientation='h', marker_color=colors[2]), row=1, col=(i+1))
-        else:
-            fig_date.add_trace(go.Bar(y=y_1, x=start_method_1, name='TAT to Start Method', orientation='h', marker_color=colors[0], showlegend=False), row=1, col=(i+1))
-            fig_date.add_trace(go.Bar(y=y_1, x=complete_method_1, name='TAT to Complete Method', orientation='h', marker_color=colors[1], showlegend=False), row=1, col=(i+1))
-            fig_date.add_trace(go.Bar(y=y_1, x=qa_review, name='TAT For QA review', orientation='h', marker_color=colors[3], showlegend=False), row=1, col=(i+1))
-            fig_date.add_trace(go.Bar(y=y_1, x=receive_res_1, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=1, col=(i+1))
-        fig_date.add_trace(go.Bar(y=y_2, x=start_method_2, name='TAT to Start Method', orientation='h', marker_color=colors[0], showlegend=False), row=2, col=(i+1))
-        fig_date.add_trace(go.Bar(y=y_2, x=complete_method_2, name='TAT to Complete Method', orientation='h', marker_color=colors[1], showlegend=False), row=2, col=(i+1))
-        fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
-    fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-    """
-
     l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
     l.extend(col_names)
     df = data_frame
@@ -346,7 +304,10 @@ def process_datavis():
     height=1000,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
 )
-    
+    """
+    fig = t.table(dfs, col_names)[0]
+    fig_tbnk_table = t.table(dfs, col_names)[1]
+    fig_table3 = t.table(dfs, col_names)[2]
     
 
     with open('p_graph.html', 'w') as f:
