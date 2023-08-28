@@ -8,7 +8,8 @@ import pathlib, webbrowser
 from itertools import chain
 import pathlib
 import webbrowser, os
-import global_graphs as gg
+import tbnk_graphs as tbnk
+import global_graphs_1 as gg
 
 import math
 
@@ -408,7 +409,7 @@ def process_datavis():
     tbnk_swarm1.update_yaxes(range=[-5, 100] , row=1, col=3)
 
     tbnk_swarm1.update_traces(boxpoints='all', jitter=0.5)
-    tbnk_swarm1.show()
+    # tbnk_swarm1.show()
 
 
     tbnk_swarm2 = make_subplots(rows=3, cols=2, subplot_titles=("B Cells", "CD56CD16", "Monocyte", "NKT", "T cells"))
@@ -442,7 +443,7 @@ def process_datavis():
     tbnk_swarm2.update_yaxes(range=[-5, 100] , row=3, col=2)
 
     tbnk_swarm2.update_traces(boxpoints='all', jitter=0.5)
-    tbnk_swarm2.show()
+    # tbnk_swarm2.show()
 
     B_cells = []
     for i in range(len(Bcells_Pre)):
@@ -531,6 +532,16 @@ def process_datavis():
     fig_tbnk_2.update_layout(barmode="relative", title={'text': "%CD4+ and %CD8+ Cells (Aph., Post Enrichment, FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     #fig_tbnk_2.show()
 
+    tbnk_graphs_all = tbnk.tbnk_graphs_4(dfs, col_names)
+    fig_tbnk = tbnk_graphs_all[0]
+    fig_tbnk_2 = tbnk_graphs_all[1]
+    tbnk_swarm1 = tbnk_graphs_all[2]
+    tbnk_swarm2 = tbnk_graphs_all[3]
+
+    fig_tbnk_2.show()
+    fig_tbnk.show()
+    tbnk_swarm1.show()
+    tbnk_swarm2.show()
 
     #MemDiff CD8+ FDP
     # BURDA KALDI
