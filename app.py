@@ -305,9 +305,9 @@ def process_datavis():
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
 )
     """
-    fig = t.table(dfs, col_names)[0]
-    fig_tbnk_table = t.table(dfs, col_names)[1]
-    fig_table3 = t.table(dfs, col_names)[2]
+    fig = t.table(dfs, col_names, xls)[0]
+    fig_tbnk_table = t.table(dfs, col_names, xls)[1]
+    fig_table3 = t.table(dfs, col_names, xls)[2]
     
 
     with open('p_graph.html', 'w') as f:

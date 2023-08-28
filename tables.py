@@ -12,7 +12,7 @@ def round_numerical_values(value, digits):
     return value
 
 
-def table(dfs, col_names):
+def table(dfs, col_names, xls):
     MemDiff = dfs["Mem-Diff"]
 
     CD8_FDP_Tem = (MemDiff.loc[MemDiff['Batch #'] == 'Final Product - CD3+\CAR+\CD8+\Tem'].values[0][1:]) # 17
@@ -78,7 +78,12 @@ def table(dfs, col_names):
     CD4CD8Ratio_Post = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio Post-Enrichment']).values[0][1:] # 16
     CD4CD8Ratio_fdp = (TBNK.loc[TBNK['Batch #'] == 'CD4:CD8 Ratio DP']).values[0][1:] # 16
     
+
+    # Read the Excel file into a dictionary of DataFrames
+    dfs = {sheet_name: xls.parse(sheet_name) for sheet_name in xls.sheet_names}
     data_frame = dfs["QC Release Results Summary"]
+    print("son yer")
+    print(data_frame)
 
     l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
     l.extend(col_names)
@@ -123,7 +128,7 @@ def table(dfs, col_names):
     width=1450,           # Set the width of the table (adjust as needed)
     height=1000,          # Set the height of the table (adjust as needed)
    # margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
-)
+    )
 
     tbnk_vals = ({
     'Cell Type':["CD4+ Post Temra","CD4+ FDP Temra", "CD4+ Post Tem", "CD4+ FDP Tem", "CD4+ Post Tcm", "CD4+ FDP Tcm", "CD4+ Post Tscm", "CD4+ FDP Tscm", "CD4+ Post Tn", "CD4+ FDP Tn", "CD8+ Post Temra", "CD8+ FDP Temra",
@@ -233,6 +238,6 @@ def table(dfs, col_names):
    #width=1000,           # Set the width of the table (adjust as needed)
     height=1000,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
-)
+    )
     return fig, fig_tbnk_table, fig_table3
     

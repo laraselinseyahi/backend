@@ -11,6 +11,7 @@ import webbrowser, os
 import tbnk_graphs as tbnk
 import global_graphs_1 as gg
 import memdiff_graphs as mdiff
+import tables as t 
 
 import math
 
@@ -986,6 +987,8 @@ def process_datavis():
         fig_date.add_trace(go.Bar(y=y_2, x=receive_res_2, name='TAT to Receive Results', orientation='h', marker_color=colors[2], showlegend=False), row=2, col=(i+1))
     fig_date.update_layout(barmode='stack', title={'text': "Data Date Tracking", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
+
+    """
     l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
     l.extend(col_names)
     df = data_frame
@@ -1152,17 +1155,27 @@ def process_datavis():
 
     
     fig.show()
+    """
 
-    
-
-
-
-
-
-    
 
     fig_sub_1 = gg.release_graphs(dfs, col_names)
     fig_2 = gg.day8_day9_graph(dfs, col_names)
+
+
+    fig = t.table(dfs, col_names, xls)[0]
+    fig_tbnk_table = t.table(dfs, col_names, xls)[1]
+    fig_table3 = t.table(dfs, col_names, xls)[2]
+
+    fig.show() 
+    fig_tbnk_table.show()
+    fig_table3.show()
+    
+
+
+
+
+
+    
     
 
     with open('p_graph.html', 'w') as f:
