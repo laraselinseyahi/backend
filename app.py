@@ -15,6 +15,8 @@ import colour
 import carrying_data as cd
 import global_graphs_1 as gg
 import global_graphs_2 as ip
+import tbnk_graphs as tbnk
+
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -60,111 +62,20 @@ def process_datavis():
     colors_bub += colors_add
     colors_bub = ['red'] * (len(col_names))
 
-    process = dfs['In Process Data Summary']
-    viability_aph = (process.loc[process['Batch #'] == 'Diluted Apheresis Viability (%)']).values[0].tolist()[1:]
-    viability_aph = viability_aph
-    fold_expansion = (process.loc[process['Batch #'] == 'Pre Harvest Fold Expansion']).values[0].tolist()[1:]
-    
+
+ 
     
     # Draft Graph - not on current dashboard
-    fig_sub_process_1 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Growth Over Process", "Cell Viability Over Process", "Apheresis %Viable Cells", "Fold Expansion Over Process"))
-    fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=viability_aph, marker_color=colors_bub, showlegend=False), row=2, col=1)
-    fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=fold_expansion,  marker_color=colors_bub, showlegend=False), row=2, col=2)
-    fig_sub_process_1.update_layout(title={'text': "IP Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+ #   fig_sub_process_1 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Growth Over Process", "Cell Viability Over Process", "Apheresis %Viable Cells", "Fold Expansion Over Process"))
+ #  fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=viability_aph, marker_color=colors_bub, showlegend=False), row=2, col=1)
+ #  fig_sub_process_1.add_trace(go.Bar(name='', x=col_names, y=fold_expansion,  marker_color=colors_bub, showlegend=False), row=2, col=2)
+ #   fig_sub_process_1.update_layout(title={'text': "IP Data", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
 
-    """
-    cell_growth_0_r = process.loc[process['Batch #'] == 'Actual Cell Number for Culture'].values[0].tolist()[1:]
-    print(cell_growth_0_r)
-    cell_growth_6_r = process.loc[process['Batch #'] == 'Day 6 Total viable cells'].values[0].tolist()[1:]
-    print(cell_growth_6_r)
-    cell_growth_7_r = process.loc[process['Batch #'] == 'Day 7 Total Viable cells'].values[0].tolist()[1:] #if NA skip
-    print(cell_growth_7_r)
-    cell_growth_8_r = process.loc[process['Batch #'] == 'Harvest -1Day Total Viable Cells'].values[0].tolist()[1:] # cell growth harvest -1
-    cell_growth_9_r = process.loc[process['Batch #'] == 'Pre Harvest Total Viable Cells'].values[0].tolist()[1:] # cell growth harvest 
-    print(cell_growth_8_r)
-    print(cell_growth_9_r)
-    x_axis = ["0", "6", "7", "H - 1", "H"]
-    for i in range(len(col_names)):
-        list_ = [cell_growth_0_r[i], cell_growth_6_r[i], cell_growth_7_r[i], cell_growth_8_r[i], cell_growth_9_r[i]]
-        fig_sub_process_1.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]), row = 1, col = 1)
-    """
-
-    """
-    cell_via_0_aph = viability_aph
-    cell_via_0_post = (process.loc[process['Batch #'] == 'Post Enrichment Average Viability (%)'].values[0].tolist())[1:] # viability % 
-    cell_via_0_post = cell_via_0_post
-    cell_growth_6 = (process.loc[process['Batch #'] == 'Day 6 Viability (%)'].values[0].tolist())[1:] # Day 6 viability
-    cell_growth_6 = cell_growth_6
-    cell_growth_7 = (process.loc[process['Batch #'] == 'Day 7 Viability (%)'].values[0].tolist())[1:] # Day 7 viability 
-    cell_growth_7 = cell_growth_7
-    cell_growth_8 = (process.loc[process['Batch #'] == 'Harvest -1Day Viability (%)'].values[0].tolist())[1:] # Day 8 viability 
-    cell_growth_8 = cell_growth_8
-    cell_growth_9_pre = (process.loc[process['Batch #'] == 'Pre Harvest Viability (%)'].values[0].tolist())[1:] # Day 9 Pre-harvest viability
-    cell_growth_9_pre = cell_growth_9_pre
-    cell_growth_9_post = (process.loc[process['Batch #'] == 'Post Harvest Average Viability (%)'].values[0].tolist())[1:]  # Day 9 Post-harvest viability
-    cell_growth_9_post = cell_growth_9_post
-    cell_growth_fdp = (data_frame.loc[data_frame['Unnamed: 1'] == 'Viability'].values[0].tolist())[4:] # % Viability 
-    cell_growth_fdp = cell_growth_fdp
-
-    x_axis = ["0 (Aph)", "0 (Post)", "6", "7", "8", "9 (Pre)", "9 (Post)", "FDP"]
-    for i in range(len(col_names)):
-        list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i]]
-        if pd.isna(cell_growth_7[i]):
-            list_.extend([cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]])
-        else:
-            list_.extend([cell_growth_7[i], cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]])
-
-        fig_sub_process_1.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]), row = 1, col = 2)
-    """
-
-    # Process Performance Graphs - Page 2
-  #  fig_sub_process_2 = make_subplots(rows=1, cols=2, subplot_titles=("Fold Expansion Over Process", "Cell Growth Over Process"))
- #   fig_sub_process_2.add_trace(go.Bar(name='', x=col_names, y=fold_expansion, showlegend=False), row=1, col=1)
-  #  x_axis = ["0", "6", "7", "8", "9"]
-  #  for i in range(len(col_names)):
-  #      list_ = [cell_growth_0_r[i], cell_growth_6_r[i]] 
-  #      if pd.isna(cell_growth_7[i]):
-  #          list_.extend([cell_growth_8_r[i], cell_growth_9_r[i]])
-  #      else:
-   #         list_.extend([cell_growth_7_r[i], cell_growth_8_r[i], cell_growth_9_r[i]])
-   #     fig_sub_process_2.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i]), row = 1, col = 2)
-
-  #  fig_sub_process_2.update_layout(title={'text': "Process Performance", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-
-
-
-
-    #In Process Cell Viability% Graphs - Page 3
-
-    """
-    fig_sub_process_3 = make_subplots(rows=2, cols=2, subplot_titles=("Cell Viability over Process", "Cell Viability (Aph. - d6)", "Cell Viability (Pre- and Post-Harvest, FDP)"))
-    x_axis = ["0 (Aph)", "0 (Post)", "6", "7", "8", "9 (Pre)", "9 (Post)", "FDP"]
-    colors2 = ["yellow", "orange", "red", "green", "blue", "goldenrod", "magenta", "blue", "purple", "pink", "grey", ]
-    for i in range(len(col_names)):
-        list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i]]
-        if pd.isna(cell_growth_7[i]):
-            list_.extend([cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]])
-        else:
-            list_.extend([cell_growth_7[i], cell_growth_8[i], cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]])
-        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i]), row = 1, col = 1)
-    x_axis = ["0 (Aph)", "0 (Post)", "6"]
-    for i in range(len(col_names)):
-        list_ = [cell_via_0_aph[i], cell_via_0_post[i], cell_growth_6[i]]
-        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i], showlegend=False), row = 1, col = 2)
-    x_axis = [ "9 (Pre)", "9 (Post)", "FDP"]
-    for i in range(len(col_names)):
-        list_ = [cell_growth_9_pre[i], cell_growth_9_post[i], cell_growth_fdp[i]]
-        fig_sub_process_3.add_trace(go.Scatter(x=x_axis, y=list_, name=col_names[i], marker_color=colors2[i], showlegend=False), row = 2, col = 1)
-    fig_sub_process_3.update_layout(title={'text': "Process Performance", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
-
-    fig_sub_process_3.update_yaxes(range=[50, 100] , row=1, col=1)
-    fig_sub_process_3.update_yaxes(range=[50, 100] , row=1, col=2)
-    fig_sub_process_3.update_yaxes(range=[85, 100] , row=2, col=1)
-    """
 
     fig_sub_process_2 = ip.ip_graphs_1(dfs, col_names)
     fig_sub_process_3 = ip.ip_graphs_2(dfs, col_names)
-    
+
+    """
     #Graph for %CD4+ and %CD8+ Post Enrichment Stacked Bar Plot
     TBNK = dfs["TBNK"] 
     CD4 = (TBNK.loc[TBNK['Batch #'] == 'Day 0 Post-Enrichment - CD4+ T cells'].values[0].tolist())[1:]
@@ -400,6 +311,15 @@ def process_datavis():
         fig_tbnk_2.add_bar(x=x,y=data[i],name=names[i])
 
     fig_tbnk_2.update_layout(barmode="relative", title={'text': "%CD4+ and %CD8+ Cells (Aph., Post Enrichment, FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
+    """
+
+    tbnk_graphs_all = tbnk.tbnk_graphs_4(dfs, col_names)
+    fig_tbnk = tbnk_graphs_all[0]
+    fig_tbnk_2 = tbnk_graphs_all[1]
+    tbnk_swarm1 = tbnk_graphs_all[2]
+    tbnk_swarm2 = tbnk_graphs_all[3]
+
+
 
 
     MemDiff = dfs["Mem-Diff"]

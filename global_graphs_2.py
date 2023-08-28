@@ -4,9 +4,8 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+# Process Performance Graphs - Page 2
 def ip_graphs_1(dfs, col_names):
-    # Process Performance Graphs - Page 2
-
     process = dfs['In Process Data Summary']
     fold_expansion = (process.loc[process['Batch #'] == 'Pre Harvest Fold Expansion']).values[0].tolist()[1:]
     
@@ -33,12 +32,11 @@ def ip_graphs_1(dfs, col_names):
     fig_sub_process_2.update_layout(title={'text': "Process Performance", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     return fig_sub_process_2
 
+# Process Performance Graphs - Page 3
 def ip_graphs_2(dfs, col_names):
     data_frame = dfs["QC Release Results Summary"]
     process = dfs['In Process Data Summary']
     viability_aph = (process.loc[process['Batch #'] == 'Diluted Apheresis Viability (%)']).values[0].tolist()[1:]
-    viability_aph = viability_aph
-
     cell_via_0_aph = viability_aph
     cell_via_0_post = (process.loc[process['Batch #'] == 'Post Enrichment Average Viability (%)'].values[0].tolist())[1:] # viability % 
     cell_via_0_post = cell_via_0_post
