@@ -265,5 +265,72 @@ def table(dfs, col_names, xls):
     height=1000,          # Set the height of the table (adjust as needed)
     #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
     )
-    return fig, fig_tbnk_table, fig_table3
+
+
+
+    cd4cd8_ratios = ({
+    'Material':["Apheresis", "Post Enrichment", "FDP"]})
+    
+    for i in range(len(col_names)):
+        cd4cd8_ratios[col_names[i]] = [CD4CD8Ratio_Pre[i], CD4CD8Ratio_Post[i], CD4CD8Ratio_fdp[i]]
+    print(tbnk_vals)
+    df = pd.DataFrame(cd4cd8_ratios)
+    print(df)
+    tbnk_table_titles = ["Material"]
+    tbnk_table_titles.extend(col_names)
+    last = ["Median", "Range"]
+    tbnk_table_titles.extend(last)
+
+
+    df["Median"] = df.iloc[:, 1:].median(axis=1)
+    df["Median"] =  df["Median"].round(1)
+
+    list_min = (df.iloc[:, 1:].min(axis=1)).round(1)
+    list_max = (df.iloc[:, 1:].max(axis=1)).round(1)
+    df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
+
+    df["colors"] = ['lightgreen', 'powderblue', 'lightgreen']
+
+    for name in col_names:
+        df[name] = df[name].round(1)
+
+    fig_tbnk_table2 = go.Figure()
+    fig_tbnk_table2.add_trace(
+    go.Table(
+        header=dict(
+            values=tbnk_table_titles,
+            font=dict(size=14),
+            align="center"
+        ),
+        cells=dict(
+            values=[df[k].tolist() for k in df.columns[0:-1]],
+            line_color='darkslategray', fill_color=[df.colors],
+            align = "center")
+    )
+    )
+    fig_tbnk_table2.update_layout(
+    autosize=True,       # Automatically adjust the table size to fit the content
+   #width=1000,           # Set the width of the table (adjust as needed)
+  #  height=600,          # Set the height of the table (adjust as needed)
+    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+)
+
+    fig_tbnk_table2.update_layout(
+    title={
+        'text': "CD4:CD8 Ratio",
+        'y':0.9,
+        'x':0.5,
+        'xanchor': 'center',
+        'yanchor': 'top',
+        'font': {'size': 18,'color': 'blue'}, 'x': 0.5
+        })
+    
+    
+    fig_tbnk_table2.show()
+    
+
+
+
+
+    return fig, fig_tbnk_table, fig_table3, fig_tbnk_table2
     
