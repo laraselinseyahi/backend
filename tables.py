@@ -95,25 +95,25 @@ def table(dfs, col_names, xls):
     data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Dose'].index, inplace=True)
     data_frame['Batch #'] = ['Identity', 'Purity', 'Strength', 'Strength', 'DP Volume', 'Target Dose', 'Dose', 'Safety']
     data_frame['Unnamed: 1'] = ['CAR Transduction', 'CD3 Expression', 'Viable Cell Count', 'Viability (%)', 'Volume by Weight', 'Dose', 'Dose', 'VCN']
-    data_frame['Unnamed: 2'] = ['≥10% CAR+ Cells', '≥80% CD3+ Cells', 'N/A', '≥70% Viability', 'N/A','1E8 or 0.5E8 Viable CAR+ Cells',  'KYV-001: 75-125% of Target Dose KYV-003: 70-130% of Target Dose IH: Report Result', '≤5 Copies/Transduced Cell']
+    data_frame['Unnamed: 2'] = ['≥10% CAR+ Cells', '≥80% CD3+ Cells', 'N/A', '≥70% Viability', 'N/A', '1E8 or 0.5E8 Viable CAR+ Cells', 'KYV-001: 75-125% of Target Dose KYV-003: 70-130% of Target Dose IH: Report Result', '≤5 Copies/Transduced Cell']
     data_frame.reset_index(inplace=True, drop=True)
-
+    data_frame.drop(['Unnamed: 3'], axis=1, inplace=True)
     l = ["Attribute", "Measurement", "Specification"]
     l.extend(col_names)
     df = data_frame
 
     names_v2 = list(data_frame.columns.values.tolist())
-    names_v2 = names_v2[4:]
+    names_v2 = names_v2[3:]
     for name in names_v2:
         df[name] = df[name].apply(round_numerical_values, digits=2)
     print(df)
     print(df.iloc[:, 4:])
-    print(df.iloc[[2, 5, 6], 4:])
-    df["Median"] = df.iloc[:, 4:].median(axis=1)
+    print(df.iloc[[2, 5, 6], 3:])
+    df["Median"] = df.iloc[:, 3:].median(axis=1)
 
-    list_min = df.iloc[:, 4:].min(axis=1)
-    list_max = df.iloc[:, 4:].max(axis=1)
-    df.iloc[[2, 5, 6], 4:] = df.iloc[[2, 5, 6], 4:].applymap(format_sci_notation)
+    list_min = df.iloc[:, 3:].min(axis=1)
+    list_max = df.iloc[:, 3:].max(axis=1)
+    df.iloc[[2, 5, 6], 3:] = df.iloc[[2, 5, 6], 3:].applymap(format_sci_notation)
     print("lara")
     print(df)
     list_min = list_min.apply(format_sci_notation)
@@ -124,6 +124,7 @@ def table(dfs, col_names, xls):
     l_new = ["Median", "Range"]
 
 
+    df["colors"] = ['lightblue', 'lightblue', 'lightblue', 'lightblue', 'lightgreen', 'lightgreen', 'lightgreen', 'lightyellow']
     l.extend(l_new)
     fig = go.Figure()
     fig.add_trace(
@@ -132,39 +133,19 @@ def table(dfs, col_names, xls):
             values=l,
             font=dict(size=12),
             line_color='darkslategray',
-            fill_color='lightskyblue',
+            fill_color='lightgrey',
             align="left"
         ),
         cells=dict(
-            values=[df[k].tolist() for k in df.columns],
+            values=[df[k].tolist() for k in df.columns[0:-1]],
             font=dict(size=10),
             line_color='darkslategray',
-            fill_color='lightcyan',
+            fill_color=[df.colors],
             align = "left")
     )
     )
 
-    # Define conditional formatting for rows
-    row_conditions = [
-    {
-        'if': {'row_index': [0, 1, 2]},
-        'backgroundColor': 'lightblue'
-    },
-    {
-        'if': {'row_index': [3, 4]},
-        'backgroundColor': 'lightgreen'
-    },
-    {
-        'if': {'row_index': [5]},
-        'backgroundColor': 'lightblue'
-    }
-]
 
-# Apply conditional formatting to the table
-    fig.update_traces(
-        cells=[{'selector': 'td.cell-score'}],
-        style_data_conditional=row_conditions
-    )
 
     fig.update_layout(
     autosize=True,       # Automatically adjust the table size to fit the content
@@ -172,6 +153,7 @@ def table(dfs, col_names, xls):
     height=1000,          # Set the height of the table (adjust as needed)
    # margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
     )
+    fig.show()
 
     tbnk_vals = ({
     'Cell Type':["CD4+ Post Temra","CD4+ FDP Temra", "CD4+ Post Tem", "CD4+ FDP Tem", "CD4+ Post Tcm", "CD4+ FDP Tcm", "CD4+ Post Tscm", "CD4+ FDP Tscm", "CD4+ Post Tn", "CD4+ FDP Tn", "CD8+ Post Temra", "CD8+ FDP Temra",

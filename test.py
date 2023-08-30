@@ -49,10 +49,10 @@ def test_1():
     data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Microbial Growth (BacT ALERT)'].index, inplace=True)
     data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Mycoplasma DNA (MycoSeq)'].index, inplace=True)
     data_frame.drop(data_frame.tail(3).index,inplace = True)
-    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='%Target Dose'].index, inplace=True)
-    data_frame['Batch #'] = ['Identity', 'Purity', 'Strength', 'Strength', 'DP Volume', 'Dose', 'Target Dose', 'Safety']
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Dose'].index, inplace=True)
+    data_frame['Batch #'] = ['Identity', 'Purity', 'Strength', 'Strength', 'DP Volume', 'Target Dose', 'Dose', 'Safety']
     data_frame['Unnamed: 1'] = ['CAR Transduction', 'CD3 Expression', 'Viable Cell Count', 'Viability (%)', 'Volume by Weight', 'Dose', 'Dose', 'VCN']
-    data_frame['Unnamed: 2'] = ['≥10% CAR+ Cells', '≥80% CD3+ Cells', 'N/A', '≥70% Viability', 'N/A', 'KYV-001: 75-125% of Target Dose KYV-003: 70-130% of Target Dose IH: Report Result', '1E8 or 0.5E8 Viable CAR+ Cells', '≤5 Copies/Transduced Cell']
+    data_frame['Unnamed: 2'] = ['≥10% CAR+ Cells', '≥80% CD3+ Cells', 'N/A', '≥70% Viability', 'N/A', '1E8 or 0.5E8 Viable CAR+ Cells', 'KYV-001: 75-125% of Target Dose KYV-003: 70-130% of Target Dose IH: Report Result', '≤5 Copies/Transduced Cell']
     data_frame.reset_index(inplace=True, drop=True)
 
     l = ["Attribute", "Measurement", "Specification"]
