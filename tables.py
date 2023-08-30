@@ -92,7 +92,7 @@ def table(dfs, col_names, xls):
     data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Microbial Growth (BacT ALERT)'].index, inplace=True)
     data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Mycoplasma DNA (MycoSeq)'].index, inplace=True)
     data_frame.drop(data_frame.tail(3).index,inplace = True)
-    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='%Target Dose'].index, inplace=True)
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Dose'].index, inplace=True)
     data_frame['Batch #'] = ['Identity', 'Purity', 'Strength', 'Strength', 'DP Volume', 'Dose', 'Target Dose', 'Safety']
     data_frame['Unnamed: 1'] = ['CAR Transduction', 'CD3 Expression', 'Viable Cell Count', 'Viability (%)', 'Volume by Weight', 'Dose', 'Dose', 'VCN']
     data_frame['Unnamed: 2'] = ['≥10% CAR+ Cells', '≥80% CD3+ Cells', 'N/A', '≥70% Viability', 'N/A', 'KYV-001: 75-125% of Target Dose KYV-003: 70-130% of Target Dose IH: Report Result', '1E8 or 0.5E8 Viable CAR+ Cells', '≤5 Copies/Transduced Cell']
@@ -136,13 +136,36 @@ def table(dfs, col_names, xls):
             align="left"
         ),
         cells=dict(
-            values=[df[k].tolist()[4:] for k in df.columns],
+            values=[df[k].tolist() for k in df.columns],
             font=dict(size=10),
             line_color='darkslategray',
             fill_color='lightcyan',
             align = "left")
     )
     )
+
+    # Define conditional formatting for rows
+    row_conditions = [
+    {
+        'if': {'row_index': [0, 1, 2]},
+        'backgroundColor': 'lightblue'
+    },
+    {
+        'if': {'row_index': [3, 4]},
+        'backgroundColor': 'lightgreen'
+    },
+    {
+        'if': {'row_index': [5]},
+        'backgroundColor': 'lightblue'
+    }
+]
+
+# Apply conditional formatting to the table
+    fig.update_traces(
+        cells=[{'selector': 'td.cell-score'}],
+        style_data_conditional=row_conditions
+    )
+
     fig.update_layout(
     autosize=True,       # Automatically adjust the table size to fit the content
     width=1450,           # Set the width of the table (adjust as needed)
