@@ -111,16 +111,13 @@ def table(dfs, col_names, xls):
     print(df.iloc[[2, 5, 6], 3:])
     df.iloc[6,:] = df.iloc[6,:].apply(round_numerical_values, digits=0)
     df["Median"] = df.iloc[:, 3:].median(axis=1)
-
     list_min = df.iloc[:, 3:].min(axis=1)
     list_max = df.iloc[:, 3:].max(axis=1)
     df.iloc[[2, 5, 6], 3:] = df.iloc[[2, 5, 6], 3:].applymap(format_sci_notation)
-    print("lara")
-    print(df)
-    list_min = list_min.apply(format_sci_notation)
-    list_max = list_max.apply(format_sci_notation)
-    print(list_min)
-    print(list_max)
+    list_min = list_min.astype(int)
+    list_max = list_max.astype(int)
+    list_min = list_min.apply(format_sci_notation).apply(round_numerical_values, digits=0)
+    list_max = list_max.apply(format_sci_notation).apply(round_numerical_values, digits=0)
     df["Range"] = list_min.astype(str) + " - " + list_max.astype(str)
     l_new = ["Median", "Range"]
 
@@ -146,6 +143,7 @@ def table(dfs, col_names, xls):
             align = "center")
     )
     )
+
 
 
 
