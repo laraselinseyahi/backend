@@ -109,6 +109,7 @@ def table(dfs, col_names, xls):
     print(df)
     print(df.iloc[:, 4:])
     print(df.iloc[[2, 5, 6], 3:])
+    df.iloc[6,:] = df.iloc[6,:].apply(round_numerical_values, digits=0)
     df["Median"] = df.iloc[:, 3:].median(axis=1)
 
     list_min = df.iloc[:, 3:].min(axis=1)
@@ -124,6 +125,7 @@ def table(dfs, col_names, xls):
     l_new = ["Median", "Range"]
 
 
+
     df["colors"] = ['lightblue', 'lightblue', 'lightblue', 'lightblue', 'lightgreen', 'lightgreen', 'lightgreen', 'lightyellow']
     l.extend(l_new)
     fig = go.Figure()
@@ -134,14 +136,14 @@ def table(dfs, col_names, xls):
             font=dict(size=12),
             line_color='darkslategray',
             fill_color='lightgrey',
-            align="left"
+            align="center"
         ),
         cells=dict(
             values=[df[k].tolist() for k in df.columns[0:-1]],
             font=dict(size=10),
             line_color='darkslategray',
             fill_color=[df.colors],
-            align = "left")
+            align = "center")
     )
     )
 
