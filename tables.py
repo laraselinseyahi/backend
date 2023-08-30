@@ -81,8 +81,18 @@ def table(dfs, col_names, xls):
     dfs = {sheet_name: xls.parse(sheet_name) for sheet_name in xls.sheet_names}
     data_frame = dfs["QC Release Results Summary"]
 
+    data_frame = data_frame[6:]
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Total Cell Count'].index, inplace=True)
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Microbial Growth (BacT ALERT)'].index, inplace=True)
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Mycoplasma DNA (MycoSeq)'].index, inplace=True)
+    data_frame.drop(data_frame.tail(3).index,inplace = True)
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='%Target Dose'].index, inplace=True)
+    data_frame['Batch #'] = ['Identity', 'Purity', 'Strength', 'Strength', 'DP Volume', 'Dose', 'Target Dose', 'Safety']
+    data_frame['Unnamed: 1'] = ['CAR Transduction', 'CD3 Expression', 'Viable Cell Count', 'Viability (%)', 'Volume by Weight', 'Dose', 'Dose', 'VCN']
+    data_frame['Unnamed: 2'] = ['≥10% CAR+ Cells', '≥80% CD3+ Cells', 'N/A', '≥70% Viability', 'N/A', 'KYV-001: 75-125% of Target Dose KYV-003: 70-130% of Target Dose IH: Report Result', '1E8 or 0.5E8 Viable CAR+ Cells', '≤5 Copies/Transduced Cell']
+    data_frame.reset_index(inplace=True, drop=True)
 
-    l = ["Attribute", "Measurement", "Method", "Acceptance Criteria"]
+    l = ["Attribute", "Measurement", "Specification"]
     l.extend(col_names)
     df = data_frame
 
@@ -90,14 +100,21 @@ def table(dfs, col_names, xls):
     names_v2 = names_v2[4:]
     for name in names_v2:
         df[name] = df[name].apply(round_numerical_values, digits=2)
+    print(df)
+    print(df.iloc[:, 4:])
+    print(df.iloc[[2, 5, 6], 4:])
+    df["Median"] = df.iloc[:, 4:].median(axis=1)
 
-
-    df["Median"] = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].median(axis=1)
-
-    list_min = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].min(axis=1)
-    list_max = df.iloc[[6,7,8,9,10,11,12,13,14,17], 4:].max(axis=1)
-    df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
-
+    list_min = df.iloc[:, 4:].min(axis=1)
+    list_max = df.iloc[:, 4:].max(axis=1)
+    df.iloc[[2, 5, 6], 4:] = df.iloc[[2, 5, 6], 4:].applymap(format_sci_notation)
+    print("lara")
+    print(df)
+    list_min = list_min.apply(format_sci_notation)
+    list_max = list_max.apply(format_sci_notation)
+    print(list_min)
+    print(list_max)
+    df["Range"] = list_min.astype(str) + " - " + list_max.astype(str)
     l_new = ["Median", "Range"]
 
 
@@ -137,6 +154,7 @@ def table(dfs, col_names, xls):
     for i in range(len(col_names)):
         tbnk_vals[col_names[i]] = [CD4_Post_Temra[i], CD4_FDP_Temra[i], CD4_Post_Tem[i], CD4_FDP_Tem[i], CD4_Post_Tcm[i], CD4_FDP_Tcm[i], CD4_Post_Tscm[i], CD4_FDP_Tscm[i], CD4_Post_Tn[i], CD4_FDP_Tn[i], CD8_Post_Temra[i], CD8_FDP_Temra[i], CD8_Post_Tem[i], CD8_FDP_Tem[i], CD8_Post_Tcm[i], CD8_FDP_Tcm[i], CD8_Post_Tscm[i], CD8_FDP_Tscm[i], CD8_Post_Tn[i], CD8_FDP_Tn[i]]
         print(tbnk_vals[col_names[i]])
+    print(tbnk_vals)
     df = pd.DataFrame(tbnk_vals)
     print(df)
     tbnk_table_titles = ["Cell Types"]

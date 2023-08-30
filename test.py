@@ -15,10 +15,85 @@ import tables as t
 
 import math
 
+def format_sci_notation(value):
+    if abs(value) >= 1e6:
+        return f'{value:.1e}'
+    else:
+        return value
+
 def round_numerical_values(value, digits):
     if isinstance(value, (int, float)):
         return round(value, digits)
     return value
+
+
+def test_1():
+    xls = pd.ExcelFile('/Users/laraseyahi/desktop/Patients 1-5 Global.xlsx')
+    dfs = {sheet_name: xls.parse(sheet_name) for sheet_name in xls.sheet_names}
+    data_frame = dfs["QC Release Results Summary"] 
+    names_1 = data_frame[data_frame['Batch #'] == 'Study (e.g. KYV-IH, KYV-001, KYV-003)'].values[0].tolist()[4:]
+    names_2 = data_frame[data_frame['Batch #'] == 'Patient No. w/in Study'].values[0].tolist()[4:]
+    print(data_frame['Unnamed: 1'])
+    print(data_frame[data_frame['Batch #'] == 'Study (e.g. KYV-IH, KYV-001, KYV-003)'])
+    print(data_frame[data_frame['Batch #'] == 'Study (e.g. KYV-IH, KYV-001, KYV-003)'].values)
+    print(data_frame[data_frame['Batch #'] == 'Study (e.g. KYV-IH, KYV-001, KYV-003)'].values[0].tolist())
+    names = []
+    for i in range(len(names_1)):
+        name_info = str(names_1[i]) + '-' + str(names_2[i])
+        names.append(name_info)
+
+    col_names = names
+    print(data_frame)
+    data_frame = data_frame[6:]
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Total Cell Count'].index, inplace=True)
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Microbial Growth (BacT ALERT)'].index, inplace=True)
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='Mycoplasma DNA (MycoSeq)'].index, inplace=True)
+    data_frame.drop(data_frame.tail(3).index,inplace = True)
+    data_frame.drop(data_frame.loc[data_frame['Unnamed: 1']=='%Target Dose'].index, inplace=True)
+    data_frame['Batch #'] = ['Identity', 'Purity', 'Strength', 'Strength', 'DP Volume', 'Dose', 'Target Dose', 'Safety']
+    data_frame['Unnamed: 1'] = ['CAR Transduction', 'CD3 Expression', 'Viable Cell Count', 'Viability (%)', 'Volume by Weight', 'Dose', 'Dose', 'VCN']
+    data_frame['Unnamed: 2'] = ['≥10% CAR+ Cells', '≥80% CD3+ Cells', 'N/A', '≥70% Viability', 'N/A', 'KYV-001: 75-125% of Target Dose KYV-003: 70-130% of Target Dose IH: Report Result', '1E8 or 0.5E8 Viable CAR+ Cells', '≤5 Copies/Transduced Cell']
+    data_frame.reset_index(inplace=True, drop=True)
+
+    l = ["Attribute", "Measurement", "Specification"]
+    l.extend(col_names)
+    df = data_frame
+
+    names_v2 = list(data_frame.columns.values.tolist())
+    names_v2 = names_v2[4:]
+    for name in names_v2:
+        df[name] = df[name].apply(round_numerical_values, digits=2)
+    print(df)
+    print(df.iloc[:, 4:])
+    print(df.iloc[[2, 5, 6], 4:])
+    df["Median"] = df.iloc[:, 4:].median(axis=1)
+
+    list_min = df.iloc[:, 4:].min(axis=1)
+    list_max = df.iloc[:, 4:].max(axis=1)
+    df.iloc[[2, 5, 6], 4:] = df.iloc[[2, 5, 6], 4:].applymap(format_sci_notation)
+    print("lara")
+    print(df)
+    list_min = list_min.apply(format_sci_notation)
+    list_max = list_max.apply(format_sci_notation)
+    print(list_min)
+    print(list_max)
+    df["Range"] = list_min.astype(str) + " - " + list_max.astype(str)
+    l_new = ["Median", "Range"]
+
+
+    l.extend(l_new)
+    print("test")
+    print(df)
+
+
+
+# Pandas DaraFrame drop() Syntax
+  #  data_frame.drop(labels=None, axis=0, index=None, columns=None, level=None, inplace=False, errors='raise')
+
+
+    t.table(dfs, col_names, xls)
+
+
 
 def process_datavis():
     xls = pd.ExcelFile('/Users/laraseyahi/desktop/Patients 1-5 Global.xlsx')
@@ -2118,6 +2193,7 @@ def visualization_subset():
 
 
 if __name__ == "__main__":
+    test_1()
     # process_files()
-    process_datavis()
+  #  process_datavis()
    # visualization_subset()
