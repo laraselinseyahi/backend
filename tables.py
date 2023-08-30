@@ -191,12 +191,12 @@ def table(dfs, col_names, xls):
         header=dict(
             values=tbnk_table_titles,
             font=dict(size=14),
-            align="left"
+            align="center"
         ),
         cells=dict(
             values=[df[k].tolist() for k in df.columns[0:-1]],
-            line_color=[df.colors], fill_color=[df.colors],
-            align = "left")
+            line_color='darkslategray', fill_color=[df.colors],
+            align = "center")
     )
     )
     fig_tbnk_table.update_layout(
@@ -249,12 +249,12 @@ def table(dfs, col_names, xls):
         header=dict(
             values=table_titles,
             font=dict(size=14),
-            align="left"
+            align="center"
         ),
         cells=dict(
             values=[df[k].tolist() for k in df.columns[0:-1]],
-            line_color=[df.colors], fill_color=[df.colors],
-            align = "left")
+            line_color='darkslategray', fill_color=[df.colors],
+            align = "center")
     )
     )
 
