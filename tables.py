@@ -11,6 +11,12 @@ def round_numerical_values(value, digits):
         return round(value, digits)
     return value
 
+def format_sci_notation(value):
+    if abs(value) >= 1e6:
+        return f'{value:.1e}'
+    else:
+        return value
+
 
 def table(dfs, col_names, xls):
     
