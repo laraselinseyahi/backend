@@ -84,6 +84,7 @@ def process_datavis():
     fig_tbnk_table = t.table(dfs, col_names, xls)[1]
     fig_table3 = t.table(dfs, col_names, xls)[2]
     fig_tbnk_table2 = t.table(dfs, col_names, xls)[3]
+    fig_rel = t.table(dfs, col_names, xls)[4]
     
 
     with open('p_graph.html', 'w') as f:
@@ -105,6 +106,7 @@ def process_datavis():
         f.write(fig_tbnk_table.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_table3.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk_table2.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_rel.to_html(full_html=False, include_plotlyjs='cdn'))
         
         
     uri = pathlib.Path('p_graph.html').absolute().as_uri()

@@ -114,6 +114,7 @@ def table(dfs, col_names, xls):
     list_min = df.iloc[:, 3:].min(axis=1)
     list_max = df.iloc[:, 3:].max(axis=1)
     df.iloc[[2, 5, 6], 3:] = df.iloc[[2, 5, 6], 3:].applymap(format_sci_notation)
+    print(list_min)
     list_min = list_min.astype(int)
     list_max = list_max.astype(int)
     list_min = list_min.apply(format_sci_notation).apply(round_numerical_values, digits=0)
@@ -328,9 +329,83 @@ def table(dfs, col_names, xls):
     
     fig_tbnk_table2.show()
     
+    cytokine = dfs["Cytokine"]
+    CD19P_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:] 
+    CD19P_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
+  
+    cytotox = dfs["Cytotox"]
+    one_to_one = (cytotox.loc[cytotox['Batch #'] == '1:1 (CD19+) E:T'].values[0][1:])
+    five_to_one = (cytotox.loc[cytotox['Batch #'] == '5:1 (CD19+) E:T'].values[0][1:])
+    ten_to_one = (cytotox.loc[cytotox['Batch #'] == '10:1 (CD19+) E:T'].values[0][1:])
+
+
+    release_table = ({
+    'Attribute':["TBNK", "Memory Phenotype (CD4+\CAR+ T cells)", "Memory Phenotype (CD4+\CAR+ T cells)", "Memory Phenotype (CD4+\CAR+ T cells)", "Memory Phenotype (CD4+\CAR+ T cells)", "Memory Phenotype (CD4+\CAR+ T cells)", "Memory Phenotype (CD8+\CAR+ T cells)",  "Memory Phenotype (CD8+\CAR+ T cells)",  "Memory Phenotype (CD8+\CAR+ T cells)", "Memory Phenotype (CD8+\CAR+ T cells)", "Memory Phenotype (CD8+\CAR+ T cells)", "Exhaustion (CAR+\CD4+ T cells)", "Exhaustion (CAR+\CD8+ T cells)", "Potency (IFNγ)", "Potency (IFNγ)", "Potency (Cytotoxicity)", "Potency (Cytotoxicity)", "Potency (Cytotoxicity)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)", "Leukocyte Content (TBNK)"],
+    'Measurement': ['CD4:CD8 Ratio', 'Tn (%)', 'Tscm (%)', 'Tcm (%)', 'Tem (%)', 'Temra (%)', 'Tn (%)', 'Tscm (%)', 'Tcm (%)', 'Tem (%)', 'Temra (%)', 'PD1+\Tim3+LAG3+ cells (%)', 'PD1+\Tim3+LAG3+ cells (%)', 'IFNγ (pg/mL) 5:1 E:T (CD19+)', 'IFNγ (pg/mL) 10:1 E:T (CD19+)', 'Cytotoxicity (%) at 1:1 E:T (CD19+)', 'Cytotoxicity (%) at 5:1 E:T (CD19+)', 'Cytotoxicity (%) at 10:1 E:T (CD19+)', 'CD4+ T cells (%)', 'CD4+CD8+ T cells (%)', 'CD8+ T cells (%)', 'NKT cells (%)', 'B cells (%)', 'Eosinophils (%)', 'Monocytes (%)', 'Neutrophils (%)', 'CD56+CD16+ cells (%)'] 
+    })
+
+    exhaustion = dfs["Exhaustion"]
+    exhaustion_1 = (exhaustion.loc[exhaustion['Batch #'] == '%Exhausted (Viable CD3+\CAR+\CD4+\CD279+\CD223+CD366+)'].values[0][1:])
+    exhaustion_2 = (exhaustion.loc[exhaustion['Batch #'] == '%Exhausted (Viable CD3+\CAR+\CD8+\CD279+\CD223+CD366+)'].values[0][1:])
+
+
+
+    for i in range(len(col_names)):
+        release_table[col_names[i]] = [CD4CD8Ratio_fdp[i], CD4_FDP_Tn[i], CD4_FDP_Tscm[i], CD4_FDP_Tcm[i], CD4_FDP_Tem[i], CD4_FDP_Temra[i], CD8_FDP_Tn[i], CD8_FDP_Tscm[i], CD8_FDP_Tcm[i], CD8_FDP_Tem[i], CD8_FDP_Temra[i], exhaustion_1[i], exhaustion_2[i], CD19P_5_1[i], CD19P_10_1[i], one_to_one[i], five_to_one[i], ten_to_one[i], CD4_fdp[i], CD4CD8_fdp[i], CD8_fdp[i], NKT_fdp[i], Bcells_fdp[i], Eosinophil_fdp[i], Monocyte_fdp[i], Neutrophil_fdp[i], CD56CD16_fdp[i]]
+    print(tbnk_vals)
+
+    df = pd.DataFrame(release_table)
+    print(df)
+    tbnk_table_titles = ["Attribute", "Measurement"]
+    tbnk_table_titles.extend(col_names)
+    last = ["Median", "Range"]
+    tbnk_table_titles.extend(last)
+
+
+    df["Median"] = df.iloc[:, 2:].median(axis=1)
+    df["Median"] =  df["Median"].round(1)
+
+    list_min = (df.iloc[:, 2:].min(axis=1)).round(1)
+    list_max = (df.iloc[:, 2:].max(axis=1)).round(1)
+    df["Range"] = list_min.astype(str) + "-" + list_max.astype(str)
+
+
+    for name in col_names:
+        df[name] = df[name].round(1)
+
+
+    df["colors"] = ['lavender', 'lightgreen', 'lightgreen', 'lightgreen', 'lightgreen', 'lightgreen', 'lightblue', 'lightblue', 'lightblue', 'lightblue', 'lightblue', 'peachpuff', 'peachpuff', 'lightyellow', 'lightyellow', 'tomato', 'tomato', 'tomato', 'violet', 'violet', 'violet', 'violet', 'violet', 'violet', 'violet', 'violet', 'violet'  ]
+    fig_rel = go.Figure()
+    fig_rel.add_trace(
+    go.Table(
+        header=dict(
+            values=tbnk_table_titles,
+            font=dict(size=14),
+            align="center"
+        ),
+        cells=dict(
+            values=[df[k].tolist() for k in df.columns[0:-1]],
+            line_color='grey', fill_color=[df.colors],
+            align = "center")
+    )
+    )
+    fig_rel.update_layout(
+    autosize=True,       # Automatically adjust the table size to fit the content
+   #width=1000,           # Set the width of the table (adjust as needed)
+    height=3000,          # Set the height of the table (adjust as needed)
+    #margin=dict(l=10, r=10, t=10, b=10)  # Set margins to provide spacing
+    )
+
+
+    
+    
+    fig_rel.show()
 
 
 
 
-    return fig, fig_tbnk_table, fig_table3, fig_tbnk_table2
+
+
+
+    return fig, fig_tbnk_table, fig_table3, fig_tbnk_table2, fig_rel
     
