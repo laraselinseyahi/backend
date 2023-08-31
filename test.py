@@ -28,7 +28,7 @@ def round_numerical_values(value, digits):
 
 
 def test_1():
-    xls = pd.ExcelFile('/Users/laraseyahi/desktop/Patients 1-5 Global.xlsx')
+    xls = pd.ExcelFile('/Users/laraseyahi/desktop/global_temp.xlsx')
     dfs = {sheet_name: xls.parse(sheet_name) for sheet_name in xls.sheet_names}
     data_frame = dfs["QC Release Results Summary"] 
     names_1 = data_frame[data_frame['Batch #'] == 'Study (e.g. KYV-IH, KYV-001, KYV-003)'].values[0].tolist()[4:]
@@ -96,7 +96,7 @@ def test_1():
 
 
 def process_datavis():
-    xls = pd.ExcelFile('/Users/laraseyahi/desktop/Patients 1-5 Global.xlsx')
+    xls = pd.ExcelFile('/Users/laraseyahi/desktop/testfile.xlsx')
     # data_vis.visualization(global_sheet)
    # return jsonify({'message': 'Data visualization processed successfully'})
 
@@ -973,10 +973,14 @@ def process_datavis():
     fig_memdiff_swarm3 = memdiff_graphs[3]
 
     cytokine = dfs["Cytokine"]
+    print(cytokine)
     CD19P_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:] 
-    CD19P_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
-    CD19M_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19-) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
+    print(cytokine)
+    CD19P_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19+) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
+                                                     
+    CD19M_5_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 5:1 (CD19-) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
     CD19M_10_1 = (cytokine.loc[cytokine['Batch #'] == 'IFNg 10:1 (CD19-) (pg/mL) E:T Ratio']).values[0].tolist()[1:]
+  
 
     cytotox = dfs["Cytotox"]
     one_to_one = (cytotox.loc[cytotox['Batch #'] == '1:1 (CD19+) E:T'].values[0][1:])
@@ -2193,7 +2197,7 @@ def visualization_subset():
 
 
 if __name__ == "__main__":
-    test_1()
+  #  test_1()
     # process_files()
-  #  process_datavis()
+    process_datavis()
    # visualization_subset()
