@@ -67,8 +67,8 @@ def process_datavis():
     fig_tbnk = tbnk_graphs_all[0]
     fig_tbnk_2 = tbnk_graphs_all[1]
     tbnk_swarm1 = tbnk_graphs_all[2]
-    tbnk_swarm2 = tbnk_graphs_all[3]
-    figsca1 = tbnk_graphs_all[4]
+    tbnk_swarm2 = tbnk_graphs_all[4]
+    figsca1 = tbnk_graphs_all[3]
 
 
     memdiff_graphs = mdiff.memdiff(dfs, col_names)
