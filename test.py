@@ -13,6 +13,8 @@ import global_graphs_1 as gg
 import memdiff_graphs as mdiff
 import tables as t 
 import tbnk_graphs as tbnk
+import global_graphs_2 as ip
+import cytotox_cytokine_graphs as cc
 
 import math
 
@@ -26,6 +28,80 @@ def round_numerical_values(value, digits):
     if isinstance(value, (int, float)):
         return round(value, digits)
     return value
+
+def test_2():
+    xls = pd.ExcelFile('/Users/laraseyahi/desktop/Patients 1-5 Global.xlsx')
+
+    # Read the Excel file into a dictionary of DataFrames
+    dfs = {sheet_name: xls.parse(sheet_name) for sheet_name in xls.sheet_names}
+    data_frame = dfs["QC Release Results Summary"]
+    col_names = list(data_frame.columns.values.tolist())
+    col_names = col_names[4:]
+
+    names_1 = data_frame[data_frame['Batch #'] == 'Study (e.g. KYV-IH, KYV-001, KYV-003)'].values[0].tolist()[4:]
+    names_2 = data_frame[data_frame['Batch #'] == 'Patient No. w/in Study'].values[0].tolist()[4:]
+
+    names = []
+    for i in range(len(names_1)):
+        name_info = str(names_1[i]) + '-' + str(names_2[i])
+        names.append(name_info)
+
+    col_names = names
+
+    fig_sub_1 = gg.release_graphs(dfs, col_names)
+    fig_2 = gg.day8_day9_graph(dfs, col_names)
+    fig_sub_1.show()
+    fig_2.show()
+
+    colors_bub = ['black', 'black']
+    colors_add = ['red'] * (len(col_names) - 2)
+    colors_bub += colors_add
+    colors_bub = ['red'] * (len(col_names))
+
+    fig_sub_process_2 = ip.ip_graphs_1(dfs, col_names)
+    fig_sub_process_3 = ip.ip_graphs_2(dfs, col_names)
+    fig_sub_process_2.show()
+    fig_sub_process_3.show()
+
+    tbnk_graphs_all = tbnk.tbnk_graphs_4(dfs, col_names)
+    fig_tbnk = tbnk_graphs_all[0]
+    fig_tbnk_2 = tbnk_graphs_all[1]
+    tbnk_swarm1 = tbnk_graphs_all[2]
+    tbnk_swarm2 = tbnk_graphs_all[3]
+    figsca1 = tbnk_graphs_all[4]
+    fig_tbnk.show()
+    fig_tbnk_2.show()
+    tbnk_swarm1.show()
+    tbnk_swarm2.show()
+    figsca1.show()
+
+    memdiff_graphs = mdiff.memdiff(dfs, col_names)
+    fig_memdiff = memdiff_graphs[0]
+    fig_memdiff_swarm1 = memdiff_graphs[1]
+    fig_memdiff_swarm2 = memdiff_graphs[2]
+    fig_memdiff_swarm3 = memdiff_graphs[3]
+    fig_memdiff.show()
+    fig_memdiff_swarm1.show()
+    fig_memdiff_swarm2.show()
+    fig_memdiff_swarm3.show()
+
+    fig_cyto = cc.cytotox_cytokine(dfs, col_names)[0]
+    fig_cytokine_swarm1 = cc.cytotox_cytokine(dfs, col_names)[1]
+    fig_cytokine_swarm1.show()
+    fig_cyto.show()
+
+    fig = t.table(dfs, col_names, xls)[0]
+    fig_tbnk_table = t.table(dfs, col_names, xls)[1]
+    fig_table3 = t.table(dfs, col_names, xls)[2]
+    fig_tbnk_table2 = t.table(dfs, col_names, xls)[3]
+    fig_rel = t.table(dfs, col_names, xls)[4]
+    fig.show()
+    fig_tbnk_table.show()
+    fig_table3.show()
+    fig_tbnk_table2.show()
+    fig_rel.show()
+    
+
 
 
 def test_1():
@@ -2198,7 +2274,7 @@ def visualization_subset():
 
 
 if __name__ == "__main__":
-    test_1()
+    test_2()
     # process_files()
    # process_datavis()
    # visualization_subset()
