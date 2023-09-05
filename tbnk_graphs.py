@@ -197,6 +197,58 @@ def tbnk_graphs_4(dfs, col_names):
     tbnk_swarm2.update_traces(boxpoints='all', jitter=0.5)
     tbnk_swarm2.show()
 
+    figsca2 = make_subplots(rows=3, cols=2, subplot_titles=("B Cells", "CD56CD16", "Monocyte", "NKT", "T Cells" ))
+
+    patients_bcells = []
+    for i in range(len(col_names)):
+        new_list = [Bcells_Pre[i], Bcells_Post[i], Bcells_fdp[i]]
+        patients_bcells.append(new_list)
+
+    patients_cd56cd16 = []
+    for i in range(len(col_names)):
+        new_list = [CD56CD16_Pre[i], CD56CD16_Post[i], CD56CD16_fdp[i]]
+        patients_cd56cd16.append(new_list)
+
+    patients_monocyte = []
+    for i in range(len(col_names)):
+        new_list = [Monocyte_Pre[i], Monocyte_Post[i], Monocyte_fdp[i]]
+        patients_monocyte.append(new_list)
+
+    patients_nkt = []
+    for i in range(len(col_names)):
+        new_list = [NKT_Pre[i], NKT_Post[i], NKT_fdp[i]]
+        patients_nkt.append(new_list)
+
+    patients_t = []
+    for i in range(len(col_names)):
+        new_list = [T_Pre[i], T_Post[i], T_fdp[i]]
+        patients_t.append(new_list)
+
+    text = ['Pre', 'Post', 'FDP']
+
+
+    for i in range(len(col_names)):
+    # Add strip plots to the subplots with custom names
+        figsca2.add_trace(go.Scatter(y=patients_bcells[i], mode='markers', name=col_names[i], marker_color=colors_test[i]), row=1, col=1)
+        figsca2.add_trace(go.Scatter(y=patients_cd56cd16[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=1, col=2)
+        figsca2.add_trace(go.Scatter(y=patients_monocyte[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=1)
+        figsca2.add_trace(go.Scatter(y=patients_nkt[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=2)
+        figsca2.add_trace(go.Scatter(y=patients_t[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=3, col=1)
+
+    custom_tickvals = list(range(0, len(text) + 1))
+    custom_ticktext = text
+
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=1)
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=2)
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=1)
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=2)
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=3, col=1)
+    
+    # Show the plot
+    figsca2.show()
+
+
+
 
     B_cells = []
     for i in range(len(Bcells_Pre)):
@@ -288,7 +340,7 @@ def tbnk_graphs_4(dfs, col_names):
 
     fig_tbnk_2.update_layout(barmode="relative", title={'text': "%CD4+ and %CD8+ Cells (Aph., Post Enrichment, FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    return fig_tbnk, fig_tbnk_2, tbnk_swarm1, tbnk_swarm2, figsca1
+    return fig_tbnk, fig_tbnk_2, tbnk_swarm1, tbnk_swarm2, figsca1, figsca2
 
 
 #UNUSED GRAPH 

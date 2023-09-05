@@ -68,6 +68,7 @@ def process_datavis():
     tbnk_swarm1 = tbnk_graphs_all[2]
     tbnk_swarm2 = tbnk_graphs_all[3]
     figsca1 = tbnk_graphs_all[4]
+    figsca2 = tbnk_graphs_all[5]
 
 
     memdiff_graphs = mdiff.memdiff(dfs, col_names)
@@ -97,6 +98,7 @@ def process_datavis():
         f.write(tbnk_swarm1.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(figsca1.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(tbnk_swarm2.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(figsca2.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff_swarm1.to_html(full_html=False, include_plotlyjs='cdn')) 
         f.write(fig_memdiff_swarm2.to_html(full_html=False, include_plotlyjs='cdn'))
