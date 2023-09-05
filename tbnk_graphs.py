@@ -120,6 +120,8 @@ def tbnk_graphs_4(dfs, col_names):
     tbnk_swarm1.show()
     #Start test
     # Create a subplot figure
+
+    '''
     figsca1 = make_subplots(rows=1, cols=3, subplot_titles=("Pre", "Post", "FDP" ))
 
     patients_pre = []
@@ -157,7 +159,7 @@ def tbnk_graphs_4(dfs, col_names):
 
     # Show the plot
     figsca1.show()
-    #End test
+    '''
 
 
 
@@ -286,7 +288,7 @@ def tbnk_graphs_4(dfs, col_names):
 
     fig_tbnk_2.update_layout(barmode="relative", title={'text': "%CD4+ and %CD8+ Cells (Aph., Post Enrichment, FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    return fig_tbnk, fig_tbnk_2, tbnk_swarm1, figsca1, tbnk_swarm2
+    return fig_tbnk, fig_tbnk_2, tbnk_swarm1, tbnk_swarm2
 
 
 #UNUSED GRAPH 
