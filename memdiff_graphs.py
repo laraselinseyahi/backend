@@ -69,6 +69,53 @@ def memdiff(dfs, col_names):
 
     fig_memdiff_swarm1.update_traces(boxpoints='all', jitter=0.5)
 
+
+    figsca2 = make_subplots(rows=2, cols=2, subplot_titles=("%CD4+ Post", "%CD4+ FDP", "%CD8+ Post", "%CD8+ FDP" ))
+    colors_test = ['blue', 'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse', 'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange', 'darkorchid', 'darkred', 'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey', 'green', 'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgrey', 'lightgreen', 'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey', 'lightsteelblue', 'lightyellow', 'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine', 'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue', 'mediumspringgreen', 'mediumturquoise', 'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy', 'oldlace', 'olive', 'olivedrab', 'orange', 'orangered', 'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'purple', 'red', 'rosybrown', 'royalblue', 'rebeccapurple', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white', 'whitesmoke', 'yellow', 'yellowgreen', 'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige', 'bisque', 'black', 'blanchedalmond']
+
+    patients_cd4post = []
+    for i in range(len(col_names)):
+        new_list = [CD4_Post_Tn[i], CD4_Post_Tscm[i], CD4_Post_Tcm[i], CD4_Post_Tem[i], CD4_Post_Temra[i]]
+        patients_cd4post.append(new_list)
+
+    patients_cd4fdp = []
+    for i in range(len(col_names)):
+        new_list = [CD4_FDP_Tn[i], CD4_FDP_Tscm[i], CD4_FDP_Tcm[i], CD4_FDP_Tem[i], CD4_FDP_Temra[i]]
+        patients_cd4fdp.append(new_list)
+
+    patients_cd8post = []
+    for i in range(len(col_names)):
+        new_list = [CD8_Post_Tn[i], CD8_Post_Tscm[i], CD8_Post_Tcm[i], CD8_Post_Tem[i], CD8_Post_Temra[i]]
+        patients_cd8post.append(new_list)
+
+    patients_cd8fdp = []
+    for i in range(len(col_names)):
+        new_list = [CD8_FDP_Tn[i], CD8_FDP_Tscm[i], CD8_FDP_Tcm[i], CD8_FDP_Tem[i], CD8_FDP_Temra[i]]
+        patients_cd8fdp.append(new_list)
+
+
+
+    text = ['Tn', 'Tscm', 'Tcm', 'Tem', 'Temra']
+
+
+    for i in range(len(col_names)):
+    # Add strip plots to the subplots with custom names
+        figsca2.add_trace(go.Scatter(y=patients_cd4post[i], mode='markers', name=col_names[i], marker_color=colors_test[i]), row=1, col=1)
+        figsca2.add_trace(go.Scatter(y=patients_cd4fdp[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=1, col=2)
+        figsca2.add_trace(go.Scatter(y=patients_cd8post[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=1)
+        figsca2.add_trace(go.Scatter(y=patients_cd8fdp[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=2)
+  
+    custom_tickvals = list(range(0, len(text) + 1))
+    custom_ticktext = text
+
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=1)
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=2)
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=1)
+    figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=2)
+    
+    # Show the plot
+    figsca2.show()
+
     #memdiff swarm plots - Page 11, 12
     fig_memdiff_swarm2 = make_subplots(rows=3, cols=2, subplot_titles=("%CD4+ Tn", "%CD4+ Tscm", "%CD4+ Tcm", "%CD4+ Tem", "%CD4+ Temra"))
     fig_memdiff_swarm3 = make_subplots(rows=3, cols=2, subplot_titles=("%CD8+ Tn", "%CD8+ Tscm", "%CD8+ Tcm", "%CD8+ Tem", "%CD8+ Temra"))
@@ -190,7 +237,7 @@ def memdiff(dfs, col_names):
 
     fig_memdiff.update_layout(barmode="relative", title={'text': "Memory Differentiation (Post-Enrichment & FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    return fig_memdiff, fig_memdiff_swarm1, fig_memdiff_swarm2, fig_memdiff_swarm3
+    return fig_memdiff, fig_memdiff_swarm1, fig_memdiff_swarm2, fig_memdiff_swarm3, figsca2
 
 """ fig5, fig6, fig8, fig9 are unused in the current dashboard 
 
