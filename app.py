@@ -108,7 +108,6 @@ def process_datavis():
         f.write(fig_tbnk_table.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_table3.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk_table2.to_html(full_html=False, include_plotlyjs='cdn'))
-        f.write(fig_rel.to_html(full_html=False, include_plotlyjs='cdn'))
         
         
     uri = pathlib.Path('p_graph.html').absolute().as_uri()
