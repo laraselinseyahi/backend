@@ -68,7 +68,7 @@ def process_datavis():
     fig_tbnk_2 = tbnk_graphs_all[1]
     tbnk_swarm1 = tbnk_graphs_all[2]
     tbnk_swarm2 = tbnk_graphs_all[3]
-    figsca1 = tbnk_graphs_all[4]
+   # figsca1 = tbnk_graphs_all[4]
 
 
     memdiff_graphs = mdiff.memdiff(dfs, col_names)
@@ -96,7 +96,7 @@ def process_datavis():
         f.write(fig_tbnk.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk_2.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(tbnk_swarm1.to_html(full_html=False, include_plotlyjs='cdn'))
-        f.write(figsca1.to_html(full_html=False, include_plotlyjs='cdn'))
+     #  f.write(figsca1.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(tbnk_swarm2.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff_swarm1.to_html(full_html=False, include_plotlyjs='cdn')) 
@@ -108,6 +108,7 @@ def process_datavis():
         f.write(fig_tbnk_table.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_table3.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_tbnk_table2.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(fig_rel.to_html(full_html=False, include_plotlyjs='cdn'))
         
         
     uri = pathlib.Path('p_graph.html').absolute().as_uri()

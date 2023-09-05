@@ -12,6 +12,7 @@ import tbnk_graphs as tbnk
 import global_graphs_1 as gg
 import memdiff_graphs as mdiff
 import tables as t 
+import tbnk_graphs as tbnk
 
 import math
 
@@ -89,8 +90,9 @@ def test_1():
 
 # Pandas DaraFrame drop() Syntax
   #  data_frame.drop(labels=None, axis=0, index=None, columns=None, level=None, inplace=False, errors='raise')
-
-
+    tbnk_graphs_all = tbnk.tbnk_graphs_4(dfs, col_names)
+    figsca1 = tbnk_graphs_all[4]
+    figsca1.show()
     t.table(dfs, col_names, xls)
     tbnk.tbnk_graphs_4(dfs, col_names)
 
