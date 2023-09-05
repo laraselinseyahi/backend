@@ -11,7 +11,6 @@ from itertools import chain
 import pathlib
 import webbrowser, os
 import random
-import colour
 import carrying_data as cd
 import global_graphs_1 as gg
 import global_graphs_2 as ip

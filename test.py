@@ -68,12 +68,12 @@ def test_2():
     fig_tbnk_2 = tbnk_graphs_all[1]
     tbnk_swarm1 = tbnk_graphs_all[2]
     tbnk_swarm2 = tbnk_graphs_all[3]
-    figsca1 = tbnk_graphs_all[4]
+    # figsca1 = tbnk_graphs_all[4]
     fig_tbnk.show()
     fig_tbnk_2.show()
     tbnk_swarm1.show()
     tbnk_swarm2.show()
-    figsca1.show()
+    # figsca1.show()
 
     memdiff_graphs = mdiff.memdiff(dfs, col_names)
     fig_memdiff = memdiff_graphs[0]
