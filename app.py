@@ -77,6 +77,8 @@ def process_datavis():
     fig_memdiff_swarm2 = memdiff_graphs[2]
     fig_memdiff_swarm3 = memdiff_graphs[3]
     figsca3 = memdiff_graphs[4]
+    figsca4 = memdiff_graphs[5]
+    figsca5 = memdiff_graphs[6]
 
 
     fig_cyto = cc.cytotox_cytokine(dfs, col_names)[0]
@@ -104,7 +106,9 @@ def process_datavis():
         f.write(fig_memdiff_swarm1.to_html(full_html=False, include_plotlyjs='cdn')) 
         f.write(figsca3.to_html(full_html=False, include_plotlyjs='cdn')) 
         f.write(fig_memdiff_swarm2.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(figsca4.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_memdiff_swarm3.to_html(full_html=False, include_plotlyjs='cdn'))
+        f.write(figsca5.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cyto.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig_cytokine_swarm1.to_html(full_html=False, include_plotlyjs='cdn'))
         f.write(fig.to_html(full_html=False, include_plotlyjs='cdn'))

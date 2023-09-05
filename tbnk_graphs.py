@@ -156,6 +156,10 @@ def tbnk_graphs_4(dfs, col_names):
     figsca1.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=2)
     figsca1.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=3)
 
+    figsca1.update_yaxes(range=[-5, 100] , row=1, col=1)
+    figsca1.update_yaxes(range=[-5, 100] , row=1, col=2)
+    figsca1.update_yaxes(range=[-5, 100] , row=1, col=3)
+
 
     # Show the plot
     figsca1.show()
@@ -243,6 +247,12 @@ def tbnk_graphs_4(dfs, col_names):
     figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=1)
     figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=2)
     figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=3, col=1)
+
+    figsca2.update_yaxes(range=[-5, 40] , row=1, col=1)
+    figsca2.update_yaxes(range=[-5, 40] , row=1, col=2)
+    figsca2.update_yaxes(range=[-5, 40] , row=2, col=1)
+    figsca2.update_yaxes(range=[-5, 40] , row=2, col=2)
+    figsca2.update_yaxes(range=[-5, 100] , row=3, col=1)
     
     # Show the plot
     figsca2.show()

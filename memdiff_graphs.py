@@ -112,6 +112,11 @@ def memdiff(dfs, col_names):
     figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=2)
     figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=1)
     figsca2.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=2)
+
+    figsca2.update_yaxes(range=[-5, 100] , row=1, col=1)
+    figsca2.update_yaxes(range=[-5, 100] , row=1, col=2)
+    figsca2.update_yaxes(range=[-5, 100] , row=2, col=1)
+    figsca2.update_yaxes(range=[-5, 100] , row=2, col=2)
     
     # Show the plot
     figsca2.show()
@@ -166,6 +171,124 @@ def memdiff(dfs, col_names):
 
     fig_memdiff_swarm3.update_traces(boxpoints='all', jitter=0.5)
     fig_memdiff_swarm3.show()
+
+    figsca4 = make_subplots(rows=3, cols=2, subplot_titles=("%CD4+ Tn", "%CD4+ Tscm", "%CD4+ Tcm", "%CD4+ Tem", "%CD4+ Temra"))
+
+    patients_cd4tn = []
+    for i in range(len(col_names)):
+        new_list = [CD4_Post_Tn[i], CD4_FDP_Tn[i]]
+        patients_cd4tn.append(new_list)
+
+    patients_cd4tscm = []
+    for i in range(len(col_names)):
+        new_list = [CD4_Post_Tscm[i], CD4_FDP_Tscm[i]]
+        patients_cd4tscm.append(new_list)
+
+    patients_cd4tcm = []
+    for i in range(len(col_names)):
+        new_list = [CD4_Post_Tcm[i], CD4_FDP_Tcm[i]]
+        patients_cd4tcm.append(new_list)
+
+    patients_cd4tem = []
+    for i in range(len(col_names)):
+        new_list = [CD4_Post_Tem[i], CD4_FDP_Tem[i]]
+        patients_cd4tem.append(new_list)
+
+
+    patients_cd4temra = []
+    for i in range(len(col_names)):
+        new_list = [CD4_Post_Temra[i], CD4_FDP_Temra[i]]
+        patients_cd4temra.append(new_list)
+
+    text = ['Post', 'FDP']
+
+
+    for i in range(len(col_names)):
+    # Add strip plots to the subplots with custom names
+        figsca4.add_trace(go.Scatter(y=patients_cd4tn[i], mode='markers', name=col_names[i], marker_color=colors_test[i]), row=1, col=1)
+        figsca4.add_trace(go.Scatter(y=patients_cd4tscm[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=1, col=2)
+        figsca4.add_trace(go.Scatter(y=patients_cd4tcm[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=1)
+        figsca4.add_trace(go.Scatter(y=patients_cd4tem[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=2)
+        figsca4.add_trace(go.Scatter(y=patients_cd4temra[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=3, col=1)
+
+    custom_tickvals = list(range(0, len(text) + 1))
+    custom_ticktext = text
+
+    figsca4.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=1)
+    figsca4.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=2)
+    figsca4.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=1)
+    figsca4.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=2)
+    figsca4.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=3, col=1)
+
+    figsca4.update_yaxes(range=[-5, 100] , row=1, col=1)
+    figsca4.update_yaxes(range=[-5, 100] , row=1, col=2)
+    figsca4.update_yaxes(range=[-5, 100] , row=2, col=1)
+    figsca4.update_yaxes(range=[-5, 100] , row=2, col=2)
+    figsca4.update_yaxes(range=[-5, 100] , row=3, col=1)
+    
+    # Show the plot
+    figsca4.show()
+
+    figsca5 = make_subplots(rows=3, cols=2, subplot_titles=("%CD8+ Tn", "%CD8+ Tscm", "%CD8+ Tcm", "%CD8+ Tem", "%CD8+ Temra"))
+
+    patients_cd8tn = []
+    for i in range(len(col_names)):
+        new_list = [CD8_Post_Tn[i], CD8_FDP_Tn[i]]
+        patients_cd8tn.append(new_list)
+
+    patients_cd8tscm = []
+    for i in range(len(col_names)):
+        new_list = [CD8_Post_Tscm[i], CD8_FDP_Tscm[i]]
+        patients_cd8tscm.append(new_list)
+
+    patients_cd8tcm = []
+    for i in range(len(col_names)):
+        new_list = [CD8_Post_Tcm[i], CD8_FDP_Tcm[i]]
+        patients_cd8tcm.append(new_list)
+
+    patients_cd8tem = []
+    for i in range(len(col_names)):
+        new_list = [CD8_Post_Tem[i], CD8_FDP_Tem[i]]
+        patients_cd8tem.append(new_list)
+
+
+    patients_cd8temra = []
+    for i in range(len(col_names)):
+        new_list = [CD8_Post_Temra[i], CD8_FDP_Temra[i]]
+        patients_cd8temra.append(new_list)
+
+    text = ['Post', 'FDP']
+
+
+    for i in range(len(col_names)):
+    # Add strip plots to the subplots with custom names
+        figsca5.add_trace(go.Scatter(y=patients_cd4tn[i], mode='markers', name=col_names[i], marker_color=colors_test[i]), row=1, col=1)
+        figsca5.add_trace(go.Scatter(y=patients_cd4tscm[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=1, col=2)
+        figsca5.add_trace(go.Scatter(y=patients_cd4tcm[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=1)
+        figsca5.add_trace(go.Scatter(y=patients_cd4tem[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=2, col=2)
+        figsca5.add_trace(go.Scatter(y=patients_cd4temra[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=3, col=1)
+
+    custom_tickvals = list(range(0, len(text) + 1))
+    custom_ticktext = text
+
+    figsca5.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=1)
+    figsca5.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=2)
+    figsca5.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=1)
+    figsca5.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=2, col=2)
+    figsca5.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=3, col=1)
+
+    figsca5.update_yaxes(range=[-5, 100] , row=1, col=1)
+    figsca5.update_yaxes(range=[-5, 100] , row=1, col=2)
+    figsca5.update_yaxes(range=[-5, 100] , row=2, col=1)
+    figsca5.update_yaxes(range=[-5, 100] , row=2, col=2)
+    figsca5.update_yaxes(range=[-5, 100] , row=3, col=1)
+    
+    # Show the plot
+    figsca5.show()
+
+
+
+
 
     #MemDiff bar graphs - Page 9     
     fig_memdiff = make_subplots(rows=1, cols=2, subplot_titles=("%CD4+ Cells (Post-Enrichment & FDP)", "%CD8+ Cells (Post-Enrichment & FDP)"))
@@ -237,7 +360,7 @@ def memdiff(dfs, col_names):
 
     fig_memdiff.update_layout(barmode="relative", title={'text': "Memory Differentiation (Post-Enrichment & FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    return fig_memdiff, fig_memdiff_swarm1, fig_memdiff_swarm2, fig_memdiff_swarm3, figsca2
+    return fig_memdiff, fig_memdiff_swarm1, fig_memdiff_swarm2, fig_memdiff_swarm3, figsca2, figsca4, figsca5
 
 """ fig5, fig6, fig8, fig9 are unused in the current dashboard 
 
