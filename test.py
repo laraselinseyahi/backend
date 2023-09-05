@@ -92,6 +92,7 @@ def test_1():
 
 
     t.table(dfs, col_names, xls)
+    tbnk.tbnk_graphs_4(dfs, col_names)
 
 
 

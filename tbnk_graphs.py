@@ -4,6 +4,8 @@ import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from itertools import chain
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 def tbnk_graphs_4(dfs, col_names):
@@ -88,7 +90,7 @@ def tbnk_graphs_4(dfs, col_names):
 
     #TBNK swarm plot 1 - Page 7
     tbnk_swarm1 = make_subplots(rows=1, cols=3, subplot_titles=("Pre", "Post", "FDP" ))
-
+    color = col_names
     tbnk_swarm1.add_trace(go.Box(y=Bcells_Pre, name="B cells", showlegend=False), row=1, col=1)
     tbnk_swarm1.add_trace(go.Box(y=CD56CD16_Pre, name="CD56CD16", showlegend=False), row=1, col=1)
     tbnk_swarm1.add_trace(go.Box(y=Eosinophil_Pre, name="Eosinophil", showlegend=False), row=1, col=1)
@@ -117,6 +119,60 @@ def tbnk_graphs_4(dfs, col_names):
     tbnk_swarm1.update_yaxes(range=[-5, 100] , row=1, col=3)
 
     tbnk_swarm1.update_traces(boxpoints='all', jitter=0.5)
+    tbnk_swarm1.show()
+    #Start test
+    # Create a subplot figure
+    figsca1 = make_subplots(rows=1, cols=3, subplot_titles=("Pre", "Post", "FDP" ))
+
+    patients_pre = []
+    for i in range(len(col_names)):
+        new_list = [Bcells_Pre[i], CD56CD16_Pre[i], Eosinophil_Pre[i], Monocyte_Pre[i], Neutrophil_Pre[i], NKT_Pre[i], T_Pre[i]]
+        patients_pre.append(new_list)
+
+    patients_post = []
+    for i in range(len(col_names)):
+        new_list = [Bcells_Post[i], CD56CD16_Post[i], Eosinophil_Post[i], Monocyte_Post[i], Neutrophil_Post[i], NKT_Post[i], T_Post[i]]
+        patients_post.append(new_list)
+
+    patients_fdp = []
+    for i in range(len(col_names)):
+        new_list = [Bcells_fdp[i], CD56CD16_fdp[i], Eosinophil_fdp[i], Monocyte_fdp[i], Neutrophil_fdp[i], NKT_fdp[i], T_fdp[i]]
+        patients_fdp.append(new_list)
+
+    text = ['B cells', 'CD56CD16', 'Eosinophil', 'Monocyte', 'Neutrophil', 'NKT cells', 'T cells']
+    colors_test = ['blue', 'blueviolet', 'brown', 'burlywood', 'cadetblue', 'chartreuse', 'chocolate', 'coral', 'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen', 'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange', 'darkorchid', 'darkred', 'darksalmon', 'darkseagreen', 'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey', 'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey', 'green', 'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo', 'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen', 'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan', 'lightgoldenrodyellow', 'lightgray', 'lightgrey', 'lightgreen', 'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue', 'lightslategray', 'lightslategrey', 'lightsteelblue', 'lightyellow', 'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine', 'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen', 'mediumslateblue', 'mediumspringgreen', 'mediumturquoise', 'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy', 'oldlace', 'olive', 'olivedrab', 'orange', 'orangered', 'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink', 'plum', 'powderblue', 'purple', 'red', 'rosybrown', 'royalblue', 'rebeccapurple', 'saddlebrown', 'salmon', 'sandybrown', 'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white', 'whitesmoke', 'yellow', 'yellowgreen', 'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige', 'bisque', 'black', 'blanchedalmond', ]
+
+
+    for i in range(len(col_names)):
+    # Add strip plots to the subplots with custom names
+        figsca1.add_trace(go.Scatter(y=patients_pre[i], mode='markers', name=col_names[i], marker_color=colors_test[i]), row=1, col=1)
+        figsca1.add_trace(go.Scatter(y=patients_post[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=1, col=2)
+        figsca1.add_trace(go.Scatter(y=patients_fdp[i], mode='markers', name=col_names[i], marker_color=colors_test[i], showlegend=False), row=1, col=3)
+
+    custom_tickvals = list(range(0, len(text) + 1))
+    custom_ticktext = text
+
+    figsca1.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=1)
+    figsca1.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=2)
+    figsca1.update_xaxes(tickvals=custom_tickvals, ticktext=custom_ticktext, row=1, col=3)
+
+
+   
+   # marker=dict(color='red')
+    # Customize the layout
+   # fig.update_layout(
+    #    title='Subplots of Strip Plots with Hover Text',
+    #    xaxis=dict(title='X-axis Label'),
+    #    yaxis=dict(title='Y-axis Label'),
+   # )
+
+    # Show the plot
+    figsca1.show()
+    #End test
+
+
+
+
 
     # TBNK Individual Swarm Plots - Page 8 
     tbnk_swarm2 = make_subplots(rows=3, cols=2, subplot_titles=("B Cells", "CD56CD16", "Monocyte", "NKT", "T cells"))
@@ -241,7 +297,7 @@ def tbnk_graphs_4(dfs, col_names):
 
     fig_tbnk_2.update_layout(barmode="relative", title={'text': "%CD4+ and %CD8+ Cells (Aph., Post Enrichment, FDP)", 'font': {'size': 24,'color': 'blue'}, 'x': 0.5})
     
-    return fig_tbnk, fig_tbnk_2, tbnk_swarm1, tbnk_swarm2
+    return fig_tbnk, fig_tbnk_2, tbnk_swarm1, tbnk_swarm2, figsca1
 
 
 #UNUSED GRAPH 
